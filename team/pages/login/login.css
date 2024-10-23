@@ -1,1 +1,43 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
+
+html, body{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+header {
+    height: 10%;
+    background-color: aquamarine;
+}
+
+.login-container {
+    background-color: aqua;
+    width: 20%;
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.continueBtn {
+    width: 80%;
+    height: 10%;
+    background-color: blue;
+}
+
+.login-component {
+    background-color: black;
+    
+}
+
+.test {
+    font-size: 20px;
+    color: green;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
