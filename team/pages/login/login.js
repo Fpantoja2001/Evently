@@ -126,6 +126,7 @@ class passwordInputComponent extends HTMLElement {
                 this.inputComponent.classList.add("incorrectInput")
                 componentPlaceholder.style.color = "red"
                 componentPlaceholder.style.transition = "none"
+                this.showPasswordBtn.style.borderColor = "red";
             }
         })
 
