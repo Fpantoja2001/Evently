@@ -6,8 +6,11 @@ const componentTemplates = [
         <slot class="component-title"></slot>
 
         <div class="component-container">
-            <input type="email" class="component-input" placeholder=" " required>
+            <input type="text" class="component-input" id="0" placeholder=" ">
             <label for="email" class="component-placeholder">Email Address</label>
+            <span class="component-form-error"></span>
+            <button class="continueBtn">Continue</button>
+            <span class="signUpText">Don't have an account?<span class="signUpRoute"> Sign up </span></span>
         </div>
     `,
     `
@@ -15,60 +18,102 @@ const componentTemplates = [
         <slot class="component-title"></slot>
 
         <div class="component-container">
-            <input type="email" class="component-input" placeholder=" ">
+            <form class="component-password-form">
+            <input type="password" class="component-input" id="1" placeholder=" " required>
             <label for="email" class="component-placeholder">Password</label>
+            <span class="component-form-error"></span>
+            <button type="submit" class="continueBtn">Continue</button>
+            <span class="forgotPassRoute">Forgot password?</span>
+            </form>
         </div>
     `
 ]
 
-template.innerHTML = componentTemplates[0]
-
-
-class Login extends HTMLElement {
+class emailInputComponent extends HTMLElement {
     // Initializing Component
     constructor() {
         super();
         const shadow = this.attachShadow({mode: "open"})
+        template.innerHTML = componentTemplates[0]
         shadow.append(template.content.cloneNode(true))
-        
     }
-}
 
-// Handling continue button clicks
-const continueBtn = document.querySelector(".continueBtn")
-continueBtn.addEventListener("click", handleClick) 
+    connectedCallback() {
+        const loginComponent = document.querySelector(".login-component");
+        const shadowRoot = loginComponent.shadowRoot;
+        shadowRoot.querySelector(".continueBtn")
+        const continueBtn = shadowRoot.querySelector(".continueBtn")
 
+        // Validates Input
 
-function handleClick(e){
-    // curr Component correlates to whatever text is in it.
-    const currComponent = document.querySelector(".login-component");
+        continueBtn.addEventListener("click", (e) => {
+            e.preventDefault()
+            const inputComponent = shadowRoot.querySelector(".component-input")
+            const errorComponent = shadowRoot.querySelector(".component-form-error")
+            const componentPlaceholder = shadowRoot.querySelector(".component-placeholder")
+            const loginContainer = document.querySelector(".login-container")
 
-    // list of all Components names
-    const components = ["Welcome Back", "Enter your password"]
+            const emailInput = inputComponent.value.trim().split("@")
 
-    // finds what current Component is displaying
-    if (components.includes(currComponent.innerHTML)){
+            // will return false if the email address doesn't contain any text or a umass.edu after the @
+            if(emailInput.length == 1){
+                errorComponent.innerText = `Please enter a valid email`
+                inputComponent.classList.add("incorrectInput")
+                componentPlaceholder.style.color = "red"
+                componentPlaceholder.style.transition = "none"
 
-        // sets next Component based on the one previously shown, (simulating sequential progress)
-        if(components.indexOf(currComponent.innerHTML) == components.length -1 ){
-            console.log("successful login")
-        } else {
-            // Preparing component for template change
-            const loginComponent = document.querySelector(".login-component");
-            const shadowRoot = loginComponent.shadowRoot;
-
-            //  sets the innerHtml text to the following component in sequence
-            currComponent.innerHTML = components[components.indexOf(currComponent.innerHTML) + 1];
-            shadowRoot.innerHTML = componentTemplates[components.indexOf(currComponent.innerHTML)];
-
-            // hides "Dont have an account? Sign up" prompt / reveals following prompt
-
-            if(components.indexOf(currComponent.innerHTML) != 0){
-                document.getElementsByClassName("signUpText")[0].setAttribute("hidden",true)
-                document.getElementsByClassName("forgotPassRoute")[0].removeAttribute("hidden")
+            } else if (emailInput[1] != "umass.edu"){
+                errorComponent.innerText = `Please enter a valid umass email`
+                inputComponent.classList.add("incorrectInput")
+                componentPlaceholder.style.color = "red"
+                componentPlaceholder.style.transition = "none"
+            } else {
+                loginComponent.remove()
+                const passwordInputComponent = document.createElement('password-input-component')
+                passwordInputComponent.innerText = "Enter your password"
+                passwordInputComponent.classList.add("login-component")
+                loginContainer.appendChild(passwordInputComponent) 
             }
-        }
+
+        })
+    }
+    disconnectedCallback(){
+        console.log("removed")
     }
 }
 
-customElements.define("login-component", Login)
+class passwordInputComponent extends HTMLElement {
+    constructor(){
+        super();
+        const shadow = this.attachShadow({mode: "open"})
+        template.innerHTML = componentTemplates[1]
+        shadow.append(template.content.cloneNode(true))
+    }
+
+    connectedCallback() {
+        const shadowRoot = this.shadowRoot
+        shadowRoot.querySelector(".continueBtn")
+        const continueBtn = shadowRoot.querySelector(".continueBtn")
+
+        // Validates Input
+        continueBtn.addEventListener("click", (e) => {
+            e.preventDefault()
+            const inputComponent = shadowRoot.querySelector(".component-input")
+            const errorComponent = shadowRoot.querySelector(".component-form-error")
+            const componentPlaceholder = shadowRoot.querySelector(".component-placeholder")
+
+            // will return false if password is incorrect
+            if (inputComponent.value.trim() == "testPass") {
+                console.log("login success")
+            } else {
+                errorComponent.innerText = `Incorrect password`
+                inputComponent.classList.add("incorrectInput")
+                componentPlaceholder.style.color = "red"
+                componentPlaceholder.style.transition = "none"
+            }
+        })
+    }
+}
+
+customElements.define("email-input-component", emailInputComponent)
+customElements.define("password-input-component", passwordInputComponent)
