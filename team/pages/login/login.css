@@ -13,7 +13,7 @@ header {
 }
 
 .login-container {
-    background-color: aqua;
+    background-color: white;
     width: 20%;
     height: 40%;
     display: flex;
@@ -24,20 +24,64 @@ header {
 
 .continueBtn {
     width: 80%;
-    height: 10%;
+    height: 4vh;
     background-color: blue;
+    margin-top: 3%;
+    border-radius: 5px;
 }
 
 .login-component {
-    background-color: black;
-    
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
-.test {
+.component-title {
+    font-size: 1.5em;
+    position: absolute;
+}
+
+.component-container {
     font-size: 20px;
     color: green;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    width: 100%;
+    position: relative;
+    margin-top: 5%;
+}
+
+.component-input {
+    width: 80%;
+    height: 4vh;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: solid grey 1px;
+}
+
+.component-placeholder {
+    position: absolute;
+    left: 12%;
+    top: 25%;
+    font-size: 1rem;
+    pointer-events: none;
+    background-color:white;
+    transition: all .3s ease-in;
+}
+
+.component-input:focus + .component-placeholder,
+.component-input:not(:placeholder-shown) + .component-placeholder {
+    top: -15%;
+    left: calc(10% + 5px);
+    font-size: .7rem;
+    color: red;
+    padding: 0 4px;
+}
+
+.component-input:focus{
+    outline: none !important;
 }

@@ -3,18 +3,20 @@ const template = document.createElement("template");
 const componentTemplates = [
     `
         <link rel="stylesheet" href="login.css">
+        <slot class="component-title"></slot>
 
-        <div class="test">
-            <slot></slot>
-            <input type="email" value="email">
+        <div class="component-container">
+            <input type="email" class="component-input" placeholder=" " required>
+            <label for="email" class="component-placeholder">Email Address</label>
         </div>
     `,
     `
         <link rel="stylesheet" href="login.css">
+        <slot class="component-title"></slot>
 
-        <div class="test">
-            <slot></slot>
-            <input type="email" value="password">
+        <div class="component-container">
+            <input type="email" class="component-input" placeholder=" ">
+            <label for="email" class="component-placeholder">Password</label>
         </div>
     `
 ]
@@ -41,7 +43,7 @@ function handleClick(e){
     const currComponent = document.querySelector(".login-component");
 
     // list of all Components names
-    const components = ["Enter your email", "Enter your password"]
+    const components = ["Welcome Back", "Enter your password"]
 
     // finds what current Component is displaying
     if (components.includes(currComponent.innerHTML)){
