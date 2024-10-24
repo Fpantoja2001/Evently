@@ -30,6 +30,7 @@ class Login extends HTMLElement {
         super();
         const shadow = this.attachShadow({mode: "open"})
         shadow.append(template.content.cloneNode(true))
+        
     }
 }
 
@@ -59,6 +60,13 @@ function handleClick(e){
             //  sets the innerHtml text to the following component in sequence
             currComponent.innerHTML = components[components.indexOf(currComponent.innerHTML) + 1];
             shadowRoot.innerHTML = componentTemplates[components.indexOf(currComponent.innerHTML)];
+
+            // hides "Dont have an account? Sign up" prompt / reveals following prompt
+
+            if(components.indexOf(currComponent.innerHTML) != 0){
+                document.getElementsByClassName("signUpText")[0].setAttribute("hidden",true)
+                document.getElementsByClassName("forgotPassRoute")[0].removeAttribute("hidden")
+            }
         }
     }
 }

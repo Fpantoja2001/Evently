@@ -3,31 +3,28 @@
 html, body{
     height: 100%;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-header {
-    height: 10%;
-    background-color: aquamarine;
+    margin: 0;
 }
 
 .login-container {
     background-color: white;
-    width: 20%;
-    height: 40%;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
-.continueBtn {
-    width: 80%;
-    height: 4vh;
-    background-color: blue;
-    margin-top: 3%;
-    border-radius: 5px;
+.logo {
+    width: 50px;
+    height: 50px;
+    background-color: #0077b6;
+    margin-bottom: 7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
 }
 
 .login-component {
@@ -39,33 +36,34 @@ header {
 }
 
 .component-title {
-    font-size: 1.5em;
+    font-size: 1.8em;
     position: absolute;
+    color: black;
+    font-weight: 800;
 }
 
 .component-container {
     font-size: 20px;
-    color: green;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 100%;
+    width: 18vw;
     position: relative;
-    margin-top: 5%;
+    margin-top: 2vh;
 }
 
 .component-input {
-    width: 80%;
+    width: 18vw;
     height: 4vh;
     border-radius: 5px;
-    padding-left: 15px;
-    border: solid grey 1px;
+    padding-left: 10px;
+    border: solid grey 2px;
 }
 
 .component-placeholder {
     position: absolute;
-    left: 12%;
+    left: 10px;
     top: 25%;
     font-size: 1rem;
     pointer-events: none;
@@ -76,12 +74,40 @@ header {
 .component-input:focus + .component-placeholder,
 .component-input:not(:placeholder-shown) + .component-placeholder {
     top: -15%;
-    left: calc(10% + 5px);
+    left: 10px;
     font-size: .7rem;
-    color: red;
+    color: #03045e;
     padding: 0 4px;
 }
 
 .component-input:focus{
     outline: none !important;
+    border: solid #0077b6 2px;
+}
+
+.continueBtn {
+    width: 18vw;
+    height: 4vh;
+    background-color: #0077b6;
+    margin-top: 2vh;
+    border-radius: 5px;
+    color: white;
+}
+
+.signUpText {
+    margin-top: 2vh;
+    color: black;
+}
+
+.signUpRoute {
+    color: #0077b6;
+    cursor: pointer;
+}
+
+.forgotPassRoute{
+    margin-top: 2vh;
+    color: black;
+    color: #0077b6;
+    cursor: pointer;
+    left: 0;
 }
