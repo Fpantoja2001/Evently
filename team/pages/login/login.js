@@ -6,7 +6,7 @@ const componentTemplates = [
         <slot class="component-title"></slot>
 
         <div class="component-container">
-            <input type="text" class="component-input" id="0" placeholder=" ">
+            <input type="text" class="component-input" id="emailInput" placeholder=" ">
             <label for="email" class="component-placeholder">Email Address</label>
             <span class="component-form-error"></span>
             <button class="continueBtn">Continue</button>
@@ -19,10 +19,19 @@ const componentTemplates = [
 
         <div class="component-container">
             <form class="component-password-form">
-            <input type="password" class="component-input" id="1" placeholder=" " required>
-            <label for="email" class="component-placeholder">Password</label>
+            
+            <div class="component-input-wrapper">
+                <input type="password" class="component-input" id="passwordInput" placeholder=" " required>
+                <label for="email" class="component-placeholder">Password</label>
+                <div class="showPasswordBtn" active="false">
+                    <img src="./icons/show-password.svg" alt="show-password" class ="show-password-img"></img>
+                    <div class="show-password-hover-text" hidden="true">Show password</div>
+                </div>
+            </div>
+            
             <span class="component-form-error"></span>
             <button type="submit" class="continueBtn">Continue</button>
+            
             <span class="forgotPassRoute">Forgot password?</span>
             </form>
         </div>
@@ -78,16 +87,24 @@ class emailInputComponent extends HTMLElement {
         })
     }
     disconnectedCallback(){
-        console.log("removed")
+        console.log("email component removed")
     }
 }
 
 class passwordInputComponent extends HTMLElement {
     constructor(){
         super();
+        // Initiating shadow dom
+
         const shadow = this.attachShadow({mode: "open"})
         template.innerHTML = componentTemplates[1]
         shadow.append(template.content.cloneNode(true))
+
+        // Setting variables for ease of use
+        this.inputComponent = shadow.querySelector(".component-input")
+        this.showPasswordBtn = shadow.querySelector(".showPasswordBtn")
+        this.showPasswordHoverText = shadow.querySelector(".show-password-hover-text")
+        this.showPasswordImg = shadow.querySelector(".show-password-img")
     }
 
     connectedCallback() {
@@ -98,20 +115,48 @@ class passwordInputComponent extends HTMLElement {
         // Validates Input
         continueBtn.addEventListener("click", (e) => {
             e.preventDefault()
-            const inputComponent = shadowRoot.querySelector(".component-input")
             const errorComponent = shadowRoot.querySelector(".component-form-error")
             const componentPlaceholder = shadowRoot.querySelector(".component-placeholder")
 
             // will return false if password is incorrect
-            if (inputComponent.value.trim() == "testPass") {
+            if (this.inputComponent.value.trim() == "testPass") {
                 console.log("login success")
             } else {
                 errorComponent.innerText = `Incorrect password`
-                inputComponent.classList.add("incorrectInput")
+                this.inputComponent.classList.add("incorrectInput")
                 componentPlaceholder.style.color = "red"
                 componentPlaceholder.style.transition = "none"
             }
         })
+
+        this.showPasswordBtn.addEventListener("click", () => {
+            const currentActive = this.showPasswordBtn.getAttribute("active")
+
+            if(currentActive === "true"){
+                this.showPasswordBtn.setAttribute("active", "false")
+                this.showPasswordImg.setAttribute("src","./icons/show-password.svg")
+                this.showPasswordHoverText.innerText = "Show password"
+                this.inputComponent.setAttribute("type", "password")
+            } else {
+                this.showPasswordBtn.setAttribute("active", "true")
+                this.showPasswordImg.setAttribute("src","./icons/hide-password.svg")
+                this.showPasswordHoverText.innerText = "Hide password"
+                this.inputComponent.setAttribute("type", "text")
+            }
+        })
+
+        this.showPasswordBtn.addEventListener("mouseover", () => {
+            this.showPasswordHoverText.removeAttribute("hidden")
+            
+        })
+
+        this.showPasswordBtn.addEventListener("mouseleave", () => {
+            this.showPasswordHoverText.setAttribute("hidden", true);
+        });
+    }
+
+    disconnectedCallback(){
+        console.log("password component removed")
     }
 }
 

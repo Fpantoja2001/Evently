@@ -125,6 +125,11 @@ input:-webkit-autofill{
     margin-left:5px;
 }
 
+.component-input-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
 .forgotPassRoute{
     margin-top: 2vh;
     color: #0077b6;
@@ -132,6 +137,54 @@ input:-webkit-autofill{
     width: 18vw;
     display: flex;
     justify-content: center;
+}
+
+#passwordInput {
+    width: 15vw !important;
+    border-right: none;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.showPasswordBtn {
+    color: #0077b6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 4vh;
+    width: 3vw;
+    border-top: solid grey 2px;
+    border-bottom:solid grey 2px;
+    border-right: solid grey 2px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    position: relative;
+}
+
+.show-password-img{
+    color: #0077b6;
+    width: 40%;
+}
+
+.showPasswordBtn:hover {
+    background-color: #0076b625;
+}
+
+.component-input:focus ~ .showPasswordBtn,
+.component-input:not(:placeholder-shown) + .showPasswordBtn {
+    border-color: #0077b6 !important;
+}
+
+.show-password-hover-text{
+    position: absolute;
+    font-size: .8rem;
+    left: 3.5vw;
+    pointer-events: none;
+    background-color: #0077b6;
+    color: white;
+    padding: 0.5em;
+    white-space: nowrap;
+    border-radius: 5px;
 }
 
 .component-form-error {
