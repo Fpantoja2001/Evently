@@ -2,7 +2,8 @@ const template = document.createElement("template");
 
 const componentTemplates = [
     `
-        <link rel="stylesheet" href="login.css">
+        <link rel="stylesheet" href="../../../../team/pages/login/login-sequence/login.css">
+        <div class="logo">logo</div>
         <slot class="component-title"></slot>
 
         <div class="component-container">
@@ -14,7 +15,8 @@ const componentTemplates = [
         </div>
     `,
     `
-        <link rel="stylesheet" href="login.css">
+        <link rel="stylesheet" href="../../../../team/pages/login/login-sequence/login.css">
+        <div class="logo">logo</div>
         <slot class="component-title"></slot>
 
         <div class="component-container">
@@ -45,43 +47,43 @@ class emailInputComponent extends HTMLElement {
         const shadow = this.attachShadow({mode: "open"})
         template.innerHTML = componentTemplates[0]
         shadow.append(template.content.cloneNode(true))
+
+        // Setting variables for ease of use
+        this.continueBtn = shadow.querySelector(".continueBtn")
+        this.inputComponent = shadow.querySelector(".component-input")
+        this.errorComponent = shadow.querySelector(".component-form-error")
+        this.componentPlaceholder = shadow.querySelector(".component-placeholder")
+        this.loginContainer = document.querySelector(".login-container")
+        this.loginComponent = document.querySelector(".login-component")
+
     }
 
     connectedCallback() {
-        const loginComponent = document.querySelector(".login-component");
-        const shadowRoot = loginComponent.shadowRoot;
-        shadowRoot.querySelector(".continueBtn")
-        const continueBtn = shadowRoot.querySelector(".continueBtn")
 
         // Validates Input
-
-        continueBtn.addEventListener("click", (e) => {
+        this.continueBtn.addEventListener("click", (e) => {
             e.preventDefault()
-            const inputComponent = shadowRoot.querySelector(".component-input")
-            const errorComponent = shadowRoot.querySelector(".component-form-error")
-            const componentPlaceholder = shadowRoot.querySelector(".component-placeholder")
-            const loginContainer = document.querySelector(".login-container")
-
-            const emailInput = inputComponent.value.trim().split("@")
+            const emailInput = this.inputComponent.value.trim().split("@")
 
             // will return false if the email address doesn't contain any text or a umass.edu after the @
             if(emailInput.length == 1){
-                errorComponent.innerText = `Please enter a valid email`
-                inputComponent.classList.add("incorrectInput")
-                componentPlaceholder.style.color = "red"
-                componentPlaceholder.style.transition = "none"
+                this.errorComponent.innerText = `Please enter a valid email`
+                this.inputComponent.classList.add("incorrectInput")
+                this.componentPlaceholder.style.color = "red"
+                this.componentPlaceholder.style.transition = "none"
 
             } else if (emailInput[1] != "umass.edu"){
-                errorComponent.innerText = `Please enter a valid umass email`
-                inputComponent.classList.add("incorrectInput")
-                componentPlaceholder.style.color = "red"
-                componentPlaceholder.style.transition = "none"
+                this.errorComponent.innerText = `Please enter a valid umass email`
+                this.inputComponent.classList.add("incorrectInput")
+                this.componentPlaceholder.style.color = "red"
+                this.componentPlaceholder.style.transition = "none"
             } else {
+                const loginComponent = document.querySelector(".login-component")
                 loginComponent.remove()
                 const passwordInputComponent = document.createElement('password-input-component')
                 passwordInputComponent.innerText = "Enter your password"
                 passwordInputComponent.classList.add("login-component")
-                loginContainer.appendChild(passwordInputComponent) 
+                this.loginContainer.appendChild(passwordInputComponent) 
             }
 
         })
