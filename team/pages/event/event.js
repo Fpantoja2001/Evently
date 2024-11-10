@@ -14,8 +14,30 @@ category.forEach((e) => {
     // make the div for the category 
     const cat = document.createElement('div');
     cat.className = `category`; 
-    const catText = document.createTextNode(e)
-    cat.appendChild(catText); 
+
+
+    const cat_top = document.createElement('div');
+    cat_top.className = "column_heading"
+    const catText = document.createTextNode(e);
+
+    const button_all = document.createElement('button');
+    button_all.className = 'button_all'; 
+    button_all.appendChild(document.createTextNode("See All"))
+
+    const button_r = document.createElement('button');
+    button_r.className = 'button_r';  
+    button_r.appendChild(document.createTextNode("R"))
+
+    //append right arrow circle immage
+    const button_l = document.createElement('button'); 
+    button_l.className = 'button_l';
+    button_l.appendChild(document.createTextNode("L"))
+    //append left arrow circle image
+
+    cat_top.appendChild(catText); 
+    cat_top.appendChild(button_all);
+    cat_top.appendChild(button_l);
+    cat_top.appendChild(button_r);
 
     const column = document.createElement('scroll'); 
     column.className = 'category_scroll'
@@ -23,12 +45,12 @@ category.forEach((e) => {
 
     const columnscroll = document.createElement('div'); 
     columnscroll.className = 'columns scrollable_column'; 
-    
+
     // append the events to their corresponding category 
     events.forEach((i) => {
         if(i.category === e){
             const newevent = document.createElement('div');
-            newevent.className = 'column is-one-fifth bordered-column '; 
+            newevent.className = 'column is-one-fifth bordered-column'; 
             const eventName = document.createTextNode(i.name); 
             newevent.appendChild(eventName); 
             
@@ -37,6 +59,7 @@ category.forEach((e) => {
     })
     
     column.appendChild(columnscroll);
+    cat.appendChild(cat_top);
     cat.appendChild(column); 
     eventWrapper.appendChild(cat);    
 })
