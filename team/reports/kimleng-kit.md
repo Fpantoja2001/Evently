@@ -22,3 +22,8 @@
 - **Task**: Create pages, set up Bulma, link pages to CSS
 - **Details**: Started working on the navigation bar and linked the nav.js script to all the web pages.
 - **Link to Commit**: [Commit on pages](https://github.com/Fpantoja2001/event-tbd/pull/9/commits/932bb6346f075af60884a1e85422a964f1c34d3d)
+
+  ### November 12, 2024
+  - **Task**: Finish navigation component in `nav.js` file.
+  - **Details**: Update `nav.js`, so that the style is in embedded in the javascript, so navigation is an independent component with its own stylesheet.
+  - **Link to Commit**: [Commit on nav.js](https://github.com/Fpantoja2001/event-tbd/commit/e78f7af84e2fbff496899b9817fd4f6ec0652176)
