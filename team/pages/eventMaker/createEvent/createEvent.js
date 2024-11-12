@@ -11,6 +11,8 @@ const templates = [
                 </select>
                 <label for="eventType">What is the type of the event?</label>
                 <span class="error-message" id="eventTypeError"></span>
+                <button type="button" id="backBtn">Back</button>
+                <button type="button" id="nextBtn">Next</button>
             </div>
         </div>
     `,
@@ -26,6 +28,8 @@ const templates = [
             </select>
             <label for="privateOptions">Private Options</label>
             <span class="error-message" id="privateOptionsError"></span>
+            <button type="button" id="backBtn">Back</button>
+            <button type="button" id="nextBtn">Next</button>
         </div>
     </div>
     `,
@@ -40,6 +44,8 @@ const templates = [
             </select>
             <label for="occupancyOption">Occupancy Option?</label>
             <span class="error-message" id="occupancyOptionError"></span>
+            <button type="button" id="backBtn">Back</button>
+            <button type="button" id="nextBtn">Next</button>
         </div>
     </div>
     `,
@@ -54,6 +60,8 @@ const templates = [
             </select>
             <label for="seatOption">How to get a seat?</label>
             <span class="error-message" id="seatOptionError"></span>
+            <button type="button" id="backBtn">Back</button>
+            <button type="button" id="nextBtn">Next</button>
         </div>
     </div>
     `,
@@ -70,6 +78,8 @@ const templates = [
             </select>
             <label for="eventCategory">Choose Category</label>
             <span class="error-message" id="eventCategoryError"></span>
+            <button type="button" id="backBtn">Back</button>
+            <button type="button" id="nextBtn">Next</button>
         </div>
     </div>
     `,
@@ -80,6 +90,8 @@ const templates = [
             <input type="text" id="customCategory" placeholder=" " />
             <label for="customCategory">Customized Category</label>
             <span class="error-message" id="customCategoryError"></span>
+            <button type="button" id="backBtn">Back</button>
+            <button type="button" id="nextBtn">Next</button>
         </div>
     </div>
     `,
@@ -90,6 +102,8 @@ const templates = [
             <input type="text" id="eventTitle" required placeholder=" " />
             <label for="eventTitle">Title for the event?</label>
             <span class="error-message" id="eventTitleError"></span>
+            <button type="button" id="backBtn">Back</button>
+            <button type="button" id="nextBtn">Next</button>
         </div>
     </div>
     `,
@@ -100,6 +114,8 @@ const templates = [
             <input type="date" id="eventDate" required placeholder=" " />
             <label for="eventDate">When is this event happening?</label>
             <span class="error-message" id="eventDateError"></span>
+            <button type="button" id="backBtn">Back</button>
+            <button type="button" id="nextBtn">Next</button>
         </div>
     </div>
     `,
@@ -110,6 +126,8 @@ const templates = [
             <input type="text" id="eventLocation" required placeholder=" " />
             <label for="eventLocation">Where is the event happening?</label>
             <span class="error-message" id="eventLocationError"></span>
+            <button type="button" id="backBtn">Back</button>
+            <button type="button" id="nextBtn">Next</button>
         </div>
     </div>
     `,
@@ -120,6 +138,8 @@ const templates = [
             <textarea id="eventDescription" rows="4" required placeholder=" "></textarea>
             <label for="eventDescription">Any description?</label>
             <span class="error-message" id="eventDescriptionError"></span>
+            <button type="button" id="backBtn">Back</button>
+            <button type="button" id="nextBtn">Next</button>
         </div>
     </div>
     `,
