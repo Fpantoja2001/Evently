@@ -1,1 +1,151 @@
-@import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
+/* components/eventMaker/eventMaker.css */
+
+/* Container Styles */
+.event-container {
+    font-family: Arial, sans-serif;
+    padding: 2rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 2rem auto;
+    background-color: #f9f9f9;
+}
+
+.event-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #0077b6;
+}
+
+/* Progress Indicator Styles */
+.progress-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.step-indicator {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ccc;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    margin: 0 5px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.step-indicator.active {
+    background-color: #0077b6;
+}
+
+/* Form Group Styles */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: #0077b6;
+    outline: none;
+    background-color: #fff;
+}
+
+/* Error Message Styles */
+.error-message {
+    color: red;
+    font-size: 0.8rem;
+    height: 1rem;
+    margin-top: 0.25rem;
+}
+
+/* Success Message Styles */
+.success-message {
+    color: green;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+/* Navigation Buttons */
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.navigation-buttons button {
+    padding: 10px 20px;
+    background-color: #0077b6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.navigation-buttons button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.navigation-buttons button:hover:enabled {
+    background-color: #005f8a;
+}
+
+/* Conditional Groups */
+.conditional-group {
+    display: none;
+    margin-top: 1rem;
+}
+
+.conditional-group.active {
+    display: block;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .event-container {
+        padding: 1rem;
+        width: 90%;
+    }
+
+    .navigation-buttons button {
+        width: 48%;
+        font-size: 0.9rem;
+    }
+
+    .step-indicator {
+        width: 25px;
+        height: 25px;
+        font-size: 0.8rem;
+    }
+}
