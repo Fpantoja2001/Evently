@@ -29,3 +29,8 @@
 - **Task**: Finish navigation component in `nav.js` file.
 - **Details**: Update `nav.js`, so that the style is in embedded in the javascript, so navigation is an independent component with its own stylesheet.
 - **Link to Commit**: [Commit on nav.js](https://github.com/Fpantoja2001/event-tbd/commit/e78f7af84e2fbff496899b9817fd4f6ec0652176)
+
+- **Task**: Contributed to `CreateEvent.js` file.
+- **Details**: Add buttons to the HTML components of createEvent, so users can navigate to the next or previous page when creating events.
+- **Link to Commit**: [Commit on creatEvent.js](https://github.com/Fpantoja2001/event-tbd/commit/485be2e623179939a6a69aa11756025943caa917)
+
