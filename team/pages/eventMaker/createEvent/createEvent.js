@@ -11,7 +11,6 @@ const templates = [
                 </select>
                 <label for="eventType">What is the type of the event?</label>
                 <span class="error-message" id="eventTypeError"></span>
-                <button type="button" id="backBtn">Back</button>
                 <button type="button" id="nextBtn">Next</button>
             </div>
         </div>
