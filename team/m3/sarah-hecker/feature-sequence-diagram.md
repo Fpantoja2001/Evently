@@ -1,8 +1,8 @@
 
 ```mermaid
 graph TD;
-    User clicks on search bar --> types in request;
-    types in request --> hit enter;
-    hit enter --> explore index to find matches
-    explore index to find matches --> present
+    A[User clicks on search bar] --> B[types in request];
+    B[types in request] --> C[hit enter];
+    C[hit enter] --> D[explore index to find matches]
+    D[explore index to find matches] --> E[sent]
 ```
