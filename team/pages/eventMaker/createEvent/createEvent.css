@@ -1,22 +1,19 @@
 /* General container styling */
-.hidden { display: none; }
-.active { font-weight: bold; color: #3498db; }
 
 .event-container {
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    background-color: #f9f0e1; 
 }
-
 /* Progress indicator styling */
 .progress-indicator {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .step-indicator {
@@ -25,14 +22,15 @@
     line-height: 30px;
     text-align: center;
     border-radius: 50%;
-    background-color: #e0e0e0;
-    color: #888;
+    background-color: #f0c9a0;
+    color: #aaa;
     font-weight: bold;
+    transition: background-color 0.3s;
     margin: 0 10px;
 }
 
 .step-indicator.active {
-    background-color: #3498db;
+    background-color: #e67e22;
     color: #fff;
 }
 
@@ -41,6 +39,7 @@ h2 {
     text-align: center;
     font-size: 1.5em;
     margin-bottom: 20px;
+    color: #e67e22;
 }
 
 /* Form group styling */
@@ -57,7 +56,7 @@ h2 {
     background-color: #fff;
     padding: 0 5px;
     font-size: 14px;
-    color: #666;
+    color: #9a6a3f;
     transition: all 0.3s;
 }
 
@@ -66,8 +65,8 @@ h2 {
 .form-group select,
 .form-group textarea {
     width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
+    padding: 12px 12px;
+    border: 1px solid #f0c9a0;
     border-radius: 4px;
     font-size: 16px;
     outline: none;
@@ -78,7 +77,7 @@ h2 {
 .form-group input[type="date"]:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-    border-color: #3498db;
+    border-color: #e67e22;
 }
 
 .form-group input[type="text"]:not(:placeholder-shown) + label,
@@ -90,7 +89,7 @@ h2 {
 .form-group textarea:focus + label {
     top: -10px;
     font-size: 12px;
-    color: #3498db;
+    color: #e67e22;
 }
 
 /* Error messages */
@@ -125,17 +124,19 @@ h2 {
 }
 
 #nextBtn {
-    background-color: #3498db;
+    background-color: #e67e22;
     color: #fff;
+    order: 2; 
 }
 
 #backBtn {
-    background-color: #95a5a6;
+    background-color: #d35400;
     color: #fff;
+    order: 1; 
 }
 
 #submitBtn {
-    background-color: #2ecc71;
+    background-color: #27ae60;
     color: #fff;
 }
 
@@ -143,12 +144,10 @@ h2 {
     opacity: 0.9;
 }
 
-/* Conditional visibility for groups */
 .hidden {
     display: none;
 }
 
-/* Optional CSS for a smooth transition effect */
 .step {
     transition: opacity 0.3s ease;
 }
