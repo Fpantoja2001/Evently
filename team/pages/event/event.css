@@ -37,18 +37,14 @@
   }  
 
 .button_all{
-    flex: 2 1 0;
+    flex: 1 0 0;
     margin-left: auto;
     border: 3px;
     padding: 2.5vw;
-
 }
 
-.button_r{
-    flex: 1 1 0;
-    margin-left: auto;
-}
-.button_l{
-    flex: 1 1 1;
-    margin-left: auto;
+.button_r, .button_l {
+    flex: 0 0 1;
+    border: 3px;
+    padding: 2.5vw;
 }
