@@ -10,7 +10,6 @@
 
     display: flex;
     flex-direction: column;
-    overflow: auto;
 
     margin-top: 2%;
     margin-left: 1%;
@@ -30,7 +29,7 @@
     scroll-behavior: smooth;
 } 
 
-.category_scrollable {
+.category_scrollable{
     position: relative;
 
     overflow-x: auto;       

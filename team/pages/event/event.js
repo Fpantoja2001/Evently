@@ -26,12 +26,12 @@ category.forEach((e) => {
 
     const button_r = document.createElement('button');
     button_r.className = 'button_r';  
-    button_r.appendChild(document.createTextNode("R"))
+    button_r.appendChild(document.createTextNode("Right"))
 
     //append right arrow circle immage
     const button_l = document.createElement('button'); 
     button_l.className = 'button_l';
-    button_l.appendChild(document.createTextNode("L"))
+    button_l.appendChild(document.createTextNode("Left"))
     //append left arrow circle image
 
     cat_top.appendChild(catText); 
@@ -94,7 +94,27 @@ document.querySelectorAll('.scrollable_column').forEach((scrollContainer) => {
 });
 
 
-
+document.querySelectorAll('.category').forEach((category) => {
+    const scrollContainer = category.querySelector('.scrollable_column');
+    const scrollLeftButton = category.querySelector('.button_l');
+    const scrollRightButton = category.querySelector('.button_r');
+    
+    // Function to scroll left
+    scrollLeftButton.addEventListener('click', () => {
+        scrollContainer.scrollBy({
+            left: -400, // Adjust this value to control scroll amount
+            behavior: 'smooth'
+        });
+    });
+    
+    // Function to scroll right
+    scrollRightButton.addEventListener('click', () => {
+        scrollContainer.scrollBy({
+            left: 400, // Adjust this value to control scroll amount
+            behavior: 'smooth'
+        });
+    });
+});
 
 
 
