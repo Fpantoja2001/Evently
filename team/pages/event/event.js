@@ -51,9 +51,27 @@ category.forEach((e) => {
         if(i.category === e){
             const newevent = document.createElement('div');
             newevent.className = 'column is-one-fifth bordered-column'; 
+
+            const imgeClass = document.createElement('div');
+            imgeClass.className = 'event_image image is-2by1';
+            const nameClass = document.createElement('div');
+            nameClass.className = 'event_name';
+
+
             const eventName = document.createTextNode(i.name); 
-            newevent.appendChild(eventName); 
-            
+            nameClass.appendChild(eventName); 
+            const eventRating = document.createTextNode(i.rating); 
+            nameClass.appendChild(eventRating); 
+            const eventDate = document.createTextNode(i.date); 
+            nameClass.appendChild(eventDate); 
+
+            const eventImg = document.createElement('img'); 
+            eventImg.className = 'event_image'; 
+            eventImg.src = 'image.png';
+            imgeClass.appendChild(eventImg); 
+
+            newevent.appendChild(imgeClass);
+            newevent.appendChild(nameClass);
             columnscroll.appendChild(newevent);
         }
     })
