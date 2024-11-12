@@ -7,7 +7,7 @@ Object.assign(nav.style, {
   display: 'flex',
   justifyContent: 'space-around',
   listStyle: 'none',
-  backgroundColor: '#aed6f1',
+  backgroundColor: '#e76f51',
   padding: '10px',
   margin: '0',
   borderRadius: '8px',
@@ -27,7 +27,7 @@ links.forEach(link => {
   a.textContent = link.text;
 
   Object.assign(a.style, {
-    color: '#28b463',
+    color: '#fec89a',
     fontSize: '18px',
     fontWeight: 'bold',
     transition: 'color 0.3s, transform 0.2s',
@@ -39,7 +39,7 @@ links.forEach(link => {
   });
 
   a.addEventListener('mouseout', () => {
-    a.style.color = '#28b463';
+    a.style.color = '#fec89a';
     a.style.transform = 'scale(1)';
   });
 
