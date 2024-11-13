@@ -1,8 +1,9 @@
-/*@import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";*/
+@import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box; 
+    color: black
 }
 body {
     display: flex;
@@ -193,14 +194,14 @@ h1,p{
     cursor: pointer;
 }
 .buttons-join{
-background-color: rgb(96, 255, 96);
+    background-color: rgb(52, 205, 52);
 }
 .buttons-join:hover{
-    background-color: rgb(11, 158, 11);
+    background-color: rgb(16, 132, 16);
     opacity: 1;
 }
 .buttons-request{
-    background-color: rgb(42, 202, 255);
+    background-color: rgb(13, 170, 223);
 }
 .buttons-request:hover{
     background-color: rgb(8, 88, 193);
