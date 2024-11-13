@@ -12,9 +12,6 @@ const templates = [
                 <label for="eventType">What is the type of the event?</label>
                 <span class="error-message" id="eventTypeError"></span>
                 <button type="button" id="nextBtn">Next</button>
-                
-
-            
             </div>
         </div>
     `,
@@ -165,56 +162,84 @@ class EventMaker extends HTMLElement {
         const shadow = this.attachShadow({ mode: "open" });
         shadow.appendChild(template.content.cloneNode(true));
 
-        // this.form = shadow.getElementById("eventForm");
-        // this.steps = shadow.querySelectorAll(".step");
-        // this.currentStep = 1;
+        // inner html tracker
+        this.currentStep = 0; 
 
         // Navigation buttons
         this.nextBtn = shadow.getElementById("nextBtn");
-        this.backBtn = shadow.getElementById("backBtn");
         this.submitBtn = shadow.getElementById("submitBtn");
 
-        // // Conditional groups
-        // this.privateOptionsGroup = shadow.getElementById("privateOptionsGroup");
-        // this.seatOptionGroup = shadow.getElementById("seatOptionGroup");
-        // this.customCategoryGroup = shadow.getElementById("customCategoryGroup");
-
-        // // Dropdowns for conditional logic
-        // this.eventType = shadow.getElementById("eventType");
-        // this.occupancyOption = shadow.getElementById("occupancyOption");
-        // this.eventCategory = shadow.getElementById("eventCategory");
-
         // // Event listeners
-        // this.nextBtn.addEventListener("click", () => this.nextStep());
-        // this.backBtn.addEventListener("click", () => this.previousStep());
-        // this.form.addEventListener("submit", (event) => this.handleSubmit(event));
-
-        // this.eventType.addEventListener("change", () => this.togglePrivateOptions());
-        // this.occupancyOption.addEventListener("change", () => this.toggleSeatOptions());
-        // this.eventCategory.addEventListener("change", () => this.toggleCustomCategory());
-
-        // this.updateNavigation();
+        this.nextBtn.addEventListener("click", () => this.nextStep());
     }
 
-    // nextStep() {
-    //     // if (this.currentStep < this.steps.length) {
-    //     //     this.steps[this.currentStep - 1].classList.add("hidden");
-    //     //     this.steps[this.currentStep].classList.remove("hidden");
-    //     //     this.currentStep++;
-    //     // }
-    //     // this.updateNavigation();
+    nextStep() {
+        // Selecting Shadow element to change its inner html
+        const currentComponent = document.querySelector(".eventComponent")
+        const shadowRoot = currentComponent.shadowRoot;
 
-    //     console.log("hello")
-    // }
+        // Changing the inner html of shadow element to it's next one
+        this.currentStep ++;
+        shadowRoot.innerHTML = templates[this.currentStep];
 
-    // previousStep() {
-    //     if (this.currentStep > 1) {
-    //         this.steps[this.currentStep - 1].classList.add("hidden");
-    //         this.steps[this.currentStep - 2].classList.remove("hidden");
-    //         this.currentStep--;
-    //     }
-    //     this.updateNavigation();
-    // }
+        // Adding event listener to current next button in shadow element
+        this.nextBtn = shadowRoot.getElementById("nextBtn")
+        this.nextBtn.addEventListener("click", () => this.nextStep())
+
+        if (this.currentStep > 0){
+            this.backBtn = shadowRoot.getElementById("backBtn")
+            this.backBtn.addEventListener("click", () => this.previousStep());
+        }
+        console.log("next")
+    }
+
+    previousStep() {
+        // Selecting Shadow element to change its inner html
+        const currentComponent = document.querySelector(".eventComponent")
+        const shadowRoot = currentComponent.shadowRoot;
+
+        // Changing the inner html of shadow element to it's previous one
+        this.currentStep --;
+        shadowRoot.innerHTML = templates[this.currentStep];
+
+        // Adding event listener to current next button in shadow element
+        this.nextBtn = shadowRoot.getElementById("nextBtn")
+        this.nextBtn.addEventListener("click", () => this.nextStep())
+
+        if (this.currentStep > 0) {
+            this.backBtn = shadowRoot.getElementById("backBtn")
+            this.backBtn.addEventListener("click", () => this.previousStep()) 
+        }
+    }
+
+}
+
+customElements.define("event-maker", EventMaker);
+
+
+// this.form = shadow.getElementById("eventForm");
+// this.steps = shadow.querySelectorAll(".step");
+// this.currentStep = 1;
+
+// // Conditional groups
+// this.privateOptionsGroup = shadow.getElementById("privateOptionsGroup");
+// this.seatOptionGroup = shadow.getElementById("seatOptionGroup");
+// this.customCategoryGroup = shadow.getElementById("customCategoryGroup");
+
+// // Dropdowns for conditional logic
+// this.eventType = shadow.getElementById("eventType");
+// this.occupancyOption = shadow.getElementById("occupancyOption");
+// this.eventCategory = shadow.getElementById("eventCategory");
+
+// this.form.addEventListener("submit", (event) => this.handleSubmit(event));
+
+// this.eventType.addEventListener("change", () => this.togglePrivateOptions());
+// this.occupancyOption.addEventListener("change", () => this.toggleSeatOptions());
+// this.eventCategory.addEventListener("change", () => this.toggleCustomCategory());
+
+/////////////
+
+// this.updateNavigation();
 
     // updateNavigation() {
     //     this.backBtn.style.display = this.currentStep > 1 ? "inline-block" : "none";
@@ -252,6 +277,3 @@ class EventMaker extends HTMLElement {
     //         this.form.reportValidity();
     //     }
     // }
-}
-
-customElements.define("event-maker", EventMaker);
