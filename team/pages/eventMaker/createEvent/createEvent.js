@@ -2,18 +2,20 @@ const template = document.createElement("template");
 
 const templates = [
     `<!-- Step 1: Event Type -->
-        <div class="step" data-step="1">
-            <div class="form-group">
-                <select id="eventType" required>
-                    <option value="" disabled selected hidden></option>
-                    <option value="Public">Public</option>
-                    <option value="Private">Private</option>
-                </select>
-                <label for="eventType">What is the type of the event?</label>
-                <span class="error-message" id="eventTypeError"></span>
-                <button type="button" id="nextBtn">Next</button>
-            </div>
+    <div class="step" data-step="1">
+        <div class="form-group">
+            <label for="eventType">What is the type of the event?</label>
+            <select id="eventType" required>
+                <option value="" disabled selected hidden></option>
+                <option value="Public">Public</option>
+                <option value="Private">Private</option>
+            </select>
+            <span class="error-message" id="eventTypeError"></span>
         </div>
+        <div class="navigation-buttons">
+            <button type="button" id="nextBtn">Next</button>
+        </div>
+    </div>
     `,
     `<!-- Step 2: Private Options (Conditional) -->
     <div class="step hidden conditional-group" data-step="2" id="privateOptionsGroup">
@@ -27,11 +29,12 @@ const templates = [
             </select>
             <label for="privateOptions">Private Options</label>
             <span class="error-message" id="privateOptionsError"></span>
+        <div class="navigation-buttons">
             <button type="button" id="backBtn">Back</button>
             <button type="button" id="nextBtn">Next</button>
         </div>
     </div>
-    `,
+    `, 
     `
     <!-- Step 3: Occupancy Option -->
     <div class="step hidden" data-step="3">
@@ -43,8 +46,10 @@ const templates = [
             </select>
             <label for="occupancyOption">Occupancy Option?</label>
             <span class="error-message" id="occupancyOptionError"></span>
+            <div class="navigation-buttons">
             <button type="button" id="backBtn">Back</button>
             <button type="button" id="nextBtn">Next</button>
+            </div>
         </div>
     </div>
     `,
@@ -59,8 +64,10 @@ const templates = [
             </select>
             <label for="seatOption">How to get a seat?</label>
             <span class="error-message" id="seatOptionError"></span>
+            <div class="navigation-buttons">
             <button type="button" id="backBtn">Back</button>
             <button type="button" id="nextBtn">Next</button>
+            </div>
         </div>
     </div>
     `,
@@ -77,8 +84,10 @@ const templates = [
             </select>
             <label for="eventCategory">Choose Category</label>
             <span class="error-message" id="eventCategoryError"></span>
+            <div class="navigation-buttons">
             <button type="button" id="backBtn">Back</button>
             <button type="button" id="nextBtn">Next</button>
+            </div>
         </div>
     </div>
     `,
@@ -89,8 +98,10 @@ const templates = [
             <input type="text" id="customCategory" placeholder=" " />
             <label for="customCategory">Customized Category</label>
             <span class="error-message" id="customCategoryError"></span>
+            <div class="navigation-buttons">
             <button type="button" id="backBtn">Back</button>
             <button type="button" id="nextBtn">Next</button>
+            </div> 
         </div>
     </div>
     `,
@@ -101,8 +112,10 @@ const templates = [
             <input type="text" id="eventTitle" required placeholder=" " />
             <label for="eventTitle">Title for the event?</label>
             <span class="error-message" id="eventTitleError"></span>
+            <div class="navigation-buttons">
             <button type="button" id="backBtn">Back</button>
             <button type="button" id="nextBtn">Next</button>
+            </div>
         </div>
     </div>
     `,
@@ -113,8 +126,10 @@ const templates = [
             <input type="date" id="eventDate" required placeholder=" " />
             <label for="eventDate">When is this event happening?</label>
             <span class="error-message" id="eventDateError"></span>
+            <div class="navigation-buttons">
             <button type="button" id="backBtn">Back</button>
             <button type="button" id="nextBtn">Next</button>
+            </div>
         </div>
     </div>
     `,
@@ -125,8 +140,10 @@ const templates = [
             <input type="text" id="eventLocation" required placeholder=" " />
             <label for="eventLocation">Where is the event happening?</label>
             <span class="error-message" id="eventLocationError"></span>
+            <div class="navigation-buttons">
             <button type="button" id="backBtn">Back</button>
             <button type="button" id="nextBtn">Next</button>
+            </div>
         </div>
     </div>
     `,
@@ -137,8 +154,10 @@ const templates = [
             <textarea id="eventDescription" rows="4" required placeholder=" "></textarea>
             <label for="eventDescription">Any description?</label>
             <span class="error-message" id="eventDescriptionError"></span>
+            <div class="navigation-buttons">
             <button type="button" id="backBtn">Back</button>
             <button type="button" id="nextBtn">Next</button>
+            </div>
         </div>
     </div>
     `,
