@@ -1,0 +1,174 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
+
+.logo {
+    width: 50px;
+    height: 50px;
+    background-color: #0077b6;
+    margin-bottom: 7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.component-title {
+    font-size: 1.8em;
+    position: absolute;
+    color: black;
+    font-weight: 800;
+}
+
+.component-container {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 18vw;
+    position: relative;
+    margin-top: 2vh;
+}
+
+.component-input {
+    width: 18vw;
+    height: 4vh;
+    border-radius: 5px;
+    padding-left: 10px;
+    border: solid grey 2px;
+}
+
+.component-placeholder {
+    position: absolute;
+    left:10px;
+    top: calc((4vh - 1rem)/3);
+    font-size: 1rem;
+    pointer-events: none;
+    background-color:white;
+    transition: all .3s ease-in;
+    border-radius: 5px;
+}
+
+.component-input:focus + .component-placeholder,
+.component-input:not(:placeholder-shown) + .component-placeholder {
+    top: calc(0px - .8rem*.75);
+    left: 10px;
+    font-size: .8rem;
+    color: #03045e;
+    padding: 0 4px;
+}
+
+.component-input:focus{
+    outline: none !important;
+    border: solid #0077b6 2px;
+    background-color: white;
+}
+
+.incorrectInput {
+    border: solid red 2px;
+    color: red;
+}
+
+.incorrectInput:focus {
+    border: solid red 2px !important;
+}
+
+input:-webkit-autofill{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.continueBtn {
+    width: 18vw;
+    height: 4vh;
+    background-color: #0077b6;
+    margin-top: 2vh;
+    border-radius: 5px;
+    color: white;
+    /* pointer-events: none; */
+}
+
+.signUpText {
+    margin-top: 2vh;
+    color: black;
+    font-size: 1rem;
+    width: 150%;
+    display: flex;
+    justify-content: center;
+}
+
+.signUpRoute {
+    color: #0077b6;
+    cursor: pointer;
+    margin-left:5px;
+}
+
+.component-input-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.forgotPassRoute{
+    margin-top: 2vh;
+    color: #0077b6;
+    font-size: 1rem;
+    width: 18vw;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+#passwordInput {
+    width: 15vw !important;
+    border-right: none;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.showPasswordBtn {
+    color: #0077b6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 4vh;
+    width: 3vw;
+    border-top: solid grey 2px;
+    border-bottom:solid grey 2px;
+    border-right: solid grey 2px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    position: relative;
+}
+
+.show-password-img{
+    color: #0077b6;
+    width: 40%;
+}
+
+.showPasswordBtn:hover {
+    background-color: #0076b625;
+}
+
+.component-input:focus ~ .showPasswordBtn,
+.component-input:not(:placeholder-shown) + .showPasswordBtn {
+    border-color: #0077b6 !important;
+}
+
+.show-password-hover-text{
+    position: absolute;
+    font-size: .8rem;
+    left: 3.5vw;
+    pointer-events: none;
+    background-color: #0077b6;
+    color: white;
+    padding: 0.5em;
+    white-space: nowrap;
+    border-radius: 5px;
+}
+
+.component-form-error {
+    font-size: .8rem;
+    color: red;
+    height: 0px;
+    position: absolute;
+    left: 0;
+    top: calc(4vh);
+}

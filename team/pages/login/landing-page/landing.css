@@ -1,0 +1,59 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
+
+
+.logo {
+    width: 50px;
+    height: 50px;
+    background-color: #0077b6;
+    margin-bottom: 7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.left-side-component {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-side-component {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #001926;
+    flex-direction: column;
+}
+
+.animation-component {
+    height: 80%;
+    width: 80%;
+    border: solid 2px #0077b6;
+}
+
+.button-component-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-component-container div {
+    width: 18vw;
+    height: 4vh;
+    background-color: #0077b6;
+    margin-top: 2vh;
+    border-radius: 5px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
