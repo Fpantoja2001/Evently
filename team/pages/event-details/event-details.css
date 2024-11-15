@@ -1,0 +1,218 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+    color: black
+}
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    background-color: #e2f5ff;
+}
+
+.navbar {
+    width: 100px; 
+    background-color: #6554ff; 
+    color: white;
+    padding: 20px;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    bottom: 0; 
+    z-index: 2;
+}
+.maincontent {
+    margin-left: 100px; 
+    padding: 20px;
+    width: calc(100% - 100px); 
+    overflow-x: hidden; 
+    flex-direction: column; 
+}
+
+.header-container {
+
+    width: 100%;  
+    height: auto;
+    position: relative;    
+    display: flex;
+    flex-direction: column;  
+  }
+
+.header {
+    z-index: 0;
+    width: 100%;            
+    height: 150px; 
+}
+
+.logo {
+    z-index: 1;
+    width: 50px;
+    height: 50px;
+    background-color: #0077b6;
+    margin-bottom: -7vh;
+    display: flex;
+    align-items: left;
+    color: white;
+    position: absolute;
+}
+
+.login-component {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+}
+
+.rating-component {
+    z-index: 1;
+    right: 20px;
+    line-height: .8;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    font: arial;
+    position: absolute;
+    background-color: dodgerblue;
+}
+.rating {
+    margin-bottom: 0;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 2vw;
+    
+}
+.stars{
+    display: flex;
+    justify-content: center;
+}
+.star, .starfilled {
+    font-size: 3.5vw; 
+    color: #f1f1f1;
+}
+.starfilled {
+    color: rgb(255, 191, 0); 
+}
+.rating-text {
+    font-size: 2.5vw;
+    text-align: center;
+}
+
+.eventname-container, .textbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    height:auto;
+    padding: 0 5px;
+    margin: 5px;
+    position: relative;
+    background-color:dodgerblue;
+}
+.event-details {
+    display: flex;
+    gap: 10px; 
+    align-items: center; 
+}
+
+h1,p{
+    margin:0;
+    padding:0;
+}
+
+.textbox {
+  width: fit-content;
+}
+
+.textstuff {
+    font-size: 3vw; 
+    line-height: 1;
+}
+
+.category{
+    display: flex;
+    gap: 5px;
+}
+.categoryitem {
+    padding: 0px 12px;
+    background-color: #233cff; 
+    color: white;
+    font-size: 2.5vw; 
+    border-radius: 50px; 
+    font-weight: bold; 
+    display: inline-block; 
+    text-align: center;
+}
+
+
+.description-box-buttons{
+    margin: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    position: relative;
+    background-color:dodgerblue;
+    
+}
+.description-box{
+    height: 50vh;         
+    max-height: 50vh;
+    overflow-y: auto;
+    background-color: rgb(169, 242, 255);
+    width:70vw;
+    font-size: 2vw;
+    padding: 10px;
+    display: flex;
+}
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 10px;
+    background-color: rgb(169, 242, 255);
+    padding: 10px;
+    height: 50vh;
+    max-height: 50vh;
+    /*overflow-y: auto;*/
+}
+.buttons-join, .buttons-decline, .buttons-request{
+    height: auto;
+    border-radius: 20px;
+    height: 2em;
+    width: 8em;
+    font-size: 2vw;
+    box-shadow: 0px 5px rgb(109, 194, 209);
+    padding: 0.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.buttons-join{
+    background-color: rgb(52, 205, 52);
+}
+.buttons-join:hover{
+    background-color: rgb(16, 132, 16);
+    opacity: 1;
+}
+.buttons-request{
+    background-color: rgb(13, 170, 223);
+}
+.buttons-request:hover{
+    background-color: rgb(8, 88, 193);
+}
+.buttons-decline{
+    background-color: rgb(255, 93, 93);
+}
+.buttons-decline:hover{
+    background-color: rgb(241, 28, 28);
+}
+.buttons-join:active, .buttons-decline:active, .buttons-request:active {
+    box-shadow: 0 2px rgb(28, 108, 122);
+    transform: translateY(4px);
+  }
