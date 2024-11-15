@@ -17,3 +17,15 @@
 - **Task**: Fixed `features.md` file.
 - **Details**: assigned team members to features.md
 - **Link to Commit**: [Commit](https://github.com/Fpantoja2001/event-tbd/commit/d97bef7591b7abf95111a0f2f30ec036010dc820)
+
+### October 23, 2024
+
+- **Task**: Created `footer.html` file.
+- **Details**: added footer.html and created footer divs
+- **Link to Commit**: [Commit](https://github.com/Fpantoja2001/event-tbd/commit/9722816a7288e77703be69c7b56910f83cf9e135)
+
+### November 12, 2024
+
+- **Task**: Add css styling to `footer.css` file
+- **Details**: added css styling to footer components
+- **Link to Commit**: [Commit](https://github.com/Fpantoja2001/event-tbd/pull/13/commits/2e6d2e00be54cee1797af5725b1891cc2e7fc933)
