@@ -20,7 +20,7 @@ const componentTemplates = [
             <span class="component-form-error"></span>
 
             <button class="continueBtn">Continue</button>
-            <span class="signInText">Already have an account?<span class="signInRoute"> Sign in </span></span>
+            <span class="signInT ext">Already have an account?<span class="signInRoute"> Sign in </span></span>
         </div>
     `,
     `
@@ -53,7 +53,7 @@ function setupIndexedDB(){
 }
 
 function addUserDB(db,user){
-    return new Promise((Resolve,reject) => {
+    return new Promise((resolve,reject) => {
         const transaction=db.transaction("users","readwrite");
         const store =transaction.objectStore("users");
         const request= store.add(user);
@@ -147,7 +147,10 @@ export class createAccount extends HTMLElement {
         shadow.append(template.content.cloneNode(true));
         const continueBtn = shadow.querySelector(".continueBtn");
         
-    }
+        continueBtn.addEventListener("click", () => {
+        window.location.href =  "./login-sequence/login.js";
+    });
+} 
 }
 
 customElements.define("create-account-component", createAccount);

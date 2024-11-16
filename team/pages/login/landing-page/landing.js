@@ -1,4 +1,5 @@
 import {emailInputComponent} from "../login-sequence/login.js"
+import "../create-account/create.js";
 
 const template = document.createElement("template");
 
@@ -21,35 +22,42 @@ class landingPage extends HTMLElement {
         super()
         const shadow = this.attachShadow({mode: "open"})
         shadow.append(template.content.cloneNode(true))
-        this.loginBtn = shadow.querySelector(".loginBtn")
-        this.page = document.querySelector(".login-container")
-        this.component = document.querySelector(".landing-page-component")
-        this.createAccountBtn = document.querySelector(".createAccountBtn")
+        this.loginBtn = shadow.querySelector(".loginBtn");
+        this.page = document.querySelector(".login-container");
+        this.component = document.querySelector(".landing-page-component");
+        this.createAccountBtn = shadow.querySelector(".createAccountBtn");
 
     }
 
-    connectedCallback(){
-        console.log("landing page component connected")
+    connectedCallback() {
+        console.log("landing page component connected");
 
-        this.loginBtn.addEventListener("click", () => {
-            // initializing new component to pass in
-            const newC = document.createElement("email-input-component")
-            newC.classList.add("login-component")
+        if (this.loginBtn) {
+            this.loginBtn.addEventListener("click", () => {
+                // initializing new component to pass in
+                const newC = document.createElement("email-input-component");
+                newC.classList.add("login-component");
 
-            // removing current component
-            this.component.remove()
-            
-            //adding new component
-            this.page.appendChild(newC)
-        })
+                // removing current component
+                this.component.remove();
 
-        this.createAccountBtn.addEventListener("click", () => {
-            console.log("implement create account functionality")
-        })
+                // adding new component
+                this.page.appendChild(newC);
+            });
+        }
+
+        if (this.createAccountBtn) {
+            this.createAccountBtn.addEventListener("click", () => {
+                const signUpComponent = document.createElement("create-account-component");
+                signUpComponent.classList.add("sign-up-component");
+                this.component.remove();
+                this.page.appendChild(signUpComponent);
+            });
+        }
     }
 
-    disconnectedCallback(){
-        console.log("landing page component disconnected")
+    disconnectedCallback() {
+        console.log("landing page component disconnected");
     }
 }
 
