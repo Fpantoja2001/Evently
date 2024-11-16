@@ -65,6 +65,7 @@ body {
     scroll-behavior: smooth;
     gap: 1rem;
     padding: 0 1rem;
+    overflow-y: hidden;
 }
 
 .scrollable_column::-webkit-scrollbar {
