@@ -1,7 +1,8 @@
 const body = document.body;
 
+const navbar = document.getElementById('navbar');
 const nav = document.createElement('ul');
-nav.id = 'navbar';
+/* nav.id = 'navbar'; */
 
 Object.assign(nav.style, {
   display: 'flex',
@@ -47,4 +48,4 @@ links.forEach(link => {
   nav.appendChild(li);
 });
 
-body.appendChild(nav);
+navbar.appendChild(nav);
