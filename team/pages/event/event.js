@@ -81,7 +81,7 @@ category.forEach((e) => {
 
             const eventImg = document.createElement('img'); 
             eventImg.className = 'event_image'; 
-            eventImg.src = 'image.png';
+            eventImg.src = '../event/image.jpg';
             imgeClass.appendChild(eventImg); 
 
             newevent.appendChild(imgeClass);
