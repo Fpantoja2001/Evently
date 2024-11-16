@@ -20,8 +20,9 @@ function scrollToEvent(element) {
 
 const links = [
   { href: '../home/index.html', text: 'Event TBD' },
-  { href: '../event/index.html', text: 'Events', onclick: scrollToEvent },
-  { href: '../about/index.html', text: 'Profile' }
+  { href: '../home/index.html', text: 'Events', onclick: scrollToEvent },
+  { href: '../about/index.html', text: 'Profile' },
+  { href: '../login/index.html', text: 'Login/Sign Up' },
 ];
 
 //window.onload = function() {
@@ -34,12 +35,15 @@ links.forEach(link => {
   a.textContent = link.text;
 
   // when Event is clicked, scroll to the event section in Homepage
+  const eventlist_wrapper = document.getElementById('eventlist_wrapper');
   if (link.onclick) {
     a.onclick = function() {
-      link.onclick(document.getElementById('eventlist_wrapper'));
-      return false;
+      if (eventlist_wrapper) {
+        link.onclick(document.getElementById('eventlist_wrapper'));
+        return false;
+      }
+      return true;
     };
-    a.href = '#';
   }
 
   Object.assign(a.style, {
