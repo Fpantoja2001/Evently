@@ -1,4 +1,4 @@
-@import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
+@import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"; 
 
 /* General Styles */
 html, body {
@@ -28,6 +28,7 @@ body {
     align-items: center;
     padding: 0 1rem;
     margin-bottom: 1rem;
+    position: relative;
 }
 
 .column_heading h2 {
@@ -39,7 +40,7 @@ body {
 
 .button_all {
     font-size: 0.9rem;
-    background-color: #FFD09B;
+    background-color: #fbb86d;
     border: none;
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;
@@ -117,20 +118,18 @@ body {
 }
 
 .button_l, .button_r {
-    position: absolute;
+    /* position: absolute; 
     top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    background-color: #FFD09B;
+    transform: translateY(-50%); */
+    font-size: 0.9rem;
+    background-color: #fbb86d;
     border: none;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
+    color: #fff;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .button_l:hover, .button_r:hover {
@@ -138,14 +137,14 @@ body {
 }
 
 .button_l {
-    left: 10px;
+    left: 1px;
 }
 
 .button_r {
-    right: 10px;
+    right: 1px;
 }
 
-.button_l::before, .button_r::before {
+/* .button_l::before, .button_r::before {
     content: '';
     display: inline-block;
     width: 12px;
@@ -164,5 +163,5 @@ body {
 .button_r::before {
     border-width: 2px 0 0 2px;
     transform: rotate(45deg);
-}
+} */
 
