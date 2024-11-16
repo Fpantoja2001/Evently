@@ -6,7 +6,7 @@ const startTime = performance.now();
 
 const eventWrapper = document.getElementById('eventlist_wrapper');
 
-const events = data.events;
+const events = data.events || []; /* the empty array is a fallback in case the data is not available */
 
 //algorithm below not efficient, imporve later after we finish frontend implementation 
 category.forEach((e) => {
@@ -36,8 +36,12 @@ category.forEach((e) => {
 
     cat_top.appendChild(catText); 
     cat_top.appendChild(button_all);
-    cat_top.appendChild(button_l);
-    cat_top.appendChild(button_r);
+
+    const eventsInCategory = events.filter((i) => i.category === e);
+    if (eventsInCategory.length >= 5) {
+        cat_top.appendChild(button_l);
+        cat_top.appendChild(button_r);
+    }
 
     const column = document.createElement('scroll'); 
     column.className = 'category_scroll'
@@ -47,7 +51,7 @@ category.forEach((e) => {
     columnscroll.className = 'columns scrollable_column'; 
 
     // append the events to their corresponding category 
-    events.forEach((i) => {
+    eventsInCategory.forEach((i) => {
         if(i.category === e){
             const newevent = document.createElement('div');
             newevent.className = 'column is-one-fifth bordered-column'; 
