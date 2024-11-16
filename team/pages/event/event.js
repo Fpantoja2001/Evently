@@ -24,21 +24,31 @@ category.forEach((e) => {
     button_all.className = 'button_all'; 
     button_all.appendChild(document.createTextNode("See All"))
 
-    const button_r = document.createElement('button');
-    button_r.className = 'button_r';  
-    button_r.appendChild(document.createTextNode("Right"))
+    // const button_r = document.createElement('button');
+    // button_r.className = 'button_r';  
+    // button_r.appendChild(document.createTextNode("Right >"))
 
     //append right arrow circle immage
-    const button_l = document.createElement('button'); 
-    button_l.className = 'button_l';
-    button_l.appendChild(document.createTextNode("Left"))
+    // const button_l = document.createElement('button'); 
+    // button_l.className = 'button_l';
+    // button_l.appendChild(document.createTextNode("< Left"))
     //append left arrow circle image
 
     cat_top.appendChild(catText); 
     cat_top.appendChild(button_all);
 
+
+    let button_l, button_r;
     const eventsInCategory = events.filter((i) => i.category === e);
     if (eventsInCategory.length >= 5) {
+        button_l = document.createElement('button');
+        button_l.className = 'button_l';  
+        button_l.appendChild(document.createTextNode("< Left"))
+
+        button_r = document.createElement('button'); 
+        button_r.className = 'button_r';
+        button_r.appendChild(document.createTextNode("Right >"))
+
         cat_top.appendChild(button_l);
         cat_top.appendChild(button_r);
     }
@@ -52,7 +62,7 @@ category.forEach((e) => {
 
     // append the events to their corresponding category 
     eventsInCategory.forEach((i) => {
-        if(i.category === e){
+        //if(i.category === e){
             const newevent = document.createElement('div');
             newevent.className = 'column is-one-fifth bordered-column'; 
 
@@ -77,7 +87,7 @@ category.forEach((e) => {
             newevent.appendChild(imgeClass);
             newevent.appendChild(nameClass);
             columnscroll.appendChild(newevent);
-        }
+        //}
     })
     
     column.appendChild(columnscroll);
@@ -104,20 +114,23 @@ document.querySelectorAll('.category').forEach((category) => {
     const scrollRightButton = category.querySelector('.button_r');
     
     // Function to scroll left
-    scrollLeftButton.addEventListener('click', () => {
-        scrollContainer.scrollBy({
-            left: -400, // Adjust this value to control scroll amount
-            behavior: 'smooth'
+    if (scrollLeftButton) {
+        scrollLeftButton.addEventListener('click', () => {
+            scrollContainer.scrollBy({
+                left: -400, // Adjust this value to control scroll amount
+                behavior: 'smooth'
+            });
         });
-    });
-    
+    }
     // Function to scroll right
-    scrollRightButton.addEventListener('click', () => {
-        scrollContainer.scrollBy({
-            left: 400, // Adjust this value to control scroll amount
-            behavior: 'smooth'
+    if (scrollRightButton) {
+        scrollRightButton.addEventListener('click', () => {
+            scrollContainer.scrollBy({
+                left: 400, // Adjust this value to control scroll amount
+                behavior: 'smooth'
+            });
         });
-    });
+    }
 });
 
 
