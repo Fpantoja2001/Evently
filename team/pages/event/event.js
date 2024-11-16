@@ -6,7 +6,7 @@ const startTime = performance.now();
 
 const eventWrapper = document.getElementById('eventlist_wrapper');
 
-const events = data.events;
+const events = data.events || []; /* the empty array is a fallback in case the data is not available */
 
 //algorithm below not efficient, imporve later after we finish frontend implementation 
 category.forEach((e) => {
@@ -14,8 +14,44 @@ category.forEach((e) => {
     // make the div for the category 
     const cat = document.createElement('div');
     cat.className = `category`; 
-    const catText = document.createTextNode(e)
-    cat.appendChild(catText); 
+
+
+    const cat_top = document.createElement('div');
+    cat_top.className = "column_heading"
+    const catText = document.createTextNode(e);
+
+    const button_all = document.createElement('button');
+    button_all.className = 'button_all'; 
+    button_all.appendChild(document.createTextNode("See All"))
+
+    // const button_r = document.createElement('button');
+    // button_r.className = 'button_r';  
+    // button_r.appendChild(document.createTextNode("Right >"))
+
+    //append right arrow circle immage
+    // const button_l = document.createElement('button'); 
+    // button_l.className = 'button_l';
+    // button_l.appendChild(document.createTextNode("< Left"))
+    //append left arrow circle image
+
+    cat_top.appendChild(catText); 
+    cat_top.appendChild(button_all);
+
+
+    let button_l, button_r;
+    const eventsInCategory = events.filter((i) => i.category === e);
+    if (eventsInCategory.length >= 5) {
+        button_l = document.createElement('button');
+        button_l.className = 'button_l';  
+        button_l.appendChild(document.createTextNode("< Left"))
+
+        button_r = document.createElement('button'); 
+        button_r.className = 'button_r';
+        button_r.appendChild(document.createTextNode("Right >"))
+
+        cat_top.appendChild(button_l);
+        cat_top.appendChild(button_r);
+    }
 
     const column = document.createElement('scroll'); 
     column.className = 'category_scroll'
@@ -23,20 +59,39 @@ category.forEach((e) => {
 
     const columnscroll = document.createElement('div'); 
     columnscroll.className = 'columns scrollable_column'; 
-    
+
     // append the events to their corresponding category 
-    events.forEach((i) => {
-        if(i.category === e){
+    eventsInCategory.forEach((i) => {
+        //if(i.category === e){
             const newevent = document.createElement('div');
-            newevent.className = 'column is-one-fifth bordered-column '; 
+            newevent.className = 'column is-one-fifth bordered-column'; 
+
+            const imgeClass = document.createElement('div');
+            imgeClass.className = 'event_image image is-2by1';
+            const nameClass = document.createElement('div');
+            nameClass.className = 'event_name';
+
+
             const eventName = document.createTextNode(i.name); 
-            newevent.appendChild(eventName); 
-            
+            nameClass.appendChild(eventName); 
+            const eventRating = document.createTextNode(i.rating); 
+            nameClass.appendChild(eventRating); 
+            const eventDate = document.createTextNode(i.date); 
+            nameClass.appendChild(eventDate); 
+
+            const eventImg = document.createElement('img'); 
+            eventImg.className = 'event_image'; 
+            eventImg.src = 'image.png';
+            imgeClass.appendChild(eventImg); 
+
+            newevent.appendChild(imgeClass);
+            newevent.appendChild(nameClass);
             columnscroll.appendChild(newevent);
-        }
+        //}
     })
     
     column.appendChild(columnscroll);
+    cat.appendChild(cat_top);
     cat.appendChild(column); 
     eventWrapper.appendChild(cat);    
 })
@@ -53,7 +108,30 @@ document.querySelectorAll('.scrollable_column').forEach((scrollContainer) => {
 });
 
 
-
+document.querySelectorAll('.category').forEach((category) => {
+    const scrollContainer = category.querySelector('.scrollable_column');
+    const scrollLeftButton = category.querySelector('.button_l');
+    const scrollRightButton = category.querySelector('.button_r');
+    
+    // Function to scroll left
+    if (scrollLeftButton) {
+        scrollLeftButton.addEventListener('click', () => {
+            scrollContainer.scrollBy({
+                left: -400, // Adjust this value to control scroll amount
+                behavior: 'smooth'
+            });
+        });
+    }
+    // Function to scroll right
+    if (scrollRightButton) {
+        scrollRightButton.addEventListener('click', () => {
+            scrollContainer.scrollBy({
+                left: 400, // Adjust this value to control scroll amount
+                behavior: 'smooth'
+            });
+        });
+    }
+});
 
 
 
