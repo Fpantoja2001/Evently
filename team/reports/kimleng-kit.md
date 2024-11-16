@@ -47,3 +47,13 @@
 - **Link to Commits**: [Commit on event.js](https://github.com/Fpantoja2001/event-tbd/commit/67cfe707ce931bda04a9ae35af93b7d159e9983d)
   - [Commit on event.js](https://github.com/Fpantoja2001/event-tbd/commit/f85cdca13baabe08f3a4d32396409fd742f577d6)
 
+### November 16, 2024
+
+- **Task**: Completed `profile.js` file and add mock data in `users.json` file.
+- **Details**: Created a javascript file that creates html elements to display user data from users.json. The data displays include usernames, names, biography, and other basic information about a user.
+- **Link to Commit**: [Commit on profile.js](https://github.com/Fpantoja2001/event-tbd/commit/d0fbc5dbc02acee51fd067d86133764099cf1425)
+
+
+- **Task**: Completed `about.css` file.
+- **Details**: Adding styling to the profile section of the website. Make sure the theme of the CSS matches the theme of the homepage. Format the information of the users, and organize the displayed data.
+- **Link to Commit**: [Commit on about.css](https://github.com/Fpantoja2001/event-tbd/e1a122d86c2ad812501e4b450fc413c7893f16b3)
