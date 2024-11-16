@@ -84,6 +84,7 @@ body {
     display: flex;
     justify-content: flex-end;
     font-size: 2vw;
+    padding: 3px;
     
 }
 .stars{
@@ -97,9 +98,25 @@ body {
 .star-filled {
     color: rgb(255, 191, 0); 
 }
+.star-three-quarter {
+    background: linear-gradient(to right, rgb(255, 191, 0) 65%, #f1f1f1 65%);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+.star-half {
+    background: linear-gradient(to right, rgb(255, 191, 0) 50%, #f1f1f1 50%);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+.star-quarter {
+    background: linear-gradient(to right, rgb(255, 191, 0) 35%, #f1f1f1 35%);
+    -webkit-background-clip: text;
+    color: transparent;
+}
 .rating-text {
     font-size: 2.5vw;
     text-align: center;
+    margin: 5px;
 }
 
 .eventname-container, .textbox {
@@ -108,7 +125,7 @@ body {
     align-items: flex-start;
     height:auto;
     padding: 0 5px;
-    margin: 5px;
+    margin: 7px;
     position: relative;
     background-color:dodgerblue;
 }
@@ -134,19 +151,18 @@ h1,p{
 
 .category{
     display: flex;
-    gap: 5px;
+    gap: 2px;
 }
-.categoryitem {
-    padding: 0px 12px;
+.categoryitem{
+    padding: 0px 10px;
     background-color: #233cff; 
     color: white;
-    font-size: 2.5vw; 
+    font-size: 2vw; 
     border-radius: 50px; 
     font-weight: bold; 
     display: inline-block; 
     text-align: center;
 }
-
 
 .description-box-buttons{
     margin: 5px;
