@@ -22,7 +22,7 @@ category.forEach((e) => {
 
     const button_all = document.createElement('button');
     button_all.className = 'button_all'; 
-    button_all.appendChild(document.createTextNode("See All"))
+    button_all.appendChild(document.createTextNode("See All"));
 
     // const button_r = document.createElement('button');
     // button_r.className = 'button_r';  
