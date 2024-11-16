@@ -15,8 +15,8 @@ Object.assign(nav.style, {
 
 const links = [
   { href: '../home/index.html', text: 'Event TBD' },
-  { href: '../about/index.html', text: 'About Us' },
   { href: '../event/index.html', text: 'Events' },
+  { href: '../about/index.html', text: 'Profile' }
 ];
 
 links.forEach(link => {
