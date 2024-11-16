@@ -99,3 +99,18 @@
     transform: scale(1.05);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+.event_image {
+    width: 100%;
+    height: auto;
+}
+
+.event_name {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.event_name div {
+    margin-bottom: 0.3rem;
+}
