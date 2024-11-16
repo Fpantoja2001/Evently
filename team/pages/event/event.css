@@ -4,6 +4,9 @@
     font-size: 1.2rem; /* font size relative to view-width*/
     height: 2rem;
     padding: 1rem;
+    margin-bottom: 2rem;
+    background-color: #222;
+    color: white;
 }
 
 .column{
@@ -29,6 +32,8 @@
     scroll-behavior: smooth;
     padding: 0.5rem;
     gap: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
 } 
 
 .scrollable_column::-webkit-scrollbar {
@@ -49,13 +54,14 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
+    padding: 0 1rem;
 }
 
 .column_heading :first-child {
     /* flex: 0 0 auto; */
     font-weight: bold;
     font-size: 1.5rem;
-    color: #333;
+    color: white;
 
   }  
 
@@ -70,6 +76,7 @@
     font-size: 1rem;
     color: #333;
     transition: background-color 0.3s ease;
+    margin-left: 0.5rem;
 }
 
 /* .button_r, .button_l {
@@ -77,6 +84,27 @@
     border: 3px;
     padding: 2.5vw;
 } */
+
+.button_r, .button_l {
+    padding: 0.3rem 0.8rem;
+    margin: 0;
+}
+
+.button_l {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.button_r {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
 
 .button_all:hover, .button_r:hover, .button_l:hover {
     background-color: #e6e6e6;
@@ -93,6 +121,7 @@
     text-align: center;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 0.5rem;
 }
 
 .bordered-column:hover {
@@ -103,12 +132,15 @@
 .event_image {
     width: 100%;
     height: auto;
+    background-color: #ccc;
+    display: block;
 }
 
 .event_name {
     padding: 0.5rem;
     font-size: 0.9rem;
     color: #555;
+    text-align: left;
 }
 
 .event_name div {
