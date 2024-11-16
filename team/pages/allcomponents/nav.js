@@ -14,11 +14,17 @@ Object.assign(nav.style, {
   borderRadius: '8px',
 });
 
+function scrollToEvent(element) {
+  element.scrollIntoView({ behavior: 'smooth' });
+}
+
 const links = [
   { href: '../home/index.html', text: 'Event TBD' },
-  { href: '../event/index.html', text: 'Events' },
+  { href: '../event/index.html', text: 'Events', onclick: scrollToEvent },
   { href: '../about/index.html', text: 'Profile' }
 ];
+
+//window.onload = function() {
 
 links.forEach(link => {
   const li = document.createElement('li'); 
@@ -26,6 +32,15 @@ links.forEach(link => {
 
   a.href = link.href;
   a.textContent = link.text;
+
+  // when Event is clicked, scroll to the event section in Homepage
+  if (link.onclick) {
+    a.onclick = function() {
+      link.onclick(document.getElementById('eventlist_wrapper'));
+      return false;
+    };
+    a.href = '#';
+  }
 
   Object.assign(a.style, {
     color: '#fec89a',
@@ -49,3 +64,5 @@ links.forEach(link => {
 });
 
 navbar.appendChild(nav);
+
+//}
