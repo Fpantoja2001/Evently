@@ -34,7 +34,37 @@ const componentTemplates = [
         </div>
     `
 ];
+function setupIndexedDB(){
+    return new Promise((resolve,reject) => {
+    const request =indexedDB.open("UserDatabase",1) ;
+    request.onupgradeneeded=function(event){ //handles first
+        const db=event.target.result;
+        if(!db.objectStoreNames.contains("users")){
+            db.createObjectStore("users",{ keyPath: "id", autoIncrement:true});
+        }
+    };
+    request.onsuccess=function(event){
+        resolve(event.target.result);
+    };
+    request.onerror=function(){
+        reject("Cant open indexedDB")
+    };
+    }) ;
+}
 
+function addUserDB(db,user){
+    return new Promise((Resolve,reject) => {
+        const transaction=db.transaction("users","readwrite");
+        const store =transaction.objectStore("users");
+        const request= store.add(user);
+        request.onsuccess=function(){
+            resolve();
+        };
+        request.onerror =function(){
+            reject("cant add user");
+        };
+    });
+}
 
 export class createAccount extends HTMLElement {
     constructor(){
@@ -49,10 +79,11 @@ export class createAccount extends HTMLElement {
         this.emailInput = shadow.querySelector("#emailInput");
         this.passwordInput = shadow.querySelector("#passwordInput");
         this.errorComponents = shadow.querySelectorAll(".component-form-error");
-    
+        this.db=null;
     }
 
-    connectedCallback() {
+    async  connectedCallback() {
+        this.db=await setupIndexedDB();
         this.continueBtn.addEventListener("click", (e) => {
             e.preventDefault();
             this.handleCreateAccount();
@@ -62,7 +93,7 @@ export class createAccount extends HTMLElement {
     disconnectedCallback(){
         console.log("Create account component disconnected")
     }
-    handleCreateAccount(){
+    async handleCreateAccount(){
         let isValid=true;
 
         //user
@@ -95,7 +126,17 @@ export class createAccount extends HTMLElement {
         }
 
         if (isValid) {
-            this.showAccountCreatedMessage();
+            const user={
+                username:this.usernameInput.value.trim(),
+                email: this.emailInput.value.trim(),
+                password: this.passwordInput.value.trim(),
+            };
+            try{
+                await addUserDB(this.db,user);
+                this.showAccountCreatedMessage();
+            } catch (error){
+                console.error("Failed to save user", error)
+            }
         }
     }
 
