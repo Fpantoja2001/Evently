@@ -1,15 +1,20 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
 
+html {
+    background-color: white;
+    color: black;
+}
+
 .category{
     font-size: 1.2rem; /* font size relative to view-width*/
     height: 2rem;
     padding: 1rem;
     margin-bottom: 2rem;
-    background-color: #222;
-    color: white;
+    background-color: rgb(255, 209, 123);
+    color: black;
 }
 
-.column{
+/* .column{
     flex-grow:21;
 
     display: flex;
@@ -20,8 +25,8 @@
     margin-bottom: 3%;
     border: 2px solid #3498db; 
     border-radius: 4px; 
-    font-size: 1.5vw; /* font size relative to view-width*/
-}
+    font-size: 1.5vw;
+} */
 
 .scrollable_column {
     display: flex;
