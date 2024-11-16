@@ -3,6 +3,7 @@ import data from './users.json' with { type: "json" };
 const profileWrapper = document.getElementById('profile_wrapper');
 
 const divArray = [];
+const displayData = {'firstName': 'First Name', 'lastName': 'Last Name', 'email': 'Email', 'phone': 'Phone', 'socialLinks': 'Social Links', 'skills': 'Skills', 'hobbies': 'Hobbies', 'bio': 'Bio', 'age': 'Age', 'gender': 'Gender', 'location': 'Location'};
 
 if (profileWrapper) {
     // make a div for profile image
@@ -24,11 +25,12 @@ if (profileWrapper) {
     const userBio = document.createElement('p');
     userBio.className = 'userBio';
     for (let info in data) {
-        if (info === 'username' || info === 'id' || info === 'profilePicture' || info === 'preferences' || info === 'updatedAt') {
+        if (info === 'username' || info === 'id' || info === 'profileImage' || info === 'preferences' || info === 'updatedAt' || info === 'createdAt') {
             continue;
         }
         const label = document.createElement('strong');
-        label.appendChild(document.createTextNode(info + ': ')); 
+        label.className = 'label';
+        label.appendChild(document.createTextNode(displayData[info] + ': ')); 
         const text = document.createTextNode(data[info]);
         userBio.appendChild(label);
 
