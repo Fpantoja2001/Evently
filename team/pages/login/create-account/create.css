@@ -24,42 +24,31 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 18vw;
-    position: relative;
+    width: 100%;
+    max-width: 400px;
     margin-top: 2vh;
+    padding: 20px;
 }
 
 .component-input {
-    width: 18vw;
+    width: 100%;
     height: 4vh;
     border-radius: 5px;
     padding-left: 10px;
     border: solid grey 2px;
+    margin-top: 8px;
 }
 
 .component-placeholder {
-    position: absolute;
-    left: 10px;
-    top: calc((4vh - 1rem) / 3);
     font-size: 1rem;
-    pointer-events: none;
-    background-color: white;
-    transition: all .3s ease-in;
-    border-radius: 5px;
-}
-
-.component-input:focus + .component-placeholder,
-.component-input:not(:placeholder-shown) + .component-placeholder {
-    top: calc(0px - .8rem * .75);
-    left: 10px;
-    font-size: .8rem;
-    color: #03045e;
-    padding: 0 4px;
+    color: black;
+    margin-top: 5px;
+    display: block;
 }
 
 .component-input:focus {
     outline: none !important;
-    border: solid #ff8800 2px; 
+    border: solid #ff8800 2px;
     background-color: white;
 }
 
@@ -77,9 +66,9 @@ input:-webkit-autofill {
 }
 
 .continueBtn {
-    width: 18vw;
+    width: 100%;
     height: 4vh;
-    background-color: #ff8800; 
+    background-color: #ff8800;
     margin-top: 2vh;
     border-radius: 5px;
     color: white;
@@ -89,13 +78,12 @@ input:-webkit-autofill {
     margin-top: 2vh;
     color: black;
     font-size: 1rem;
-    width: 150%;
     display: flex;
     justify-content: center;
 }
 
 .signUpRoute {
-    color: #ff8800; 
+    color: #ff8800;
     cursor: pointer;
     margin-left: 5px;
 }
@@ -107,23 +95,22 @@ input:-webkit-autofill {
 
 .forgotPassRoute {
     margin-top: 2vh;
-    color: #ff8800; 
+    color: #ff8800;
     font-size: 1rem;
-    width: 18vw;
     display: flex;
     justify-content: center;
     cursor: pointer;
 }
 
 #passwordInput {
-    width: 15vw !important;
+    width: calc(100% - 3vw);
     border-right: none;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
 }
 
 .showPasswordBtn {
-    color: #ff8800; 
+    color: #ff8800;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -138,12 +125,12 @@ input:-webkit-autofill {
 }
 
 .show-password-img {
-    color: #ff8800; 
+    color: #ff8800;
     width: 40%;
 }
 
 .showPasswordBtn:hover {
-    background-color: #f99728; 
+    background-color: #f99728;
 }
 
 .component-input:focus ~ .showPasswordBtn,
@@ -156,7 +143,7 @@ input:-webkit-autofill {
     font-size: .8rem;
     left: 3.5vw;
     pointer-events: none;
-    background-color: #ff8800; /* Main orange color */
+    background-color: #ff8800;
     color: white;
     padding: 0.5em;
     white-space: nowrap;
@@ -169,5 +156,12 @@ input:-webkit-autofill {
     height: 0px;
     position: absolute;
     left: 0;
-    top: calc(4vh);
+    top: calc(4vh + 8px);
+}
+
+label.component-placeholder {
+    display: block;
+    font-size: 1rem;
+    color: black;
+    margin-top: 8px;
 }
