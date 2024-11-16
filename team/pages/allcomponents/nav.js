@@ -8,7 +8,7 @@ Object.assign(nav.style, {
   display: 'flex',
   justifyContent: 'space-around',
   listStyle: 'none',
-  backgroundColor: '#e76f51',
+  backgroundColor: '#fbb86d',
   padding: '10px',
   margin: '0',
   borderRadius: '8px',
@@ -43,19 +43,19 @@ links.forEach(link => {
   }
 
   Object.assign(a.style, {
-    color: '#fec89a',
+    color: '#ffffff',
     fontSize: '18px',
     fontWeight: 'bold',
     transition: 'color 0.3s, transform 0.2s',
   });
 
   a.addEventListener('mouseover', () => {
-    a.style.color = '#FDFEFE';
+    a.style.color = '#fec89a';
     a.style.transform = 'scale(1.1)';
   });
 
   a.addEventListener('mouseout', () => {
-    a.style.color = '#fec89a';
+    a.style.color = '#ffffff';
     a.style.transform = 'scale(1)';
   });
 
