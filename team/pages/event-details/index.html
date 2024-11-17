@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Event details</title>
     <link rel="stylesheet" href="event-details.css">
-    <script src="../allcomponents/nav.js" type="module"></script>
+    <script src="event-details.js" defer></script>
   </head>
   <body class="body">
     <div class="navbar">
@@ -18,38 +18,40 @@
         <div class="rating-component">
             <div class="rating">
                 <div class="stars">
-                    <span class="star">★</span>
-                    <span class="starfilled">★</span>
-                    <span class="starfilled">★</span>
-                    <span class="starfilled">★</span>
-                    <span class="starfilled">★</span>
+                    <span class="star" id="star-1">★</span>
+                    <span class="star" id="star-2">★</span>
+                    <span class="star" id="star-3">★</span>
+                    <span class="star" id="star-4">★</span>
+                    <span class="star" id="star-5">★</span>
                 </div>
             </div>
-            <div class="rating-text">4.12 Stars</div>
+            <div class="rating-text" id="rating-text"> Stars</div>
         </div>
         <div class="header-container">
             <img src="header-placeholder.jpg" class="header">
         </div>
         <div class="eventname-container">
             <div class="event-details">
-                <h1 class="textstuff">Event Name</h1>
+                <h1 class="textstuff" id="event-name"></h1>
                 <div class="category">
-                    <span class="categoryitem">Public</span>
-                    <span class="categoryitem">Etc</span>
-                    <span class="categoryitem">Etc</span>
+                    <span class="categoryitem" id="privacy-option"></span>
+                    <span class="categoryitem" id="invite-option"></span>
+                    <span class="categoryitem" id="limit-option"></span>
+                    <span class="categoryitem" id="reservation-option"></span>
+                    <span class="categoryitem" id="category-option"></span>
                 </div>
             </div>        
-            <p class="textstuff">0:00; X-XX-XX</p>
+            <p class="textstuff" id="event-time-date"></p>
         </div>
         <div class="eventname-container">
-            <p class="textstuff">Event Creators</p>
+            <p class="textstuff" id="event-creators"></p>
             <p class="textstuff">X Attendees</p>
         </div>
         <div class="textbox">
-            <p class="textstuff">Address</p>
+            <p class="textstuff" id="event-address"></p>
         </div>
         <div class="description-box-buttons">
-            <p class="description-box">Description: The state has a program called the Agricultural Protection Program (APR) that works with willing farmers to buy a conservation easement on farms with prime soils as a way to help perpetuate agriculture in MA. To the best of my knowledge, they don't prioritize any farms beyond prime soils.  What other ways could we prioritize lands for agricultural protection in Massachusetts?Description: The state has a program called the Agricultural Protection Program (APR) that works with willing farmers to buy a conservation easement on farms with prime soils as a way to help perpetuate agriculture in MA. To the best of my knowledge, they don't prioritize any farms beyond prime soils.  What other ways could we prioritize lands for agricultural protection in Massachusetts?Description: The state has a program called the Agricultural Protection Program (APR) that works with willing farmers to buy a conservation easement on farms with prime soils as a way to help perpetuate agriculture in MA. To the best of my knowledge, they don't prioritize any farms beyond prime soils.  What other ways could we prioritize lands for agricultural protection in Massachusetts?Description: The state has a program called the Agricultural Protection Program (APR) that works with willing farmers to buy a conservation easement on farms with prime soils as a way to help perpetuate agriculture in MA. To the best of my knowledge, they don't prioritize any farms beyond prime soils.  What other ways could we prioritize lands for agricultural protection in Massachusetts?</p>
+            <p class="description-box" id="event-description"></p>
             <div class="buttons-container">
                 <button class="buttons-request">Request</button><br>
                 <button class="buttons-join">Join/Accept</button><br>
@@ -58,4 +60,5 @@
         </div>
     </div>
   </body>
+  <script src="../allcomponents/nav.js" type="module"></script>
 </html>
