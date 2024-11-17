@@ -64,7 +64,11 @@ category.forEach((e) => {
     eventsInCategory.forEach((i) => {
         //if(i.category === e){
             const newevent = document.createElement('div');
-            newevent.className = 'column is-one-fifth bordered-column'; 
+            const a = document.createElement('a');
+            a.href = '../event-details/index.html';
+            a.appendChild(newevent);
+
+            a.className = 'column is-one-fifth bordered-column'; 
 
             const imgeClass = document.createElement('div');
             imgeClass.className = 'event_image image is-2by1';
@@ -86,7 +90,7 @@ category.forEach((e) => {
 
             newevent.appendChild(imgeClass);
             newevent.appendChild(nameClass);
-            columnscroll.appendChild(newevent);
+            columnscroll.appendChild(a);
         //}
     })
     

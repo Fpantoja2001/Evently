@@ -1,4 +1,5 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
+
 * {
     margin: 0;
     padding: 0;
@@ -13,7 +14,7 @@ body {
     background-color: #e2f5ff;
 }
 
-.navbar {
+/*.navbar {
     width: 100px; 
     background-color: #6554ff; 
     color: white;
@@ -23,7 +24,7 @@ body {
     left: 0;
     bottom: 0; 
     z-index: 2;
-}
+} */
 .maincontent {
     margin-left: 100px; 
     padding: 20px;
