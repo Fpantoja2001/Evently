@@ -145,6 +145,16 @@ body {
     right: 1px;
 }
 
+@media (max-width: 768px) {
+    .scrollable_column {
+        gap: 0.5rem;
+    }
+
+    .bordered-column {
+        width: calc(100% / 3 - 0.5rem);
+    }
+}
+
 /* .button_l::before, .button_r::before {
     content: '';
     display: inline-block;
