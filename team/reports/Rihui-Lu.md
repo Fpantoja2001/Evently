@@ -21,7 +21,7 @@
 
 - **Task**: Started on the basic format for eventlist.
 - **Details**: added a ton of event placeholders to use as temporary data for event list
-- **Link to Commit**: [Commit](https://github.com/Fpantoja2001/event-tbd/compare/5ed0a19ccfb610f735f3f8dbe6f466b5da657ec3...6ee55fd8bda3dd01e4c99d43423f2bba9415cb31)
+- **Link to Commit**: [Commit](https://github.com/Fpantoja2001/event-tbd/compare/4ab65b493f9e081ba4aa7ec76fd2ec85783ba09b...5ed0a19ccfb610f735f3f8dbe6f466b5da657ec3)
 
 ### October 25, 2024
 
