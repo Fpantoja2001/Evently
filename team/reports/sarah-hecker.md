@@ -12,7 +12,7 @@
 ### November 13, 2024
 - **Task**: Created search bar
 - **Details**: Created search bar in the home files
--  **Link to Commit**: https://github.com/Fpantoja2001/event-tbd/commits?author=sarhecker&since=2024-11-12&until=2024-11-13
+-  **Link to Commit**: https://github.com/Fpantoja2001/event-tbd/commit/013e8206160f148a9967efc1540b1cbde99edc16
 
 ### November 13, 2024
 - **Task**: Created create account
