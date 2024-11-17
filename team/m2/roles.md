@@ -10,9 +10,9 @@
 #### Sean Rodgers - Timekeeper
 - **Role**: Tracks schedules and reminds team members of important due dates and meetings.
 - **Top 3 Commits**:
-  1. [Commit 1](https://github.com/Fpantoja2001/event-tbd/commit/2a65f4c4e94338c86c743bf617c2918611ae2985): Created roles.md descriptions.
-  2. [Commit 2](https://github.com/Fpantoja2001/event-tbd/commit/ae02a06e1c9d6c8e78099a5a7f4320a3daef4f82): Updated contribution file in the report folder.
-  3. [Commit 3](https://github.com/Fpantoja2001/event-tbd/commit/db1f8af282e02172ecc7fb185c3613edcb090241): Helped format the roles.md file.
+  1. [Commit 1](https://github.com/Fpantoja2001/event-tbd/commit/c58f4305b7fbb7e3343ec82f0a1c211add83e920): Added significant coding for the  the event-details css and html .
+  2. [Commit 2](https://github.com/Fpantoja2001/event-tbd/commit/d79a9184bf1256b783e6409f50530bfd110a1b74): Added signficant coding to the event-details js file so that the text can be dynamically changed from the eventual backend to a specific event it encompasses. Also tweaked css, added placeholder image and added code for rating changes. 
+  3. [Commit 3](https://github.com/Fpantoja2001/event-tbd/commit/c231dcea8acf20ebbaf90432dd012c442b68e132): Updated parity for eventdetails css, meaning changing the colors/fonts to better match the rest of the website. Also, removed navigation bar placeholder due to the real one's implementation. Lastly, included the footer at the bottom of the page.
 
 #### Sarah Hecker - Note-Taker
 - **Role**: Ensures that each members' greatest and most important ideas are captured and shared with the team.
