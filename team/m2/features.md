@@ -14,6 +14,14 @@
 
 **Point Value**: 1 point
 
+---
+
+**Feature Name**: Styling Footnote
+
+**Description**: Provide styling to organize the footnote, making it easier to the user to read. It enhance engagement with the website by adding style to the bottom of each page.
+
+**Point Value**: 1 point
+
 **Team Member**: Kailin Luo
 
 ---
@@ -55,6 +63,46 @@
 **Point Value**: 1 point
 
 **Team Member**: Sean Rogers
+
+---
+
+**Feature Name**: Show/Hide Password Button
+
+**Description**: A button near the password input box that will mask the password or unmask the password input to ensure user privacy.
+
+**Point Value**: 1 points
+
+**Team Member**: Felix Pantoja
+
+---
+
+**Feature Name**: Landing Page
+
+**Description**: A landing page that redirects to both either create account or login. It is dynamic depending on the user input.
+
+**Point Value**: 1 points
+
+**Team Member**: Felix Pantoja
+
+---
+
+**Feature Name**: Styling for create event page
+
+**Description**: Provide intuitive styling to create event page to enhance user's engagement. Provide user-friendly interface.
+
+**Point Value**: 1 points
+
+**Team Member**: Sarah Hecker
+
+---
+
+**Feature Name**: Styling for Search Bar
+
+**Description**: Provide intuitive styling to the search bar in the homepage. It maintains a user-friendly interface with a search button as an indication for the user to search.
+
+**Point Value**: 1 points
+
+**Team Member**: Sarah Hecker
 
 # Medium Features (2-3 points)
 
@@ -106,6 +154,34 @@
 
 **Team Member**: Sean Rogers
 
+---
+
+**Feature Name**: Login Page
+
+**Description**: A login page that allow the user to log into their personal account using email and their password. It fetches data from the user database and lead them to a personalized profile page. It communicates with the backend and the profile.
+
+**Point Value**: 3 points
+
+**Team Member**: Felix Pantoja
+
+---
+
+**Feature Name**: Login Page Email Validation
+
+**Description**: Implemented validation which rejects invalid emails and accepts valid emails. It is dynamic based on the input from the user.
+
+**Point Value**: 2 points
+
+**Team Member**: Felix Pantoja
+
+---
+
+**Feature Name**: Forgot Password
+
+**Description**: A link for the user to change/generate a new password if the input password is incorrect. It communicates with the database to change any current password and validate the new password from the user.
+
+**Point Value**: 3 points
+
 # Large Features (4-5 points)
 
 **Feature Name**: Event Description
@@ -136,42 +212,12 @@
 
 **Team Member**: Kimleng Kit
 
-## Account Creation
-- Individual user or organization
-- Verification
-- Select interests
+---
 
-**Assigned to**: Felix Pantoja
+**Feature Name**: Create Account
 
-## Account Features
-- Host events
-- Message other users
-- Organizations will have verification badge
-- Pledge attendance to event
-- Chose who can see what events you attend
+**Description**: A page for the user to create their account to access the features of the websites. User information will be store and any information such as password will be encrypted. Create account works with a backend to store different data into multiple data set.
 
-**Assigned to**: Kimleng Kit
+**Point Value**: 5 points
 
-## Events
-- Create/edit/manage events
-- Classify event, add details like occupancy or times
-- Public or private events
-- Group chat/forum for events
-
-**Assigned to**: Melody Chen and Kailin Luo
-
-
-## Rating
--  Users can rate the events they go to
--  Hosts are assigned scores based on their event ratings
--  Anonymous feedback
--  One review per attendee
-
-**Assigned to**: Sarah Hecker
-
-## Heat Map
-- Visual representation of the concentration of events
-- Gradient surrounding each event on the map that represents how populated an event is
-- Filter and search through tags
-
-**Assigned to**: Rihui Lu and Sean Rodgers
+**Team Member**: Sarah Hecker
