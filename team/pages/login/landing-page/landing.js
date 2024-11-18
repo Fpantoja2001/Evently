@@ -1,5 +1,3 @@
-import {emailInputComponent} from "../login-sequence/login.js"
-
 const template = document.createElement("template");
 
 template.innerHTML = `
@@ -24,7 +22,7 @@ class landingPage extends HTMLElement {
         this.loginBtn = shadow.querySelector(".loginBtn")
         this.page = document.querySelector(".login-container")
         this.component = document.querySelector(".landing-page-component")
-        this.createAccountBtn = document.querySelector(".createAccountBtn")
+        this.createAccountBtn = shadow.querySelector(".createAccountBtn")
 
     }
 
@@ -44,7 +42,15 @@ class landingPage extends HTMLElement {
         })
 
         this.createAccountBtn.addEventListener("click", () => {
-            console.log("implement create account functionality")
+            // initializing new component to pass in
+            const newC = document.createElement("enter-email-component")
+            newC.classList.add("login-component")
+
+            // removing current component
+            this.component.remove()
+
+            //adding new component
+            this.page.appendChild(newC)
         })
     }
 
