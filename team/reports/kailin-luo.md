@@ -29,3 +29,9 @@
 - **Task**: Add css styling to `footer.css` file
 - **Details**: added css styling to footer components
 - **Link to Commit**: [Commit](https://github.com/Fpantoja2001/event-tbd/pull/13/commits/2e6d2e00be54cee1797af5725b1891cc2e7fc933)
+
+### November 16, 2024
+
+- **Task**: Add footer
+- **Details**: added footer to About and Home pages
+- **Link to Commit**: [Commit](https://github.com/Fpantoja2001/event-tbd/commit/8e99ae017af80a72c416e076290206c06c1a768d)
