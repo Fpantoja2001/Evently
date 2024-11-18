@@ -1,5 +1,5 @@
 ### Feature: Search Bar:
-- **Description**: A search bar that allows users to look for speciifc events.
+- **Description**: A search bar that allows users to look for specific events.
 ```mermaid
 graph TD;
     A[User clicks on search bar] --> B[types in request];
