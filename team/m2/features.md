@@ -36,6 +36,26 @@
 
 **Team Member**: Rihui Lu
 
+---
+
+**Feature Name**: Event Details Styling
+
+**Description**: Style the event detail page to enhance user experience and engagement. Provide intuitive styling of the rating system, the tags, description box, and buttons.
+
+**Point Value**: 1 point
+
+**Team Member**: Sean Rogers
+
+---
+
+**Feature Name**: Interactive Event Buttons
+
+**Description**: Provide functionality for the request, join/accept, and decline buttons. Users can indicate their participating by clicking the button which store its data in the database.
+
+**Point Value**: 1 point
+
+**Team Member**: Sean Rogers
+
 # Medium Features (2-3 points)
 
 **Feature Name**: Navigation Bar
@@ -75,6 +95,16 @@
 **Point Value**: 3 points
 
 **Team Member**: Sarah Hecker
+
+---
+
+**Feature Name**: Event Tags
+
+**Description**: Organize events by assigning tags and displaying the tags with the event details. Each events is stored in the database with a tags that categorize the types of the events. It dynamically assign tags based on the input events and also connect with the filter feature. Each tag can act as a keyword for the search bar.
+
+**Point Value**: 3 points
+
+**Team Member**: Sean Rogers
 
 # Large Features (4-5 points)
 
