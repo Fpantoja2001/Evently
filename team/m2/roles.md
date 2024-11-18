@@ -1,11 +1,11 @@
 ## Team Roles
 
 #### Felix Pantoja - Project Manager
-- **Role**: Responsible for coordinating team meetings, organizing the repository, and making sure everyone remains on track.
+- **Role**: Responsible for coordinating team meetings, organizing the repository, and making sure everyone remains on track. Log-in page front-end. 
 - **Top 3 Commits**:
-  1. [Commit 1](https://github.com/Fpantoja2001/event-tbd/commit/a7e50799ade1635254206db58644a5cb1d3a7613): Created the initial github repository.
-  2. [Commit 2](https://github.com/Fpantoja2001/event-tbd/commit/396cd507adc1defefa50c74b3faacecf9e217faf): Worked on the ui-diagrams.md file.
-  3. [Commit 3](https://github.com/Fpantoja2001/event-tbd/commit/a429e480be82835f0da1148252bc77491ab30ced): Completing to ui-diagrams.md file.
+  1. [Commit 1](https://github.com/Fpantoja2001/event-tbd/commit/59a00e45f8d53c08b0cda1422bf2b50724925b1b): Landing page to login sequence route set up. Finalized login page. 
+  2. [Commit 2](https://github.com/Fpantoja2001/event-tbd/commit/e97aa34accb7982d0d69b5a2846a85e1999b3d72): Added show / hide password functionality + icons.
+  3. [Commit 3](https://github.com/Fpantoja2001/event-tbd/commit/8d76ad0eb43789e3ad5de4ac61cd72cd70a7cced): Initial login page using web components.
 
 #### Sean Rodgers - Timekeeper
 - **Role**: Tracks schedules and reminds team members of important due dates and meetings.
@@ -22,11 +22,11 @@
   3. [Commit 3](https://github.com/Fpantoja2001/event-tbd/commit/d7a6f227a2f7aff38a534b24847a252510887264): Created all the markdown files for the team.
 
 #### Melody Chen - Task Manager
-- **Role**: Tracks progress of tasks and ensures that responsibilities are clearly assigned and completed on time.
+- **Role**: Tracks progress of tasks and ensures that responsibilities are clearly assigned and completed on time. Front-end for createEvent. 
 - **Top 3 Commits**:
-  1. [Commit 1](https://github.com/Fpantoja2001/event-tbd/commit/6d1d8c9d35a7d5c3bd8a71df3372544b1b63e964): Drafted data.md file.
-  2. [Commit 2](https://github.com/Fpantoja2001/event-tbd/commit/a562b5a75efab5e6424aad7808aae97ab2c96c57): Worked on the data.md file.
-  3. [Commit 3](https://github.com/Fpantoja2001/event-tbd/commit/ce4ddafc38d009f9cfda3eebc1f041151ea127d8): Created meeting notes file.
+  1. [Commit 1](https://github.com/Fpantoja2001/event-tbd/commit/29a0acb786e6cd6332923b64a2a4e0332ba46a06): Fixed the createEvent to let it function correctly with different pages.
+  2. [Commit 2](https://github.com/Fpantoja2001/event-tbd/commit/862b7e0498655196278ce4240e7bf9d6aae7fa9a): CreateEvent worked with no separate pages feature.
+  3. [Commit 3](https://github.com/Fpantoja2001/event-tbd/commit/e9a34c9287d7d8dcc0839282131d1b57e7a2c0bd): Made the feature-sequence-diagram.md file.
 
 #### Rihui Lui - Communication Leader
 - **Role**: Manages the team’s communication tools and handles any issues that arise in relation to communication.
