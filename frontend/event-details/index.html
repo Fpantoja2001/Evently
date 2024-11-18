@@ -58,7 +58,13 @@
                 <button class="buttons-request">Request</button><br>
                 <button class="buttons-join">Join/Accept</button><br>
                 <button class="buttons-decline">Decline</button>
+                <button class="buttons-review">Reviews</button>
             </div>
+            <script>
+                document.querySelector('.buttons-review').addEventListener('click', () => {
+                    window.location.href = '../review/review.html';
+                });
+            </script>
         </div>
     </div>
     <footer class="footer">

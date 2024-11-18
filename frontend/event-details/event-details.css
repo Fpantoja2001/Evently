@@ -189,7 +189,7 @@ h1,p{
     max-height: 50vh;
     /*overflow-y: auto;*/
 }
-.buttons-join, .buttons-decline, .buttons-request{
+.buttons-join, .buttons-decline, .buttons-request, .buttons-review{
     height: auto;
     border-radius: 20px;
     height: 2em;
@@ -223,7 +223,14 @@ h1,p{
 .buttons-decline:hover{
     background-color: rgb(241, 28, 28);
 }
-.buttons-join:active, .buttons-decline:active, .buttons-request:active {
+.buttons-review {
+    background-color: #FFB84D;
+}
+
+.buttons-review:hover {
+    background-color: #ff851a;
+}
+.buttons-join:active, .buttons-decline:active, .buttons-request:active, .buttons-request:active {
     box-shadow: 0 2px  hsl(39, 73%, 40%);
     transform: translateY(4px);
 }
