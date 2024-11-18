@@ -30,6 +30,16 @@
 
 ---
 
+**Feature Name**: Styling Review Page
+
+**Description**: Style the review page to enhance user experience and engagement. It makes writing a review more intuitive and easy to read.
+
+**Point Value**: 1 point
+
+**Team Member**: Kailin Luo
+
+---
+
 **Feature Name**: Event List Styling
 
 **Description**: Style the event section of the homepage to enhance user experience and engagement. Provide intuitive styling of each category and events in the category to help users quickly find teh information they need in addition to creating a visually appealing page. 
@@ -217,6 +227,26 @@
 **Point Value**: 2 points
 
 **Team Member**: Melody Chen
+
+---
+
+**Feature Name**: Write A Review in Form
+
+**Description**: Include a review page where users can leave a review for an event by pressing a button to access the review page. The review page allows users to rate the event from 1 to 5 and write a comment about the event.
+
+**Point Value**: 3 points
+
+**Team Member**: Kailin Luo
+
+---
+
+**Feature Name**: Review Page
+
+**Description**: Implemented review page to allow users to see the submitted review and their ratings. The review page displays the review rating and comment based on user input. The submit button will add the review to the event.
+
+**Point Value**: 3 points
+
+**Team Member**: Kailin Luo
 
 # Large Features (4-5 points)
 
