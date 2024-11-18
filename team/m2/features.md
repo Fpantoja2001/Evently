@@ -104,6 +104,16 @@
 
 **Team Member**: Sarah Hecker
 
+---
+
+**Feature Name**: Dropdown Selection Form
+
+**Description**: It provides the host with only restricted options for certain questions while creating the event. This ensure that the events are created with consistency which the information it provides in the event details.
+
+**Point Value**: 1 point
+
+**Team Member**: Melody Chen
+
 # Medium Features (2-3 points)
 
 **Feature Name**: Navigation Bar
@@ -182,6 +192,26 @@
 
 **Point Value**: 3 points
 
+---
+
+**Feature Name**: Navigation Button
+
+**Description**: Include back, next, and submit buttons that allow the user to navigate back and forth within their create event form. The submit is dynamic and will only appear if the user reach the end of the form.
+
+**Point Value**: 2 points
+
+**Team Member**: Melody Chen
+
+---
+
+**Feature Name**: Calendar Selection in Form
+
+**Description**: Include a calendar within the create event form which prevents the user from select a date to host their event that is prior to the event creation date. 
+
+**Point Value**: 2 points
+
+**Team Member**: Melody Chen
+
 # Large Features (4-5 points)
 
 **Feature Name**: Event Description
@@ -216,8 +246,20 @@
 
 **Feature Name**: Create Account
 
-**Description**: A page for the user to create their account to access the features of the websites. User information will be store and any information such as password will be encrypted. Create account works with a backend to store different data into multiple data set.
+**Description**: A page for the user to create their account to access the features of the websites. User information will be store and any information such as password will be encrypted. Create account works with a backend to store different data into multiple data set. Uses indexDB.
 
 **Point Value**: 5 points
 
 **Team Member**: Sarah Hecker
+
+---
+
+**Feature Name**: Create an Event
+
+**Description**: A page for the user to create event and become hosts. They will be asked to enter informations about their events including dates, descriptions, categories, and etc... It communicates with the backend to store the information in multiple data set.
+
+**Point Value**: 5 points
+
+**Team Member**: Melody Chen
+
+
