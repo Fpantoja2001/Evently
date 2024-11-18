@@ -10,24 +10,19 @@ body {
     flex-direction: column;
     margin: 0;
     padding: 0;
-    background-color: #e2f5ff;
+    background-color: #f8f8f8;
 }
-
-.navbar {
-    width: 100px; 
-    background-color: #6554ff; 
-    color: white;
-    padding: 20px;
-    position: fixed; 
-    top: 0;
-    left: 0;
-    bottom: 0; 
-    z-index: 2;
+.navcontent {
+    padding: 16px;
+    width: 100%; 
+    height: 100%;
+    overflow-x: hidden; 
+    flex-direction: column; 
 }
 .maincontent {
-    margin-left: 100px; 
     padding: 20px;
-    width: calc(100% - 100px); 
+    width: 100%; 
+    height: 100%;
     overflow-x: hidden; 
     flex-direction: column; 
 }
@@ -76,29 +71,46 @@ body {
     flex-direction: column;
     font: arial;
     position: absolute;
-    background-color: dodgerblue;
+    background-color: #ffdb98;
 }
 .rating {
     margin-bottom: 0;
     display: flex;
     justify-content: flex-end;
     font-size: 2vw;
+    padding: 3px;
     
 }
 .stars{
     display: flex;
     justify-content: center;
 }
-.star, .starfilled {
+.star {
     font-size: 3.5vw; 
-    color: #f1f1f1;
+    color: #cacaca;
 }
-.starfilled {
-    color: rgb(255, 191, 0); 
+.star-filled {
+    color: rgb(255, 176, 6); 
+}
+.star-three-quarter {
+    background: linear-gradient(to right, rgb(255, 176, 6) 65%, #cacaca 65%);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+.star-half {
+    background: linear-gradient(to right, rgb(255, 176, 6) 50%, #cacaca 50%);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+.star-quarter {
+    background: linear-gradient(to right, rgb(255, 176, 6) 35%, #cacaca 35%);
+    -webkit-background-clip: text;
+    color: transparent;
 }
 .rating-text {
     font-size: 2.5vw;
     text-align: center;
+    margin: 5px;
 }
 
 .eventname-container, .textbox {
@@ -107,9 +119,9 @@ body {
     align-items: flex-start;
     height:auto;
     padding: 0 5px;
-    margin: 5px;
+    margin: 7px;
     position: relative;
-    background-color:dodgerblue;
+    background-color:#fbb86d;
 }
 .event-details {
     display: flex;
@@ -133,19 +145,18 @@ h1,p{
 
 .category{
     display: flex;
-    gap: 5px;
+    gap: 2px;
 }
-.categoryitem {
-    padding: 0px 12px;
-    background-color: #233cff; 
+.categoryitem{
+    padding: 0px 10px;
+    background-color: #fe5656; 
     color: white;
-    font-size: 2.5vw; 
+    font-size: 2vw; 
     border-radius: 50px; 
     font-weight: bold; 
     display: inline-block; 
     text-align: center;
 }
-
 
 .description-box-buttons{
     margin: 5px;
@@ -154,16 +165,16 @@ h1,p{
     align-items: center;
     padding: 5px;
     position: relative;
-    background-color:dodgerblue;
+    background-color:#fbb86d;
     
 }
 .description-box{
     height: 50vh;         
     max-height: 50vh;
     overflow-y: auto;
-    background-color: rgb(169, 242, 255);
+    background-color: #ffdb98;
     width:70vw;
-    font-size: 2vw;
+    font-size: 1.75vw;
     padding: 10px;
     display: flex;
 }
@@ -172,7 +183,7 @@ h1,p{
     flex-direction: column;
     justify-content: space-around;
     gap: 10px;
-    background-color: rgb(169, 242, 255);
+    background-color: #ffdb98;
     padding: 10px;
     height: 50vh;
     max-height: 50vh;
@@ -184,7 +195,7 @@ h1,p{
     height: 2em;
     width: 8em;
     font-size: 2vw;
-    box-shadow: 0px 5px rgb(109, 194, 209);
+    box-shadow: 0px 5px #ffca68;
     padding: 0.5em;
     display: flex;
     justify-content: center;
@@ -213,6 +224,47 @@ h1,p{
     background-color: rgb(241, 28, 28);
 }
 .buttons-join:active, .buttons-decline:active, .buttons-request:active {
-    box-shadow: 0 2px rgb(28, 108, 122);
+    box-shadow: 0 2px  hsl(39, 73%, 40%);
     transform: translateY(4px);
-  }
+}
+
+.footer {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #e76f51;
+    color: white;
+    text-align: left;
+}
+ul{
+    list-style:circle;
+    margin: 0;
+    padding: 100;
+    display: flex;
+    justify-content: space-between;
+}
+
+h1{
+    color:black;
+    font-size: xx-large;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+div.footer__site-name{
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+h2{
+    text-decoration: underline;
+}
+
+div.footer__team-members{
+    color:black;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+a{
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+}
