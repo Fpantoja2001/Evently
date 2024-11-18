@@ -31,9 +31,9 @@
 #### Rihui Lui - Communication Leader
 - **Role**: Manages the team’s communication tools and handles any issues that arise in relation to communication.
 - **Top 3 Commits**:
-  1. [Commit 1](https://github.com/Fpantoja2001/event-tbd/commit/97ecefc76f0308c1c44f5a68fd1aa3d0cb6916a0): Worked on and completed user.md file.
-  2. [Commit 2](https://github.com/Fpantoja2001/event-tbd/commit/1678694ed340472b24b0dd1c4d8c1964782fc420) Help complete data.md file.
-  3. [Commit 3](https://github.com/Fpantoja2001/event-tbd/commit/4e4b36dc77957c4c695d62ef45cf0003c30c4a89): Updated contribution file in the report folder.
+  1. [Commit 1](https://github.com/Fpantoja2001/event-tbd/compare/db8718f184de2abd4d984525d552ab6b4683fdae...1d9ea4096668c415ae61b7c7db8d6fa7b3235cfd): Worked on eventList.
+  2. [Commit 2](https://github.com/Fpantoja2001/event-tbd/compare/6ee55fd8bda3dd01e4c99d43423f2bba9415cb31...790bdcc71bb99767df691543477098a908cbb184) Started on eventList.
+  3. [Commit 3](https://github.com/Fpantoja2001/event-tbd/compare/5ed0a19ccfb610f735f3f8dbe6f466b5da657ec3...6ee55fd8bda3dd01e4c99d43423f2bba9415cb31): Finised mock data.
 
 #### Kimleng Kit - Quality Control
 - **Role**: Reviews documents and code, ensuring everything meets the project’s standards before the group's submission.
