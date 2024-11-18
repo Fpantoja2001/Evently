@@ -82,7 +82,9 @@ export class createAccount extends HTMLElement {
         this.db=null;
     }
 
-    async  connectedCallback() {
+    async connectedCallback() {
+        console.log("create account component connected")
+
         this.db=await setupIndexedDB();
         this.continueBtn.addEventListener("click", (e) => {
             e.preventDefault();
