@@ -4,7 +4,7 @@ import "../create-account/create.js";
 const template = document.createElement("template");
 
 template.innerHTML = `
-    <link rel="stylesheet" href="../../../../team/pages/login/landing-page/landing.css">
+    <link rel="stylesheet" href="../login/landing-page/landing.css">
     <div class="left-side-component">
         <div class="animation-component">animation tbd</div>
     </div>
