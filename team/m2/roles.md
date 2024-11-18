@@ -38,9 +38,9 @@
 #### Kimleng Kit - Quality Control
 - **Role**: Reviews documents and code, ensuring everything meets the project’s standards before the group's submission.
 - **Top 3 Commits**:
-  1. [Commit 1](https://github.com/Fpantoja2001/event-tbd/issues/2): Create "Account Creation" issue.
-  2. [Commit 2](https://github.com/Fpantoja2001/event-tbd/commit/93a36ac4330ae5f961da172902fa9501c72dba6d): Completed problem.md file.
-  3. [Commit 3](https://github.com/Fpantoja2001/event-tbd/commit/89108b81c501c44ec9e02b1a25b4b0d4bccebf56): Edit roles.md by adding links to the commits.
+  1. [Commit 1](https://github.com/Fpantoja2001/event-tbd/commit/d0fbc5dbc02acee51fd067d86133764099cf1425): Completed the profile page of the website. Ensure the profile display to be dynamically adjusted according to the data pulled from an eventual backend.
+  2. [Commit 2](https://github.com/Fpantoja2001/event-tbd/commit/47a0263553a4b1a3744e4499e222710de4c9705f): Completed the CSS for event.css to enable user-friendly display of the events and their categories in the homepage.  
+  3. [Commit 3](https://github.com/Fpantoja2001/event-tbd/commit/e78f7af84e2fbff496899b9817fd4f6ec0652176): Completed the navigation bar for the website which has its own stylesheet embbeded in the JavaScript file. It can be dynamically called in any pages.
 
 #### Kailin Luo - Documentation Leader
 - **Role**: In charge of keeping the repository organized so the team can work on the project at max efficiency.
