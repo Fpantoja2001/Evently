@@ -49,7 +49,7 @@ html, body {
     display: 'flex';
   }
 
-.footer {
+footer.footer {
     position: relative;
     left: 0;
     bottom: 0;
