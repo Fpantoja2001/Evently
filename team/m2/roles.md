@@ -45,6 +45,6 @@
 #### Kailin Luo - Documentation Leader
 - **Role**: In charge of keeping the repository organized so the team can work on the project at max efficiency.
 - **Top 3 Commits**:
-  1. [Commit 1](https://github.com/Fpantoja2001/event-tbd/commit/1678694ed340472b24b0dd1c4d8c1964782fc420): Updated problem.md to align with features.md.
-  2. [Commit 2](https://github.com/Fpantoja2001/event-tbd/commit/4166fa07c39f446e93cc71c2e9d6f1c444b1f1d2): created and help team member with report documentation
-  3. [Commit 3](https://github.com/Fpantoja2001/event-tbd/commit/d97bef7591b7abf95111a0f2f30ec036010dc820): assigned team members to features.md
+  1. [Commit 1](https://github.com/Fpantoja2001/event-tbd/commit/8522f1c840ed2d79b9442101d5c16d3af1fef5cd): added footer to about page and home page
+  2. [Commit 2](https://github.com/Fpantoja2001/event-tbd/commit/c6aa9c44cdf7cb1430b8091bc0f049e172c3155f): added review.html and review.js and review.css
+  3. [Commit 3](https://github.com/Fpantoja2001/event-tbd/commit/505ac9780ffee6ad8334ae7852da19e4b46fd66c): linked review page to event-details
