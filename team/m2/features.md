@@ -196,6 +196,8 @@
 
 **Point Value**: 3 points
 
+**Team Member**: Felix Pantoja
+
 ---
 
 **Feature Name**: Navigation Button
