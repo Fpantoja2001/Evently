@@ -22,6 +22,7 @@ const links = [
   { href: '../home/index.html', text: 'Event TBD' },
   { href: '../home/index.html', text: 'Events', onclick: scrollToEvent },
   { href: '../about/index.html', text: 'Profile' },
+  { href: '../eventMaker/index.html', text: 'Create Event' },
   { href: '../login/index.html', text: 'Login/Sign Up' },
 ];
 
