@@ -6,8 +6,6 @@
 
 **Point Value**: 1 point
 
-**Team Member**: Kimleng Kit
-
 ---
 
 **Feature Name**: Static Footnote
@@ -28,9 +26,15 @@
 
 **Team Member**: Kimleng Kit
 
-
 ---
 
+**Feature Name**: Scrolling functionality
+
+**Description**: In the event list, if there are many events within the category, it provides the feature for the user to scroll and view more events. The scroll will not appear if all the events in the category is displayed.
+
+**Point Value**: 1 point
+
+**Team Member**: Rihui Lu
 
 # Medium Features (2-3 points)
 
@@ -42,13 +46,43 @@
 
 **Team Member**: Kimleng Kit
 
+---
+
+**Feature Name**: Event Organization By Category
+
+**Description**: Organize events according to their category. Display separate events within their respective category in their homepage. It will dynamically update based on current active events.
+
+**Point Value**: 2 points
+
+**Team Member**: Rihui Lu
+
+---
+
+**Feature Name**: Interactive Event
+
+**Description**: Allow users to press on the event they see on the homepage. It directs the user to the event-details associated with the event pressed. It is dynamic according to the event that is displayed. It fetches the correct information in the database based on the id of the event.
+
+**Point Value**: 3 points
+
+**Team Member**: Rihui Lu
+
+---
+
+**Feature Name**: Search Bar with Filter Functionality
+
+**Description**: A search bar that allow users to filter events displayed ont eh page. It dynamically updates the display based on the user input, filtering by keywords. It relies on a database to retrieve the events.
+
+**Point Value**: 3 points
+
+**Team Member**: Sarah Hecker
+
 # Large Features (4-5 points)
 
 **Feature Name**: Event Description
 
 **Description**: An exhaustive description of the event including location, activities, participants, and ratings. It retrieves multiple data set and display it dynamically according to the event the user choice. It utilizes data set including user preference, event-description tag, user rating, RSVP attendance data, location data, and host data. 
 
-**Point Value**: 5 point
+**Point Value**: 5 points
 
 **Team Member**: Sean Rogers
 
@@ -58,7 +92,7 @@
 
 **Description**: A section of the homepage that displays the lists of events separated by categories. The lists and categories dynamically update based on user's preferences and the current active/trending events. It provides smart recommendations to highlight events based on interests, location, and availability. Thus, it retrieves data from multiple complex data set.
 
-**Point Value**: 5 point
+**Point Value**: 5 points
 
 **Team Member**: Rihui Lu
 
@@ -68,7 +102,7 @@
 
 **Description**: A user profile page that allows users to view their preferences, activities, and view other personalized information such as image, name, age, email, bio, hobbies, and interests. It provides user-friendly interface that dynamically updates in real-time with an eventual backend system. Ensures that user can only access their data. It 
 
-**Point Value**: 5 point
+**Point Value**: 5 points
 
 **Team Member**: Kimleng Kit
 
