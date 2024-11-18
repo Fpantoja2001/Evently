@@ -6,6 +6,8 @@
 
 **Point Value**: 1 point
 
+**Team Member**: Kimleng Kit
+
 ---
 
 **Feature Name**: Static Footnote
@@ -13,6 +15,8 @@
 **Description**: A footnote at the bottom of every page to provide supplementary information about the group and the members that contributed to the website.
 
 **Point Value**: 1 point
+
+**Team member**: Kailin Luo
 
 ---
 
