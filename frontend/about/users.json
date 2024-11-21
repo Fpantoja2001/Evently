@@ -1,0 +1,31 @@
+{
+    "id": 1,
+    "username": "johndoe",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "johndoe@example.com",
+    "profileImage": "main.png",
+    "bio": "Enthusiastic traveler and food lover. Passionate about technology and fitness.",
+    "location": "New York, USA",
+    "phone": "+1-555-123-4567",
+    "age": 28,
+    "gender": "Male",
+    "preferences": {
+      "theme": "dark",
+      "notifications": {
+        "email": true,
+        "sms": false,
+        "push": true
+      }
+    },
+    "socialLinks": {
+      "twitter": "https://twitter.com/johndoe",
+      "linkedin": "https://linkedin.com/in/johndoe",
+      "instagram": "https://instagram.com/johndoe"
+    },
+    "skills": ["JavaScript", "React", "Node.js", "CSS", "HTML"],
+    "hobbies": ["Traveling", "Photography", "Fitness", "Cooking"],
+    "createdAt": "2024-01-01T10:00:00Z",
+    "updatedAt": "2024-11-01T12:30:00Z"
+  }
+  

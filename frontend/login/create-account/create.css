@@ -1,0 +1,167 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
+
+.logo {
+    width: 50px;
+    height: 50px;
+    background-color: #ff8800;
+    margin-bottom: 7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.component-title {
+    font-size: 1.8em;
+    position: absolute;
+    color: black;
+    font-weight: 800;
+}
+
+.component-container {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 2vh;
+    padding: 20px;
+}
+
+.component-input {
+    width: 100%;
+    height: 4vh;
+    border-radius: 5px;
+    padding-left: 10px;
+    border: solid grey 2px;
+    margin-top: 8px;
+}
+
+.component-placeholder {
+    font-size: 1rem;
+    color: black;
+    margin-top: 5px;
+    display: block;
+}
+
+.component-input:focus {
+    outline: none !important;
+    border: solid #ff8800 2px;
+    background-color: white;
+}
+
+.incorrectInput {
+    border: solid red 2px;
+    color: red;
+}
+
+.incorrectInput:focus {
+    border: solid red 2px !important;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.continueBtn {
+    width: 100%;
+    height: 4vh;
+    background-color: #ff8800;
+    margin-top: 2vh;
+    border-radius: 5px;
+    color: white;
+}
+
+.signUpText {
+    margin-top: 2vh;
+    color: black;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.signUpRoute {
+    color: #ff8800;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.component-input-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.forgotPassRoute {
+    margin-top: 2vh;
+    color: #ff8800;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+#passwordInput {
+    width: calc(100% - 3vw);
+    border-right: none;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.showPasswordBtn {
+    color: #ff8800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 4vh;
+    width: 3vw;
+    border-top: solid grey 2px;
+    border-bottom: solid grey 2px;
+    border-right: solid grey 2px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    position: relative;
+}
+
+.show-password-img {
+    color: #ff8800;
+    width: 40%;
+}
+
+.showPasswordBtn:hover {
+    background-color: #f99728;
+}
+
+.component-input:focus ~ .showPasswordBtn,
+.component-input:not(:placeholder-shown) + .showPasswordBtn {
+    border-color: #ff8800 !important;
+}
+
+.show-password-hover-text {
+    position: absolute;
+    font-size: .8rem;
+    left: 3.5vw;
+    pointer-events: none;
+    background-color: #ff8800;
+    color: white;
+    padding: 0.5em;
+    white-space: nowrap;
+    border-radius: 5px;
+}
+
+.component-form-error {
+    font-size: .8rem;
+    color: red;
+    height: 0px;
+    position: absolute;
+    left: 0;
+    top: calc(4vh + 8px);
+}
+
+label.component-placeholder {
+    display: block;
+    font-size: 1rem;
+    color: black;
+    margin-top: 8px;
+}
