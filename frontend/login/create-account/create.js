@@ -2,7 +2,7 @@ const template = document.createElement("template")
 
 const componentTemplates = [
     `
-        <link rel="stylesheet" href="../../../../team/pages/login/create-account/create.css">
+        <link rel="stylesheet" href="../../../../frontend/login/create-account/create.css">
         <div class="logo">logo</div>
         <slot class="component-title">Create an account</slot>
 
@@ -24,7 +24,7 @@ const componentTemplates = [
         </div>
     `,
     `
-        <link rel="stylesheet" href="../../../../team/pages/login/create-account/create.css">
+        <link rel="stylesheet" href="../../../../frontend/login/create-account/create.css">
         <div class="logo">logo</div>
         <slot class="component-title">Account Created</slot>
 
