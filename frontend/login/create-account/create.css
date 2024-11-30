@@ -1,5 +1,6 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
 
+
 .logo {
     width: 50px;
     height: 50px;
@@ -25,31 +26,8 @@
     align-items: center;
     flex-direction: column;
     width: 100%;
-    max-width: 400px;
+    position: relative;
     margin-top: 2vh;
-    padding: 20px;
-}
-
-.component-input {
-    width: 100%;
-    height: 4vh;
-    border-radius: 5px;
-    padding-left: 10px;
-    border: solid grey 2px;
-    margin-top: 8px;
-}
-
-.component-placeholder {
-    font-size: 1rem;
-    color: black;
-    margin-top: 5px;
-    display: block;
-}
-
-.component-input:focus {
-    outline: none !important;
-    border: solid #ff8800 2px;
-    background-color: white;
 }
 
 .incorrectInput {
@@ -66,7 +44,7 @@ input:-webkit-autofill {
 }
 
 .continueBtn {
-    width: 100%;
+    width: 30vw;
     height: 4vh;
     background-color: #ff8800;
     margin-top: 2vh;
@@ -74,7 +52,7 @@ input:-webkit-autofill {
     color: white;
 }
 
-.signUpText {
+.signInT {
     margin-top: 2vh;
     color: black;
     font-size: 1rem;
@@ -82,86 +60,151 @@ input:-webkit-autofill {
     justify-content: center;
 }
 
-.signUpRoute {
+.signInRoute {
     color: #ff8800;
     cursor: pointer;
     margin-left: 5px;
 }
 
-.component-input-wrapper {
-    display: flex;
-    flex-direction: row;
-}
-
-.forgotPassRoute {
-    margin-top: 2vh;
-    color: #ff8800;
-    font-size: 1rem;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-}
-
-#passwordInput {
-    width: calc(100% - 3vw);
-    border-right: none;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-}
-
-.showPasswordBtn {
-    color: #ff8800;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 4vh;
-    width: 3vw;
-    border-top: solid grey 2px;
-    border-bottom: solid grey 2px;
-    border-right: solid grey 2px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    position: relative;
-}
-
-.show-password-img {
-    color: #ff8800;
-    width: 40%;
-}
-
-.showPasswordBtn:hover {
-    background-color: #f99728;
-}
-
-.component-input:focus ~ .showPasswordBtn,
-.component-input:not(:placeholder-shown) + .showPasswordBtn {
-    border-color: #ff8800 !important;
-}
-
-.show-password-hover-text {
-    position: absolute;
+.account-created-message {
     font-size: .8rem;
-    left: 3.5vw;
+}
+
+/* Component Input One */
+
+.component-input-one{
+    width: 30vw;
+    height: 4vh;
+    border-radius: 5px;
+    padding-left: 10px;
+    border: solid grey 2px;
+}
+
+.component-placeholder-one {
+    position: absolute;
+    left:calc(((100% - 30vw) + 15px)/2);
+    top: calc((4vh - 1rem)/3);
+    font-size: 1rem;
     pointer-events: none;
-    background-color: #ff8800;
-    color: white;
-    padding: 0.5em;
-    white-space: nowrap;
+    background-color:white;
+    transition: all .3s ease-in;
     border-radius: 5px;
 }
+.component-input-one:focus ~ .component-placeholder-one,
+.component-input-one:not(:placeholder-shown) + .component-placeholder-one {
+    top: calc(0px - .8rem*.75);
+    left:calc(((100% - 30vw) + 15px)/2);
+    font-size: .8rem;
+    color: #03045e;
+    padding: 0 4px;
+}
 
-.component-form-error {
+.component-input-one:focus {
+    outline: none !important;
+    border: solid #ff8800 2px;
+    background-color: white;
+}
+
+.component-form-error-one {
     font-size: .8rem;
     color: red;
     height: 0px;
     position: absolute;
-    left: 0;
-    top: calc(4vh + 8px);
+    left: 10%;
+    top: calc(4vh + .8rem*.3);
 }
 
-label.component-placeholder {
-    display: block;
-    font-size: 1rem;
-    color: black;
-    margin-top: 8px;
+/* Component Input Two*/
+
+.component-input-two { 
+    margin-top: 2vh;
+    border-radius: 5px;
+    padding-left: 10px;
+    border: solid grey 2px;
+    width: 30vw;
+    height: 4vh;
 }
+
+.component-placeholder-two {
+    position: absolute;
+    left:calc(((100% - 30vw) + 15px)/2);
+    top: calc(6vh + ((4vh - 1rem)/3));
+    font-size: 1rem;
+    pointer-events: none;
+    background-color:white;
+    transition: all .3s ease-in;
+    border-radius: 5px;
+}
+
+.component-input-two:focus ~ .component-placeholder-two,
+.component-input-two:not(:placeholder-shown) + .component-placeholder-two {
+    top: calc(6vh - .8rem*.75);
+    left:calc(((100% - 30vw) + 15px)/2);
+    font-size: .8rem;
+    color: #03045e;
+    padding: 0 4px;
+}
+
+.component-input-two:focus {
+    outline: none !important;
+    border: solid #ff8800 2px;
+    background-color: white;
+}
+
+.component-form-error-two {
+    font-size: .8rem;
+    color: red;
+    height: 0px;
+    position: absolute;
+    left: 10%;
+    top: calc(10vh + .8rem*.3);
+}
+
+/* Component Input Three */
+
+.component-input-three { 
+    margin-top: 2vh;
+    border-radius: 5px;
+    padding-left: 10px;
+    border: solid grey 2px;
+    width: 30vw;
+    height: 4vh;
+}
+
+.component-placeholder-three {
+    position: absolute;
+    left:calc(((100% - 30vw) + 15px)/2);
+    top: calc(12vh + ((4vh - 1rem)/3));
+    font-size: 1rem;
+    pointer-events: none;
+    background-color:white;
+    transition: all .3s ease-in;
+    border-radius: 5px;
+}
+
+.component-input-three:focus ~ .component-placeholder-three,
+.component-input-three:not(:placeholder-shown) + .component-placeholder-three {
+    top: calc(12vh - .8rem*.75);
+    left:calc(((100% - 30vw) + 15px)/2);
+    font-size: .8rem;
+    color: #03045e;
+    padding: 0 4px;
+}
+
+.component-input-three:focus {
+    outline: none !important;
+    border: solid #ff8800 2px;
+    background-color: white;
+}
+
+.component-form-error-three {
+    font-size: .8rem;
+    margin-bottom: 1vh;
+    color: red;
+    height: 0px;
+    position: absolute;
+    left: 10%;
+    top: calc(16vh + .8rem*.3);
+}
+
+

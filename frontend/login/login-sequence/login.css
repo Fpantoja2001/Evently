@@ -24,13 +24,13 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 18vw;
+    width: 100%;
     position: relative;
     margin-top: 2vh;
 }
 
 .component-input {
-    width: 18vw;
+    width: 30vw;
     height: 4vh;
     border-radius: 5px;
     padding-left: 10px;
@@ -39,7 +39,7 @@
 
 .component-placeholder {
     position: absolute;
-    left:10px;
+    left:calc(((100% - 30vw) + 15px)/2);
     top: calc((4vh - 1rem)/3);
     font-size: 1rem;
     pointer-events: none;
@@ -51,7 +51,7 @@
 .component-input:focus + .component-placeholder,
 .component-input:not(:placeholder-shown) + .component-placeholder {
     top: calc(0px - .8rem*.75);
-    left: 10px;
+    left:calc(((100% - 30vw) + 15px)/2);
     font-size: .8rem;
     color: #03045e;
     padding: 0 4px;
@@ -77,7 +77,7 @@ input:-webkit-autofill{
 }
 
 .continueBtn {
-    width: 18vw;
+    width: 30vw;
     height: 4vh;
     background-color: #0077b6;
     margin-top: 2vh;
@@ -110,14 +110,14 @@ input:-webkit-autofill{
     margin-top: 2vh;
     color: #0077b6;
     font-size: 1rem;
-    width: 18vw;
+    width: 30vw;
     display: flex;
     justify-content: center;
     cursor: pointer;
 }
 
 #passwordInput {
-    width: 15vw !important;
+    width: 25vw !important;
     border-right: none;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
@@ -129,7 +129,7 @@ input:-webkit-autofill{
     align-items: center;
     justify-content: center;
     height: 4vh;
-    width: 3vw;
+    width: 5vw;
     border-top: solid grey 2px;
     border-bottom:solid grey 2px;
     border-right: solid grey 2px;
@@ -140,7 +140,7 @@ input:-webkit-autofill{
 
 .show-password-img{
     color: #0077b6;
-    width: 40%;
+    width: 1.8vw;
 }
 
 .showPasswordBtn:hover {
@@ -155,7 +155,7 @@ input:-webkit-autofill{
 .show-password-hover-text{
     position: absolute;
     font-size: .8rem;
-    left: 3.5vw;
+    left: 5.5vw;
     pointer-events: none;
     background-color: #0077b6;
     color: white;

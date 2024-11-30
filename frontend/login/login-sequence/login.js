@@ -55,7 +55,8 @@ export class emailInputComponent extends HTMLElement {
         this.componentPlaceholder = shadow.querySelector(".component-placeholder")
         this.loginContainer = document.querySelector(".login-container")
         this.loginComponent = document.querySelector(".login-component")
-
+        this.signUpRoute = shadow.querySelector(".signUpRoute")
+        this.page = document.querySelector(".login-container");
     }
 
     connectedCallback() {
@@ -85,7 +86,16 @@ export class emailInputComponent extends HTMLElement {
                 passwordInputComponent.classList.add("login-component")
                 this.loginContainer.appendChild(passwordInputComponent) 
             }
+        })
 
+        this.signUpRoute.addEventListener("click" , (e) => {
+            e.preventDefault()
+
+            const signUpComponent = document.createElement("create-account-component");
+            signUpComponent.classList.add("sign-up-component");
+            const loginComponent = document.querySelector(".login-component")
+            loginComponent.remove()
+            this.page.appendChild(signUpComponent);
         })
     }
     disconnectedCallback(){
@@ -113,6 +123,7 @@ class passwordInputComponent extends HTMLElement {
         const shadowRoot = this.shadowRoot
         shadowRoot.querySelector(".continueBtn")
         const continueBtn = shadowRoot.querySelector(".continueBtn")
+        const forgotPassRoute = shadowRoot.querySelector(".forgotPassRoute")
 
         // Validates Input
         continueBtn.addEventListener("click", (e) => {
@@ -130,6 +141,11 @@ class passwordInputComponent extends HTMLElement {
                 componentPlaceholder.style.transition = "none"
                 this.showPasswordBtn.style.borderColor = "red";
             }
+        })
+
+        forgotPassRoute.addEventListener("click", () => {
+            console.log("forgotPassRoute clicked")
+            // to be implemented with backend
         })
 
         this.showPasswordBtn.addEventListener("click", () => {

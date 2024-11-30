@@ -71,3 +71,13 @@ button:hover {
   background-color: #e67600; /* Darker shade of orange */
 }
   
+
+/* Sign up Component */
+
+.sign-up-component {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
