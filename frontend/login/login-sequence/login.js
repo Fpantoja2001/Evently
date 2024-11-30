@@ -55,7 +55,6 @@ export class emailInputComponent extends HTMLElement {
         this.componentPlaceholder = shadow.querySelector(".component-placeholder")
         this.loginContainer = document.querySelector(".login-container")
         this.loginComponent = document.querySelector(".login-component")
-
     }
 
     connectedCallback() {
