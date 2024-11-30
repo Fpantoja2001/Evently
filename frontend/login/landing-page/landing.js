@@ -1,4 +1,3 @@
-import {emailInputComponent} from "../login-sequence/login.js"
 import "../create-account/create.js";
 
 const template = document.createElement("template");
