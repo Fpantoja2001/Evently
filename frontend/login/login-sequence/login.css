@@ -169,6 +169,6 @@ input:-webkit-autofill{
     color: red;
     height: 0px;
     position: absolute;
-    left: 0;
-    top: calc(4vh);
+    left:calc(((100% - 30vw))/2);
+    top: calc(4vh + .8rem * .3);
 }
