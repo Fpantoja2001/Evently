@@ -14,5 +14,5 @@ class ModelFactory {
     }
 }
 
-const ModelFactory = new_ModelFactory();
+const ModelFactory = new _ModelFactory();
 export default ModelFactory;
