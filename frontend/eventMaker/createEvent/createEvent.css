@@ -1,14 +1,5 @@
-/* General container styling */
+@import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
 
-.event-container {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    background-color: #f9f0e1; 
-}
 /* Progress indicator styling */
 .progress-indicator {
     display: flex;
@@ -34,24 +25,30 @@
     color: #fff;
 }
 
-/* Headings */
-h2 {
-    text-align: center;
-    font-size: 1.5em;
-    margin-bottom: 20px;
-    color: #e67e22;
+select {
+    padding: 0 10px;
+}
+
+input {
+    padding: 0 10px;
+}
+
+textarea {
+    padding: 10px;
 }
 
 /* Form group styling */
 .form-group {
     margin-bottom: 15px;
     position: relative;
+    width: 30vw;
+    height: 4vh;
 }
 
 .form-group label {
     position: absolute;
     top: 50%;
-    left: 12px;
+    left: 10px;
     transform: translateY(-50%);
     background-color: #fff;
     padding: 0 5px;
@@ -65,7 +62,7 @@ h2 {
 .form-group select,
 .form-group textarea {
     width: 100%;
-    padding: 12px 12px;
+    height: 4vh;
     border: 1px solid #f0c9a0;
     border-radius: 4px;
     font-size: 16px;
@@ -87,9 +84,10 @@ h2 {
 .form-group input:focus + label,
 .form-group select:focus + label,
 .form-group textarea:focus + label {
-    top: -10px;
+    top: 0px;
     font-size: 12px;
     color: #e67e22;
+    border-radius: 10px;
 }
 
 /* Error messages */
@@ -111,11 +109,11 @@ h2 {
 .navigation-buttons {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
 }
 
 .navigation-buttons button {
-    padding: 10px 20px;
+    width: 14vw;
+    height: 4vh;
     font-size: 16px;
     border: none;
     border-radius: 4px;
@@ -127,26 +125,29 @@ h2 {
     background-color: #e67e22;
     color: #fff;
     order: 2; 
+    margin-top: 2vh;
 }
 
 #backBtn {
     background-color: #d35400;
     color: #fff;
     order: 1; 
+    margin-top: 2vh;
 }
 
 #submitBtn {
     background-color: #27ae60;
     color: #fff;
+    margin-top: 2vh;
 }
 
 .navigation-buttons button:hover {
     opacity: 0.9;
 }
 
-.hidden {
+/* .hidden {
     display: none;
-}
+} */
 
 .step {
     transition: opacity 0.3s ease;

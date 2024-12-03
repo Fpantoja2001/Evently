@@ -2,23 +2,27 @@ const template = document.createElement("template");
 
 const templates = [
     `<!-- Step 1: Event Type -->
+
+    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+
     <div class="step" data-step="1">
         <div class="form-group">
-            <label for="eventType">What is the type of the event?</label>
             <select id="eventType" required>
                 <option value="" disabled selected hidden></option>
                 <option value="Public">Public</option>
                 <option value="Private">Private</option>
             </select>
+            <label for="eventType">What is the type of the event?</label>
             <span class="error-message" id="eventTypeError"></span>
         </div>
         <div class="navigation-buttons">
-            <button type="button" id="nextBtn">Next</button>
+            <button type="button" id="nextBtn" style="width:30vw">Next</button>
         </div>
     </div>
     `,
     `<!-- Step 2: Private Options (Conditional) -->
-    <div class="step hidden conditional-group" data-step="2" id="privateOptionsGroup">
+    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <div class="step conditional-group" data-step="2" id="privateOptionsGroup">
         <div class="form-group">
             <select id="privateOptions">
                 <option value="" disabled selected hidden></option>
@@ -37,7 +41,8 @@ const templates = [
     `, 
     `
     <!-- Step 3: Occupancy Option -->
-    <div class="step hidden" data-step="3">
+    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <div class="step" data-step="3">
         <div class="form-group">
             <select id="occupancyOption" required>
                 <option value="" disabled selected hidden></option>
@@ -55,7 +60,8 @@ const templates = [
     `,
     `
     <!-- Step 4: Seat Option (Conditional) -->
-    <div class="step hidden conditional-group" data-step="4" id="seatOptionGroup">
+    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <div class="step conditional-group" data-step="4" id="seatOptionGroup">
         <div class="form-group">
             <select id="seatOption">
                 <option value="" disabled selected hidden></option>
@@ -73,7 +79,8 @@ const templates = [
     `,
     `
     <!-- Step 5: Choose Category -->
-    <div class="step hidden" data-step="5">
+    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <div class="step" data-step="5">
         <div class="form-group">
             <select id="eventCategory" required>
                 <option value="" disabled selected hidden></option>
@@ -93,7 +100,8 @@ const templates = [
     `,
     `
     <!-- Step 6: Customized Category (Conditional) -->
-    <div class="step hidden conditional-group" data-step="6" id="customCategoryGroup">
+    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <div class="step conditional-group" data-step="6" id="customCategoryGroup">
         <div class="form-group">
             <input type="text" id="customCategory" placeholder=" " />
             <label for="customCategory">Customized Category</label>
@@ -107,7 +115,8 @@ const templates = [
     `,
     `
     <!-- Step 7: Event Title -->
-    <div class="step hidden" data-step="7">
+    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <div class="step" data-step="7">
         <div class="form-group">
             <input type="text" id="eventTitle" required placeholder=" " />
             <label for="eventTitle">Title for the event?</label>
@@ -121,7 +130,8 @@ const templates = [
     `,
     `
     <!-- Step 8: Event Date -->
-    <div class="step hidden" data-step="8">
+    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <div class="step" data-step="8">
         <div class="form-group">
             <input type="date" id="eventDate" required placeholder=" " />
             <label for="eventDate">When is this event happening?</label>
@@ -135,7 +145,8 @@ const templates = [
     `,
     `
     <!-- Step 9: Event Location -->
-    <div class="step hidden" data-step="9">
+    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <div class="step" data-step="9">
         <div class="form-group">
             <input type="text" id="eventLocation" required placeholder=" " />
             <label for="eventLocation">Where is the event happening?</label>
@@ -149,7 +160,8 @@ const templates = [
     `,
     `
     <!-- Step 10: Event Description -->
-    <div class="step hidden" data-step="10">
+    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <div class="step" data-step="10">
         <div class="form-group">
             <textarea id="eventDescription" rows="4" required placeholder=" "></textarea>
             <label for="eventDescription">Any description?</label>
@@ -163,12 +175,12 @@ const templates = [
     `,
     `
     <!-- Success Message -->
+    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
     <div class="success-message" id="successMessage"></div>
 
     <div class="navigation-buttons">
+        <button type="button" id="submitBtn">Submit</button>
         <button type="button" id="backBtn">Back</button>
-        <button type="button" id="nextBtn">Next</button>
-        <button type="submit" id="submitBtn">Submit</button>
     </div>
     `
 ]
@@ -186,30 +198,105 @@ class EventMaker extends HTMLElement {
 
         // Navigation buttons
         this.nextBtn = shadow.getElementById("nextBtn");
-        this.submitBtn = shadow.getElementById("submitBtn");
+        // this.submitBtn = shadow.getElementById("submitBtn");
 
-        // // Event listeners
+        // Event listeners
         this.nextBtn.addEventListener("click", () => this.nextStep());
+
+        // Event details 
+        this.eventDetails = {
+            "type" : "",
+            "privacy": "",
+            "occupancy": "",
+            "seating": "",
+            "category": "",
+            "customCategory": "",
+            "title": "",
+            "date": "",
+            "location": "",
+            "description": "",
+        }
     }
 
-    nextStep() {
+    nextStep() {        
         // Selecting Shadow element to change its inner html
         const currentComponent = document.querySelector(".eventComponent")
         const shadowRoot = currentComponent.shadowRoot;
 
+        // Getting selection value
+        switch (this.currentStep) {
+            case 0: {
+                const selectElement = shadowRoot.querySelector("select");
+                this.eventDetails["type"] = selectElement ? selectElement.value : "";
+                break;
+            }
+            case 1: {
+                const selectElement = shadowRoot.querySelector("select");
+                this.eventDetails["privacy"] = selectElement ? selectElement.value : "";
+                break;
+            }
+            case 2: {
+                const selectElement = shadowRoot.querySelector("select");
+                this.eventDetails["occupancy"] = selectElement ? selectElement.value : "";
+                break;
+            }
+            case 3: {
+                const selectElement = shadowRoot.querySelector("select");
+                this.eventDetails["seating"] = selectElement ? selectElement.value : "";
+                break;
+            }
+            case 4: {
+                const selectElement = shadowRoot.querySelector("select");
+                this.eventDetails["category"] = selectElement ? selectElement.value : "";
+                break;
+            }
+            case 5: {
+                const inputElement = shadowRoot.querySelector("input");
+                this.eventDetails["customCategory"] = inputElement ? inputElement.value : "";
+                break;
+            }
+            case 6: {
+                const inputElement = shadowRoot.querySelector("input");
+                this.eventDetails["title"] = inputElement ? inputElement.value : "";
+                break;
+            }
+            case 7: {
+                const inputElement = shadowRoot.querySelector("input");
+                this.eventDetails["date"] = inputElement ? inputElement.value : "";
+                break;
+            }
+            case 8: {
+                const inputElement = shadowRoot.querySelector("input");
+                this.eventDetails["location"] = inputElement ? inputElement.value : "";
+                break;
+            }
+            case 9: {
+                const textAreaElement = shadowRoot.querySelector("textarea");
+                this.eventDetails["description"] = textAreaElement ? textAreaElement.value : "";
+                break;
+            }
+            default:
+                console.error("Invalid step");
+                break;
+        }
+        
         // Changing the inner html of shadow element to it's next one
         this.currentStep ++;
         shadowRoot.innerHTML = templates[this.currentStep];
 
         // Adding event listener to current next button in shadow element
-        this.nextBtn = shadowRoot.getElementById("nextBtn")
-        this.nextBtn.addEventListener("click", () => this.nextStep())
-
+        if (this.currentStep < 10) {
+            this.nextBtn = shadowRoot.getElementById("nextBtn")
+            this.nextBtn.addEventListener("click", () => this.nextStep())
+        } else {
+            const submitBtn = shadowRoot.getElementById("submitBtn");
+            submitBtn.addEventListener("click", () => this.submit()) 
+        }
+        
         if (this.currentStep > 0){
             this.backBtn = shadowRoot.getElementById("backBtn")
             this.backBtn.addEventListener("click", () => this.previousStep());
-        }
-        console.log("next")
+        } 
     }
 
     previousStep() {
@@ -231,68 +318,10 @@ class EventMaker extends HTMLElement {
         }
     }
 
+    submit(){
+        console.log(this.eventDetails)
+    }
+
 }
 
 customElements.define("event-maker", EventMaker);
-
-
-// this.form = shadow.getElementById("eventForm");
-// this.steps = shadow.querySelectorAll(".step");
-// this.currentStep = 1;
-
-// // Conditional groups
-// this.privateOptionsGroup = shadow.getElementById("privateOptionsGroup");
-// this.seatOptionGroup = shadow.getElementById("seatOptionGroup");
-// this.customCategoryGroup = shadow.getElementById("customCategoryGroup");
-
-// // Dropdowns for conditional logic
-// this.eventType = shadow.getElementById("eventType");
-// this.occupancyOption = shadow.getElementById("occupancyOption");
-// this.eventCategory = shadow.getElementById("eventCategory");
-
-// this.form.addEventListener("submit", (event) => this.handleSubmit(event));
-
-// this.eventType.addEventListener("change", () => this.togglePrivateOptions());
-// this.occupancyOption.addEventListener("change", () => this.toggleSeatOptions());
-// this.eventCategory.addEventListener("change", () => this.toggleCustomCategory());
-
-/////////////
-
-// this.updateNavigation();
-
-    // updateNavigation() {
-    //     this.backBtn.style.display = this.currentStep > 1 ? "inline-block" : "none";
-    //     this.nextBtn.style.display = this.currentStep < this.steps.length - 1 ? "inline-block" : "none";
-    //     this.submitBtn.style.display = this.currentStep === this.steps.length ? "inline-block" : "none";
-    // }
-
-    // togglePrivateOptions() {
-    //     this.privateOptionsGroup.classList.toggle("hidden", this.eventType.value !== "Private");
-    // }
-
-    // toggleSeatOptions() {
-    //     this.seatOptionGroup.classList.toggle("hidden", this.occupancyOption.value !== "Limited");
-    // }
-
-    // toggleCustomCategory() {
-    //     this.customCategoryGroup.classList.toggle("hidden", this.eventCategory.value !== "Other");
-    // }
-
-    // handleSubmit(event) {
-    //     event.preventDefault();
-    //     const successMessage = this.shadowRoot.getElementById("successMessage");
-
-    //     if (this.form.checkValidity()) {
-    //         successMessage.textContent = "Event created successfully!";
-    //         successMessage.style.display = "block";
-    //         setTimeout(() => successMessage.style.display = "none", 3000);
-    //         this.form.reset();
-    //         this.currentStep = 1;
-    //         this.steps.forEach(step => step.classList.add("hidden"));
-    //         this.steps[0].classList.remove("hidden");
-    //         this.updateNavigation();
-    //     } else {
-    //         successMessage.textContent = "";
-    //         this.form.reportValidity();
-    //     }
-    // }
