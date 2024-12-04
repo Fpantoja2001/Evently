@@ -235,7 +235,7 @@ h1,p{
     transform: translateY(4px);
 }
 
-.footer {
+footer.footer {
     left: 0;
     bottom: 0;
     width: 100%;
