@@ -1,4 +1,3 @@
-import UserModel from './user-model.js';
 const template = document.createElement("template")
 
 const componentTemplates = [
@@ -59,7 +58,7 @@ const componentTemplates = [
 ];
 
 template.innerHTML = componentTemplates[0];
-/*
+
 function setupIndexedDB(){
     return new Promise((resolve,reject) => {
     const request =indexedDB.open("UserDatabase",1) ;
@@ -77,7 +76,6 @@ function setupIndexedDB(){
     };
     }) ;
 }
-*/
 
 function addUserDB(db,user){
     return new Promise((resolve,reject) => {
@@ -106,8 +104,8 @@ export class createAccount extends HTMLElement {
 
     async connectedCallback() {
         console.log("create account component connected")
-        await UserModel.createTable();
-        //this.db=await setupIndexedDB();
+
+        this.db=await setupIndexedDB();
         this.continueBtn.addEventListener("click", (e) => {
             e.preventDefault();
 
@@ -306,7 +304,7 @@ export class createAccount extends HTMLElement {
                 password: this.passwordInput.value.trim(),
             };
             try{
-                await UserModel.create(user);
+                await addUserDB(this.db,user);
 
                 // Changing the inner html of shadow element to it's next one
                 this.currentStep ++;
@@ -316,7 +314,7 @@ export class createAccount extends HTMLElement {
                 this.nextBtn = shadowRoot.querySelector(".continueBtn")
                 this.nextBtn.addEventListener("click", () => this.nextStep())
 
-                console.log("Account created successfully")
+                console.log("next")
             } catch (error){
                 console.error("Failed to save user", error)
             }

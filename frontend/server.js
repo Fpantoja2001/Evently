@@ -5,7 +5,7 @@ class Server {
     constructor() {
         this.app = express();
         this.configureMiddleware();
-        this.setupRoutes();
+        this.setup
     }
 
     configureMiddleware() {
