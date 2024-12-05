@@ -13,7 +13,7 @@ class Server {
 
     configureMiddleware() {
         // not sure if i should route this to home
-        this.app.use(express.static("../frontend/home"));
+        this.app.use(express.static("../frontend"));
         this.app.use(express.json({ limit: '10mb' }));
     }
 
