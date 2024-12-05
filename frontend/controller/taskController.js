@@ -1,5 +1,5 @@
-import ModelFactory from '../model/modelFactory.js';
-
+// import ModelFactory from './model/ModelFactory.js';
+const ModelFactory = require('../model/modelFactory.js');
 class TaskController {
     constructor() {
        // ModelFactory.getModel().then(model => {
@@ -56,4 +56,5 @@ class TaskController {
     }
 }
 
-export default new TaskController();
+module.exports = new TaskController();
+//export default new TaskController();

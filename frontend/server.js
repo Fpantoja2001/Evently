@@ -1,5 +1,7 @@
-import express from 'express';
-import TaskRoutes from './routes/TaskRoutes.js';
+//import express from 'express';
+//import TaskRoutes from './routes/TaskRoutes.js';
+const express = require('express');
+const TaskRoutes = require('./routes/TaskRoutes.js');
 
 class Server {
     constructor() {
@@ -10,12 +12,12 @@ class Server {
 
     configureMiddleware() {
         // not sure if i should route this to home
-        this.app.use(express.static("../frontend"));
+        this.app.use(express.static("../frontend/home"));
 
         this.app.get('/', (req, res) => {
-            res.sendFile('home/index.html' , {root:'../frontend/'});
+            res.sendFile('./home/index.html' , {root:'../frontend/'});
         });
-        
+
         this.app.use(express.json({ limit: '10mb' }));
     }
 
