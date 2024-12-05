@@ -1,5 +1,8 @@
-import InMemoryTaskModel from "./inMemoryTaskModel.js";
-import SQLiteTaskModel from "./SQLiteTaskModel.js";
+// import InMemoryTaskModel from "./inMemoryTaskModel.js";
+// import SQLiteTaskModel from "./SQLiteTaskModel.js";
+
+const InMemoryTaskModel = require("./inMemoryTaskModel.js");
+const SQLiteTaskModel = require("./SQLiteTaskModel.js");
 
 class ModelFactory {
     async getModel(model = "sqlite") {
@@ -14,5 +17,6 @@ class ModelFactory {
     }
 }
 
-const ModelFactory = new _ModelFactory();
-export default ModelFactory;
+// const ModelFactory = new _ModelFactory();
+module.exports = new ModelFactory();
+//export default ModelFactory;

@@ -1,6 +1,7 @@
-import express from 'express';
-import TaskController from '../controllers/TaskController.js';
-
+// import express from 'express';
+// import TaskController from '../controllers/TaskController.js';
+const express = require('express');
+const TaskController = require('../controller/taskController.js');
 class TaskRoutes {
     constructor() {
         this.router = express.Router();
@@ -26,4 +27,5 @@ class TaskRoutes {
     }
 }
 
-export default new TaskRoutes().getRouter();
+// export default new TaskRoutes().getRouter();
+module.exports = new TaskRoutes().getRouter();
