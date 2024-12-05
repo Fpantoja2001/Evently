@@ -1,7 +1,13 @@
 {
+  "name": "event-tbd",
+  "version": "1.0.0",
+  "type": "module",
   "dependencies": {
     "express": "^4.21.1",
     "sequelize": "^6.37.5",
     "sqlite3": "^5.1.7"
+  },
+  "scripts": {
+    "start": "node frontend/server.js"
   }
 }

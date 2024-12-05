@@ -1,5 +1,5 @@
 import express from 'express';
-import TaskController from '../controllers/TaskController.js';
+import TaskController from '../controller/taskController.js';
 
 class TaskRoutes {
     constructor() {
@@ -10,7 +10,7 @@ class TaskRoutes {
     initializeRoutes() {
         this.router.get('/tasks', async (req, res) => {
             await TaskController.getAll(req, res);
-        });
+        }); 
 
         this.router.post('/tasks', async (req, res) => {
             await TaskController.add(req, res);
