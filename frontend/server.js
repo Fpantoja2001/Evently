@@ -1,5 +1,5 @@
-import express from 'express';
-import TaskRoutes from './routes/TaskRoutes.js';
+const express = require('express');
+const TaskRoutes = require('./routes/TaskRoutes.js');
 
 class Server {
     constructor() {
@@ -7,6 +7,9 @@ class Server {
         this.configureMiddleware();
         this.setup
     }
+
+//have to use ExpressJS, SQLite, and Sequelize 
+//have to use routes, models, and controllers 
 
     configureMiddleware() {
         // not sure if i should route this to home

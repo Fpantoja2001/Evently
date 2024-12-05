@@ -42,6 +42,4 @@ class _InMemoryTaskModel {
 
 }
 
-const InMemoryTaskModel = new _InMemoryTaskModel();
-
-export default InMemoryTaskModel;
+module.exports = new _InMemoryTaskModel();
