@@ -5,12 +5,17 @@ class Server {
     constructor() {
         this.app = express();
         this.configureMiddleware();
-        this.setup
+        this.setupRoutes();
     }
 
     configureMiddleware() {
         // not sure if i should route this to home
-        this.app.use(express.static("../frontend/home"));
+        this.app.use(express.static("../frontend"));
+
+        this.app.get('/', (req, res) => {
+            res.sendFile('home/index.html' , {root:'../frontend/'});
+        });
+        
         this.app.use(express.json({ limit: '10mb' }));
     }
 
