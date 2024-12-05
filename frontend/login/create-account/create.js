@@ -1,3 +1,4 @@
+import openDatabase from "../../../model/SQLiteConnection.js";
 const template = document.createElement("template")
 
 const componentTemplates = [
@@ -59,7 +60,7 @@ const componentTemplates = [
 
 template.innerHTML = componentTemplates[0];
 
-function setupIndexedDB(){
+/* function setupIndexedDB(){
     return new Promise((resolve,reject) => {
     const request =indexedDB.open("UserDatabase",1) ;
     request.onupgradeneeded=function(event){ //handles first
@@ -76,7 +77,8 @@ function setupIndexedDB(){
     };
     }) ;
 }
-
+*/
+/*
 function addUserDB(db,user){
     return new Promise((resolve,reject) => {
         const transaction=db.transaction("users","readwrite");
@@ -90,6 +92,9 @@ function addUserDB(db,user){
         };
     });
 }
+    */
+
+
 
 export class createAccount extends HTMLElement {
     constructor(){
@@ -105,7 +110,8 @@ export class createAccount extends HTMLElement {
     async connectedCallback() {
         console.log("create account component connected")
 
-        this.db=await setupIndexedDB();
+        this.db=await openDatabase("UserDatabase");
+        await this.setupSQLite();
         this.continueBtn.addEventListener("click", (e) => {
             e.preventDefault();
 
@@ -132,110 +138,23 @@ export class createAccount extends HTMLElement {
         console.log("Create account component connected")
     }
 
-    nextStep() {
-        // Selecting Shadow element to change its inner html
-        const currentComponent = document.querySelector(".sign-up-component")
-        const shadowRoot = currentComponent.shadowRoot;
-
-        // Checking possible form errors + creating value portability
-
-        if (this.currentStep == 0){
-            // /^[a-zA-Z-'. ]+$/ reg ex allows names with Hyphens, periods and apostrophes ex Dr. O'brian Mc-Conell 
-
-            // Selecting first name input + label
-            this.firstNameInput = shadowRoot.getElementById("firstNameInput");
-            this.firstNameLabel = shadowRoot.querySelector(".component-placeholder-one");
-
-            // Selecting last name input + label 
-            this.lastNameInput = shadowRoot.getElementById("lastNameInput");
-            this.lastNameLabel = shadowRoot.querySelector(".component-placeholder-two");
-
-            // Selecting Birthday Input Value + label
-            this.birthDayInput = shadowRoot.getElementById("birthdayInput");
-            this.birthDayLabel = shadowRoot.querySelector(".component-placeholder-three");
-
-            if (!/^[a-zA-Z-'. ]+$/.test(this.firstNameInput.value) || this.firstNameInput.value.length < 1){
-                this.formErrorOne = shadowRoot.querySelector(".component-form-error-one");
-                this.formErrorOne.innerText = `Please enter a valid first name`;
-                this.firstNameInput.classList.add(".incorrectInput")
-                this.firstNameInput.style.borderColor = "red";
-                this.firstNameLabel.style.color = "red";
-                this.firstNameLabel.style.transition = "top 0.3s ease, left 0.3s ease, font-size 0.3s ease, padding 0.3s ease";
-            } else if (!/^[a-zA-Z-'. ]+$/.test(this.lastNameInput.value) || this.lastNameInput.value.length < 1) { 
-                this.formErrorTwo= shadowRoot.querySelector(".component-form-error-two");
-                this.formErrorTwo.innerText = `Please enter a valid last name`;
-                this.lastNameInput.classList.add(".incorrectInput")
-                this.lastNameInput.style.borderColor = "red";
-                this.lastNameLabel.style.color = "red";
-                this.lastNameLabel.style.transition = "top 0.3s ease, left 0.3s ease, font-size 0.3s ease, padding 0.3s ease";
-            } else if (!/^[0-9]*$/.test(this.birthDayInput.value) || this.birthDayInput.value.length != 8){
-                this.formErrorTwo= shadowRoot.querySelector(".component-form-error-three");
-                this.formErrorTwo.innerText = `Please enter a valid Birthday`;
-                this.birthDayInput.classList.add(".incorrectInput")
-                this.birthDayInput.style.borderColor = "red";
-                this.birthDayLabel.style.color = "red";
-                this.birthDayLabel.style.transition = "top 0.3s ease, left 0.3s ease, font-size 0.3s ease, padding 0.3s ease";
-            } else {
-                // Calculate Age
-                const birthdayMonth = Number(this.birthDayInput.value.slice(0,2));
-                const birthdayDay = Number(this.birthDayInput.value.slice(2,4));
-                const birthdayYear = Number(this.birthDayInput.value.slice(4,8));
-
-                const currentMonth = new Date().getUTCMonth() + 1
-                const currentDay = new Date().getUTCDate()
-                const currentYear = new Date().getUTCFullYear()
-
-                let userAge = 0;
-
-                if (birthdayMonth <= currentMonth && birthdayDay <= currentDay){
-                    userAge = (currentYear - birthdayYear) + 1
-                } else {
-                    userAge = (currentYear - birthdayYear)
-                }
-
-                console.log(`valid inputs, this users data is:\nfirstName: ${this.firstNameInput.value}\nlastName: ${this.lastNameInput.value}\nAge: ${userAge}\nBirthday: ${this.birthDayInput.value}`)
-
-                // Changing the inner html of shadow element to it's next one
-                this.currentStep ++;
-                shadowRoot.innerHTML = componentTemplates[this.currentStep];
-
-                // Adding event listener to current next button in shadow element
-                this.nextBtn = shadowRoot.querySelector(".continueBtn")
-                this.nextBtn.addEventListener("click", () => this.nextStep())
-
-                this.signInRoute = shadowRoot.querySelector(".signInRoute")
-                this.signInRoute.addEventListener("click", (e) => {
-                    e.preventDefault();
-        
-                    const newC = document.createElement("email-input-component");
-                    newC.classList.add("login-component");
-                
-                    this.component = document.querySelector(".sign-up-component")
-                    this.component.remove()
-        
-                    this.page.appendChild(newC);
-                })  
-
-                console.log("next")
-            }
-        } else if (this.currentStep == 1) {
-            this.handleCreateAccount()
-        } else if (this.currentStep == 2) {
-            // initializing new component to pass in
-            const newC = document.createElement("email-input-component");
-            newC.classList.add("login-component");
-
-            // removing current component
-            this.component = document.querySelector(".sign-up-component")
-            this.component.remove()
-
-            // adding new component
-            this.page.appendChild(newC);
-        }
+    async setupSQLite(){
+        const query=`
+            CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
+            password TEXT NOT NULL
+            );`;
+        await this.db.run(query)
     }
 
-    disconnectedCallback(){
-        console.log("Create account component disconnected")
+    async addUser(user){
+        const query=`
+        INSERT INTO users (username, email, password)
+        VALUES (?, ?, ?);`;
+        const { username, email, password } = user;
+        await this.db.run(query, [username, email, password]); 
     }
 
     async handleCreateAccount(){
@@ -304,7 +223,7 @@ export class createAccount extends HTMLElement {
                 password: this.passwordInput.value.trim(),
             };
             try{
-                await addUserDB(this.db,user);
+                await this.addUser(user);
 
                 // Changing the inner html of shadow element to it's next one
                 this.currentStep ++;
@@ -319,6 +238,9 @@ export class createAccount extends HTMLElement {
                 console.error("Failed to save user", error)
             }
         }
+    }
+    disconnectedCallback() {
+        console.log("Create account component disconnected");
     }
 }
 
