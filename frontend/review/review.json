@@ -1,0 +1,9 @@
+{
+    "johndoe": 
+        [
+            {"eventName": "event1", "rating": 2, "comment": "No comment provided."},
+            {"eventName": "event1", "rating": 4, "comment": "No comment provided."},
+            {"eventName": "event1", "rating": 3, "comment": "No comment provided."},
+            {"eventName": "event1", "rating": 5, "comment": "No comment provided."}
+        ]
+}
