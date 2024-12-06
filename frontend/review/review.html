@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Reviews</title>
     <link rel="stylesheet" href="review.css">
+    <script src="../allcomponents/nav.js" defer></script>
 </head>
+<div id="nav">
+    <nav id='navbar'>
+    </nav>
+</div>
 <body>
     <div class="container">
         <h1>Leave a Review</h1>
@@ -18,8 +22,9 @@
             <textarea id="comment" name="comment" rows="4"></textarea>
             <button type="submit">Submit Review</button>
         </form>
+    </div>
         <h2>Reviews</h2>
         <div id="reviewsContainer"></div>
-    </div>
-    <script src="review.js"></script>
+    
+    <script type="module" src="review.js"></script>
 </body>
