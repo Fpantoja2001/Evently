@@ -1,4 +1,5 @@
-const { Sequelize, DataTypes } = require('sequelize');
+// import {Sequelize, DataTypes} from 'sequelize';
+const {Sequelize, DataTypes} = require('sequelize');
 
 const sequelize = new Sequelize({
     dialect: 'sqlite',
@@ -72,4 +73,6 @@ class _SQLiteTaskModel {
     }
 }
 
+// const SQLiteTaskModel = new _SQLiteTaskModel();
 module.exports = new _SQLiteTaskModel();
+//export default SQLiteTaskModel;

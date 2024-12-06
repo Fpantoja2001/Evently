@@ -14,4 +14,6 @@ class ModelFactory {
     }
 }
 
+// const ModelFactory = new _ModelFactory();
 module.exports = new ModelFactory();
+//export default ModelFactory;
