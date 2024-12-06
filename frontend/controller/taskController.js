@@ -15,7 +15,7 @@ class TaskController {
     async getAll(req, res) {
         try {
             const tasks = await this.model.read();
-            res.json({ fetchedSuccessfully: true, tasks });
+            res.json({ fetchedSuccessfully: true, tasks }); 
         } catch (error) {
             res.status(500).json({ error: error.message});
         }

@@ -10,14 +10,12 @@ class Server {
         this.setupRoutes();
     }
 
+//have to use ExpressJS, SQLite, and Sequelize 
+//have to use routes, models, and controllers 
+
     configureMiddleware() {
         // not sure if i should route this to home
-        this.app.use(express.static("../frontend/home"));
-
-        this.app.get('/', (req, res) => {
-            res.sendFile('./home/index.html' , {root:'../frontend/'});
-        });
-
+        this.app.use(express.static("../frontend"));
         this.app.use(express.json({ limit: '10mb' }));
     }
 

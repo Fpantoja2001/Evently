@@ -1,6 +1,3 @@
-// import InMemoryTaskModel from "./inMemoryTaskModel.js";
-// import SQLiteTaskModel from "./SQLiteTaskModel.js";
-
 const InMemoryTaskModel = require("./inMemoryTaskModel.js");
 const SQLiteTaskModel = require("./SQLiteTaskModel.js");
 
