@@ -2,11 +2,15 @@
 const ModelFactory = require('../model/modelFactory.js');
 class TaskController {
     constructor() {
-        ModelFactory.getModel().then(model => {
-            this.model = model;
-        });
+       // ModelFactory.getModel().then(model => {
+        //    this.model = model;
+        //});
+        this.model=null;
     }
 
+    async initialize(){
+        this.model=await ModelFactory.getModel()
+    }
     // get all the tasks
     async getAll(req, res) {
         try {
@@ -40,6 +44,9 @@ class TaskController {
     }
 
     async clear(req, res) {
+        if(!this.model){
+            return res.status(500).json({error: "Model not initialized" });
+        }
         try {
             await this.model.delete();
             res.json(await this.model.read());
