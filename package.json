@@ -1,10 +1,6 @@
 {
   "name": "event-tbd",
   "version": "1.0.0",
-<<<<<<< HEAD
-=======
-  "type": "module",
->>>>>>> ce0c34a6033c769474727813bd85e8d6878ada47
   "dependencies": {
     "express": "^4.21.2",
     "sequelize": "^6.37.5",
