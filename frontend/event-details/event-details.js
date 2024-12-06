@@ -1,8 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    //fetch('placeholder_for_data')  
-    //   .then(response => response.json())
-    //   .then(data => {
             let ratingFloat = 3.80;
             let ratingTextElement = document.getElementById('rating-text');
             ratingTextElement.textContent = `${ratingFloat} Stars`;
@@ -42,6 +39,4 @@ document.addEventListener('DOMContentLoaded', function() {
                     star.classList.remove("star-filled", "star-half", "star-quarter");
                 }
             });
-    //})
-    //.catch(error => console.error('Error fetching event data:', error));
 });
