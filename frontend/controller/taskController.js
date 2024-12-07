@@ -1,4 +1,5 @@
 // import ModelFactory from './model/ModelFactory.js';
+const e = require('express');
 const ModelFactory = require('../model/modelFactory.js');
 class TaskController {
     constructor() {
@@ -10,6 +11,36 @@ class TaskController {
 
     async initialize(){
         this.model=await ModelFactory.getModel()
+    }
+
+    // get a task
+    async get(req, res) {
+        try {
+            let task;
+            const eventId = req.params.eventId;
+            const deBug = req.query.deBug;
+            console.log(deBug, eventId, typeof(deBug));
+            if(deBug === "true"){
+                task = {// TEST CODE
+                    "eventId" : "test",
+                    "type" : "Public",
+                    "privacy": "Invite",
+                    "occupancy": "IDK",
+                    "seating": "Limited Seats",
+                    "category": "Category",
+                    "customCategory": "Category",
+                    "title": "Event Name",
+                    "date": "12-5-24",
+                    "location": "100 Friend St",
+                    "description": "Description",
+                }
+            }else{
+                task = await this.model.read(eventId);
+            }
+            res.json({ fetchedSuccessfully: true, task }); 
+        } catch (error) {
+            res.status(500).json({ error: error.message});
+        }
     }
     // get all the tasks
     async getAll(req, res) {

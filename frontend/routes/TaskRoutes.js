@@ -10,6 +10,11 @@ class TaskRoutes {
     }
 
     initializeRoutes() {
+        // FOR DATABASE 
+        this.router.get('/task/:eventId', async (req, res) => {
+            await TaskController.get(req, res);
+        }); 
+
         this.router.get('/tasks', async (req, res) => {
             await TaskController.getAll(req, res);
         }); 

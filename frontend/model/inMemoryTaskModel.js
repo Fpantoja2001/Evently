@@ -1,47 +1,78 @@
-class _InMemoryTaskModel {
-    static taskID = 1;
+// import {Sequelize, DataTypes} from 'sequelize';
+const {Sequelize, DataTypes} = require('sequelize');
 
-    constructor() {
-        this.tasks = [];
+const sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: 'database.sqlite'
+});
+
+const Task = sequelize.define('Task', {
+    taskID: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
+    },
+
+    task: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
-    
+
+    // can include other fields
+});
+
+class _SQLiteTaskModel {
+
+    // empty constructor because Sequelize will manage most of the setup
+    constructor() {}
+
+    async init(fresh = false) {
+        await sequelize.authenticate();
+        await sequelize.sync({force: true});
+
+        if (fresh) {
+            await this.delete();
+            // can add sample tasks here if needed
+        }
+    }
+
+    // add new task to the database
     async create(task) {
-        task.id = _InMemoryTaskModel.taskID++;
-        this.tasks.push(task);
-        return task;
+        return await Task.create({task});
     }
 
+    // if id is provided, fetch the task with the id
     async read(id = null) {
         if (id) {
-            return this.tasks.find(task => task.id === id);
+            return await Task.findByPk(id);
         }
-        return this.tasks;
+        return await Task.findAll(); // fetch all tasks if no id is provided
     }
 
     async update(task) {
-        const index = this.tasks.findIndex(t => t.id === task.id);
-        if (index >= 0) {
-            this.tasks[index] = task;
-            return task;
+        const taskUpdate = await Task.findByPk(task.taskID);
+        if (!taskUpdate) {
+            return null;
         }
-        return null;
+
+        await taskUpdate.update(task);
+        return taskUpdate;
     }
-    
+
     async delete(task = null) {
         if (task) {
-            const index = this.tasks.findIndex(t => t.id === task.id);
-            if (index >= 0) {
-                this.tasks.splice(index, 1);
-                return task;
+            const taskDelete = await Task.findByPk(task.taskID);
+            if (taskDelete) {
+                await taskDelete.destroy();
+                return taskDelete;
             }
         } else {
-            this.tasks = [];
+            await Task.destroy({truncate: true});
             return;
         }
     }
-
 }
 
-// const InMemoryTaskModel = new _InMemoryTaskModel();
-module.exports = new _InMemoryTaskModel();
-//export default InMemoryTaskModel;
+// const SQLiteTaskModel = new _SQLiteTaskModel();
+module.exports = new _SQLiteTaskModel();
+//export default SQLiteTaskModel;
