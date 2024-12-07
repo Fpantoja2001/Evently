@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Event details</title>
     <link rel="stylesheet" href="event-details.css">
-    <script src="event-details.js" defer></script>
+    <script src="event-details.js" type="module" defer></script>
   </head>
   <body class="body">
     <!-- <div class="navbar" id="navbar"></div> -->
@@ -47,7 +47,7 @@
         </div>
         <div class="eventname-container">
             <p class="textstuff" id="event-creators"></p>
-            <p class="textstuff">X Attendees</p>
+            <p class="textstuff"><span class="textstuff" id="Attendee_num"></span> Attendees</p>
         </div>
         <div class="textbox">
             <p class="textstuff" id="event-address"></p>
@@ -55,9 +55,9 @@
         <div class="description-box-buttons">
             <p class="description-box" id="event-description"></p>
             <div class="buttons-container">
-                <button class="buttons-request">Request</button><br>
-                <button class="buttons-join">Join/Accept</button><br>
-                <button class="buttons-decline">Decline</button><br>
+                <button style = "display:none;" class="buttons-request" id="button-request">Request</button> <!--<br>-->
+                <button class="buttons-join" id="button-join">Join</button> <!--<br>-->
+                <button style = "display:none;" class="buttons-decline" id="button-decline">Decline</button> <!--<br>-->
                 <button class="buttons-review">Reviews</button>
             </div>
             <script>
