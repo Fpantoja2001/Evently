@@ -111,6 +111,7 @@ body {
     font-size: 2.5vw;
     text-align: center;
     margin: 5px;
+    color: #e67e22;;
 }
 
 .eventname-container, .textbox {
@@ -121,7 +122,6 @@ body {
     padding: 0 5px;
     margin: 7px;
     position: relative;
-    background-color:#fbb86d;
 }
 .event-details {
     display: flex;
@@ -141,6 +141,7 @@ h1,p{
 .textstuff {
     font-size: 3vw; 
     line-height: 1;
+    color: #e67e22;
 }
 
 .category{
@@ -204,6 +205,13 @@ h1,p{
     transition: 0.3s;
     cursor: pointer;
 }
+
+/*.button:disabled,
+.button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}*/
 .buttons-join{
     background-color: rgb(52, 205, 52);
 }
@@ -230,11 +238,22 @@ h1,p{
 .buttons-review:hover {
     background-color: #ff851a;
 }
-.buttons-join:active, .buttons-decline:active, .buttons-request:active, .buttons-request:active {
+.buttons-join:active, .buttons-decline:active, .buttons-request:active, .buttons-review:active {
     box-shadow: 0 2px  hsl(39, 73%, 40%);
     transform: translateY(4px);
 }
 
+.buttons-join:disabled{
+    background-color: rgb(138, 138, 138);
+}
+.buttons-join:disabled:hover{
+    background-color: rgb(86, 86, 86);
+    opacity: 1;
+}
+.buttons-join:active:disabled{
+    transform: translateY(0px);
+    box-shadow: 0 2px #ffca68;
+}
 footer.footer {
     left: 0;
     bottom: 0;
