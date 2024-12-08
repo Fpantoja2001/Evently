@@ -1,0 +1,35 @@
+users = [
+    {
+        "id": "some-uuid",
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "password": "password123",
+        "bio": "A passionate software developer.",
+        "phoneNumber": "1234567890",
+        "age": 25,
+        "gender": "Male",
+        "socialLinks": "https://github.com/johndoe",
+        "skills": ["JavaScript", "Node.js", "React"],
+        "hobbies": ["Gaming", "Reading", "Traveling"],
+        "pfpImage": null,
+        "createdAt": "2024-01-01T00:00:00.000Z",
+        "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+]
+
+events = [
+    {
+        "eventName": "Tech Conference 2024",
+        "eventDate": "2024-02-15",
+        "eventTime": "10:00:00",
+        "privacy": "public",
+        "inviteOption": true,
+        "eventLimit": 200,
+        "eventCategory": "Technology",
+        "reservation": true,
+        "eventCreator": "Admin",
+        "eventAddress": "123 Tech Street, Silicon Valley",
+        "eventDescription": "A conference for tech enthusiasts.",
+        "eventImage": null
+    }
+]
