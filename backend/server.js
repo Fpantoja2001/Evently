@@ -1,7 +1,7 @@
 const express = require('express');
-const sequelize = require('./db'); // Sequelize instance
-const EventRoutes = require('./routes/eventRoutes'); // Event routes
-const UserRoutes = require('./routes/userRoutes'); // User routes
+const sequelize = require('./db.js'); // Sequelize instance
+const EventRoutes = require('./routes/eventRoutes.js'); // Event routes
+const UserRoutes = require('./routes/userRoutes.js'); // User routes
 const path = require('path');
 
 class Server {
@@ -20,8 +20,8 @@ class Server {
 
     // Set up routes
     setupRoutes() {
-        this.app.use('/api/events', EventRoutes); // Routes for event management
-        this.app.use('/api/users', UserRoutes); // Routes for user management
+        this.app.use('/api/', EventRoutes); // Routes for event management
+        this.app.use('/api/', UserRoutes); // Routes for user management
     }
 
     // Synchronize database models
