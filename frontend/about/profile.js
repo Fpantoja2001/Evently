@@ -1,16 +1,29 @@
-import data from './users.json' with { type: "json" };
+//import data from './users.json' with { type: "json" };
 
+const testUser = "b6a98677-a213-4aeb-a5a9-babff96cd3d1";
 const profileWrapper = document.getElementById('profile_wrapper');
 
+async function getUserData() {
+    const response = await fetch(`/api/user/${testUser}`);
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+}
+
+const data = await getUserData();
+console.log(data);
+
 const divArray = [];
-const displayData = {'firstName': 'First Name', 'lastName': 'Last Name', 'email': 'Email', 'phone': 'Phone', 'socialLinks': 'Social Links', 'skills': 'Skills', 'hobbies': 'Hobbies', 'bio': 'Bio', 'age': 'Age', 'gender': 'Gender', 'location': 'Location'};
+const displayData = {'name': 'Name', 'email': 'Email', 'phone': 'Phone', 'socialLinks': 'Social Links', 'skills': 'Skills', 'hobbies': 'Hobbies', 'bio': 'Bio', 'age': 'Age', 'gender': 'Gender', 'location': 'Location'};
 
 if (profileWrapper) {
     // make a div for profile image
     const profileImage = document.createElement('div');
     profileImage.className = 'profileImage';
     const pfp = document.createElement('img');
-    pfp.src = '../about/man.png';
+    pfp.src = '../about/defaultpfp.jpg';
     profileImage.appendChild(pfp);
     divArray.push(profileImage);
 
@@ -25,7 +38,11 @@ if (profileWrapper) {
     const userBio = document.createElement('p');
     userBio.className = 'userBio';
     for (let info in data) {
-        if (info === 'username' || info === 'id' || info === 'profileImage' || info === 'preferences' || info === 'updatedAt' || info === 'createdAt') {
+        // if (info === 'username' || info === 'id' || info === 'profileImage' || info === 'preferences' || info === 'updatedAt' || info === 'createdAt') {
+        //     continue;
+        // }
+
+        if (displayData[info] === undefined) {
             continue;
         }
         const label = document.createElement('strong');

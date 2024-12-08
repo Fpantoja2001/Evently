@@ -18,6 +18,7 @@ const seedDatabase = async () => {
         const users = await User.bulkCreate([
             {
                 name: 'Alice Johnson',
+                username: 'alicej',
                 email: 'alice@example.com',
                 password: 'password123',
                 bio: 'Event enthusiast and tech geek.',
@@ -30,6 +31,7 @@ const seedDatabase = async () => {
             },
             {
                 name: 'Bob Smith',
+                username: 'bobsmith',
                 email: 'bob@example.com',
                 password: 'password123',
                 bio: 'Avid traveler and foodie.',
