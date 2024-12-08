@@ -173,21 +173,22 @@ a.git{
 
 /* Edit and Save Buttons */
 .editButton, .saveButton {
-    margin-left: 10px;
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    border: none;
-    border-radius: 0.25rem;
-    cursor: pointer;
-    background-color: #FFB0B0;
-    color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block; 
+    width: auto;
+    padding: 8px 16px; 
+    font-size: 14px;
+    border: none; 
+    background-color: #f5a3a3; 
+    color: #fff; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    text-align: center; 
+    white-space: nowrap; 
+    margin-left: 1rem;
 }
 
 .editButton:hover, .saveButton:hover {
-    background-color: #FF8A8A;
-    transform: translateY(-2px);
+    background-color: #f08484; 
 }
 
 /* Input Field for Editing */
@@ -216,23 +217,28 @@ a.git{
     line-height: 1.8;
     margin-top: 1rem;
 }
-
-/* Social Links */
-.socialLinks a {
-    display: inline-block;
-    margin: 5px 0;
-    text-decoration: none;
-    color: #fe5656;
-    font-size: 0.9rem;
+.socialLinks {
+    margin-top: 16px; /* Add spacing above the section */
 }
 
-.socialLinks a:hover {
-    color: #FF8A8A;
-    text-decoration: underline;
+.socialLinkItem {
+    margin-bottom: 8px; /* Add spacing between links */
 }
+
+.socialLinkItem a {
+    text-decoration: none; /* Remove underline */
+    color: #007bff; /* Link color */
+    font-weight: bold; /* Make link text bold */
+}
+
+.socialLinkItem a:hover {
+    text-decoration: underline; /* Add underline on hover */
+    color: #0056b3; /* Change color on hover */
+}
+
 
 /* Responsive Design Enhancements */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .editInput {
         width: 100%;
     }
@@ -242,4 +248,4 @@ a.git{
         width: 100%;
         text-align: center;
     }
-}
+} */
