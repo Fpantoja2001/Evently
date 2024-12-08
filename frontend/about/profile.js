@@ -1,6 +1,6 @@
 //import data from './users.json' with { type: "json" };
 
-const testUser = "b6a98677-a213-4aeb-a5a9-babff96cd3d1";
+const testUser = "8cda6dcf-3f34-47f1-990c-7a304f7a3f7a";
 const profileWrapper = document.getElementById('profile_wrapper');
 
 async function getUserData() {
@@ -55,7 +55,7 @@ if (profileWrapper) {
         if (info === 'socialLinks') {
             const socialLinks = document.createElement('div');
             socialLinks.className = 'socialLinks';
-            for (let link in data[info]) {
+            for (let link in JSON.parse(data[info])) {
                 const a = document.createElement('a');
                 a.href = data[info][link];
                 a.appendChild(document.createTextNode(link));

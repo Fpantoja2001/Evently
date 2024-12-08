@@ -60,6 +60,7 @@ const seedDatabase = async () => {
                 eventCreator: users[0].id, // Assume User IDs start from 1
                 eventAddress: '123 Tech Street, Silicon Valley, CA',
                 eventDescription: 'A meetup for tech enthusiasts to share and learn.',
+                eventImage: 'tech-meetup.jpg',
             },
             {
                 eventName: 'Cooking Workshop',
@@ -73,6 +74,7 @@ const seedDatabase = async () => {
                 eventCreator: users[1].id,
                 eventAddress: '456 Culinary Lane, Food City, CA',
                 eventDescription: 'Hands-on cooking experience with a professional chef.',
+                eventImage: 'cooking-workshop.jpg',
             },
         ]);
 
