@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "express": "^4.21.2",
+    "inflection": "^3.0.0",
     "sequelize": "^6.37.5",
     "sqlite3": "^5.1.7"
   },

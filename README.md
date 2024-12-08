@@ -10,3 +10,8 @@ To start the server, run npm run start
 
 - For user database, go to http://localhost:3000/api/user/getAll
 - For event database, go to http://localhost:3000/api/event/getAll
+
+# To use mock data
+```
+node seed.js
+```
