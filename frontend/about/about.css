@@ -172,7 +172,7 @@ a.git{
 }
 
 /* Edit and Save Buttons */
-.editButton, .saveButton {
+.addButton, .removeButton, .editButton, .saveButton {
     display: inline-block; 
     width: auto;
     padding: 8px 16px; 
@@ -187,7 +187,7 @@ a.git{
     margin-left: 1rem;
 }
 
-.editButton:hover, .saveButton:hover {
+.addButton:hover, .removeButton:hover, .editButton:hover, .saveButton:hover {
     background-color: #f08484; 
 }
 

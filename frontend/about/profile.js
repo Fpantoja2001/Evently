@@ -6,7 +6,7 @@ const profileWrapper = document.getElementById('profile_wrapper');
 const displayData = {
     'name': 'Name',
     'email': 'Email',
-    'phone': 'Phone',
+    'phoneNumber': 'Phone Number',
     'socialLinks': 'Social Links',
     'skills': 'Skills',
     'hobbies': 'Hobbies',
@@ -31,231 +31,179 @@ async function getUserData() {
     }
 }
 
-// Create a field with editable functionality
-function createField(labelText, value, editable = true) {
-    const fieldWrapper = document.createElement('div');
-    fieldWrapper.className = 'fieldWrapper';
+const data = await getUserData();
 
-    const label = document.createElement('strong');
-    label.className = 'label';
-    label.textContent = labelText + ': ';
-    fieldWrapper.appendChild(label);
+const divArray = [];
+const spanArray = [];
 
-    const textWrapper = document.createElement('span');
-    textWrapper.textContent = value;
-    fieldWrapper.appendChild(textWrapper);
-
-    if (editable) {
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.value = value;
-        input.className = 'editInput';
-        input.style.display = 'none';
-        fieldWrapper.appendChild(input);
-
-        const editButton = document.createElement('button');
-        editButton.className = 'editButton';
-        editButton.textContent = 'Edit';
-        editButton.addEventListener('click', () => {
-            textWrapper.style.display = 'none';
-            input.style.display = 'inline';
-            editButton.style.display = 'none';
-            saveButton.style.display = 'inline';
-        });
-        fieldWrapper.appendChild(editButton);
-
-        const saveButton = document.createElement('button');
-        saveButton.className = 'saveButton';
-        saveButton.textContent = 'Save';
-        saveButton.style.display = 'none';
-        saveButton.addEventListener('click', () => {
-            value = input.value;
-            textWrapper.textContent = value;
-            textWrapper.style.display = 'inline';
-            input.style.display = 'none';
-            editButton.style.display = 'inline';
-            saveButton.style.display = 'none';
-        });
-        fieldWrapper.appendChild(saveButton);
-    }
-
-    return fieldWrapper;
-}
-
-function renderSocialLinks(links) {
-    const socialLinksWrapper = document.createElement('div');
-    socialLinksWrapper.className = 'socialLinks';
-
-    // Parse JSON string if needed
-    if (typeof links === 'string') {
-        try {
-            links = JSON.parse(links);
-        } catch (e) {
-            console.error('Invalid JSON for socialLinks:', links);
-            const errorText = document.createElement('p');
-            errorText.textContent = 'Invalid social links data.';
-            socialLinksWrapper.appendChild(errorText);
-            return socialLinksWrapper;
-        }
-    }
-
-    // Render each link with edit functionality
-    for (let [platform, url] of Object.entries(links)) {
-        const linkWrapper = document.createElement('div');
-        linkWrapper.className = 'socialLinkItem';
-
-        const linkText = document.createElement('span');
-        linkText.textContent = `${platform}: `;
-        linkWrapper.appendChild(linkText);
-
-        const link = document.createElement('a');
-        link.href = url;
-        link.textContent = url;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        link.style.color = '#007bff';
-        linkWrapper.appendChild(link);
-
-        const editButton = document.createElement('button');
-        editButton.className = 'editButton';
-        editButton.textContent = 'Edit';
-        editButton.addEventListener('click', () => {
-            const inputPlatform = document.createElement('input');
-            inputPlatform.type = 'text';
-            inputPlatform.value = platform;
-            inputPlatform.className = 'editInput';
-
-            const inputUrl = document.createElement('input');
-            inputUrl.type = 'text';
-            inputUrl.value = url;
-            inputUrl.className = 'editInput';
-
-            linkWrapper.replaceChild(inputPlatform, linkText);
-            linkWrapper.replaceChild(inputUrl, link);
-
-            editButton.textContent = 'Save';
-            editButton.onclick = () => {
-                const newPlatform = inputPlatform.value.trim();
-                const newUrl = inputUrl.value.trim();
-
-                linkText.textContent = `${newPlatform}: `;
-                link.textContent = newUrl;
-                link.href = newUrl;
-
-                linkWrapper.replaceChild(linkText, inputPlatform);
-                linkWrapper.replaceChild(link, inputUrl);
-
-                editButton.textContent = 'Edit';
-                editButton.onclick = null; // Reset functionality
-                renderSocialLinks(links); // Re-render for consistency
-            };
-        });
-
-        linkWrapper.appendChild(editButton);
-        socialLinksWrapper.appendChild(linkWrapper);
-    }
-
-    return socialLinksWrapper;
-}
-
-
-// Render skills
-function renderSkills(skills) {
-    const skillsWrapper = document.createElement('div');
-    skillsWrapper.className = 'skills';
-    skills.forEach(skill => {
-        const skillDiv = document.createElement('div');
-        skillDiv.className = 'skill';
-        skillDiv.textContent = skill;
-        skillsWrapper.appendChild(skillDiv);
-    });
-    return skillsWrapper;
-}
-
-
-
-// Render hobbies
-function renderHobbies(hobbies) {
-    const hobbiesWrapper = document.createElement('div');
-    hobbiesWrapper.className = 'hobbies';
-    hobbies.forEach(hobby => {
-        const hobbyDiv = document.createElement('div');
-        hobbyDiv.className = 'hobby';
-        hobbyDiv.textContent = hobby;
-        hobbiesWrapper.appendChild(hobbyDiv);
-    });
-    return hobbiesWrapper;
-}
-
-
-// Render user profile fields
-function renderField(info, value) {
-    const fieldWrapper = document.createElement('div');
-    fieldWrapper.className = `${info}Wrapper`;
-
-    // Add a header for the section
-    if (info === 'socialLinks' || info === 'skills' || info === 'hobbies') {
-        const header = document.createElement('strong');
-        header.className = 'label';
-        header.textContent = displayData[info];
-        fieldWrapper.appendChild(header);
-    }
-
-    // Append the specific content
-    if (info === 'socialLinks') {
-        const socialLinksContent = renderSocialLinks(value);
-        fieldWrapper.appendChild(socialLinksContent);
-    } else if (info === 'skills') {
-        const skillsContent = renderSkills(value);
-        fieldWrapper.appendChild(skillsContent);
-    } else if (info === 'hobbies') {
-        const hobbiesContent = renderHobbies(value);
-        fieldWrapper.appendChild(hobbiesContent);
-    } else {
-        const standardField = createField(displayData[info], value);
-        fieldWrapper.appendChild(standardField);
-    }
-
-    return fieldWrapper;
-}
-
-
-// Render the profile UI
-async function renderProfile() {
-    const data = await getUserData();
-    if (!data || !profileWrapper) return;
-
-    // Profile Image
+if (profileWrapper) {
+    // make a div for profile image
     const profileImage = document.createElement('div');
     profileImage.className = 'profileImage';
     const pfp = document.createElement('img');
     pfp.src = '../about/defaultpfp.jpg';
     profileImage.appendChild(pfp);
-    profileWrapper.appendChild(profileImage);
+    divArray.push(profileImage);
 
-    // Username
     const userDiv = document.createElement('div');
     const username = document.createElement('h2');
     username.className = 'username';
-    username.textContent = '@' + data.username;
+    username.appendChild(document.createTextNode('@' + data.username));
     userDiv.appendChild(username);
-    profileWrapper.appendChild(userDiv);
+    divArray.push(userDiv);
 
-    // User Details
     const userBioDiv = document.createElement('div');
     const userBio = document.createElement('p');
     userBio.className = 'userBio';
-
-    for (let [info, value] of Object.entries(data)) {
-        if (displayData[info] !== undefined) {
-            const field = renderField(info, value);
-            userBio.appendChild(field);
+    for (let info in data) {
+        if (displayData[info] === undefined) {
+            continue;
         }
+        const label = document.createElement('strong');
+        label.className = 'label';
+        label.appendChild(document.createTextNode(displayData[info] + ': ')); 
+        const text = document.createElement('span');
+        text.id = info; // give each span an id for editing later
+        spanArray.push(text.id); // append it to an array to loop later
+
+        text.appendChild(document.createTextNode(data[info]));
+        userBio.appendChild(label);
+
+        // label links separately
+        if (info === 'socialLinks') {
+            const socialLinks = document.createElement('div');
+            socialLinks.className = 'socialLinks';
+            for (let link in JSON.parse(data[info])) {
+                const a = document.createElement('a');
+                a.href = data[info][link];
+                a.appendChild(document.createTextNode(link));
+                a.appendChild(document.createElement('br'));
+                socialLinks.appendChild(a);
+            }
+            userBio.appendChild(socialLinks);
+            continue;
+        }  
+
+        // format the skills
+        if (info === "skills") {
+            const skills = document.createElement('div');
+            skills.className = 'skills';
+            for (let skill of data[info]) {
+                const skillDiv = document.createElement('div');
+                skillDiv.className = 'skill';
+                skillDiv.appendChild(document.createTextNode(skill));
+                skills.appendChild(skillDiv);
+            }
+            userBio.appendChild(skills);
+            continue;
+        }
+
+        // format hobbies
+        if (info === 'hobbies') {
+            const hobbies = document.createElement('div');
+            hobbies.className = 'hobbies';
+            for (let hobby of data[info]) {
+                const hobbyDiv = document.createElement('div');
+                hobbyDiv.className = 'hobby';
+                hobbyDiv.appendChild(document.createTextNode(hobby));
+                hobbies.appendChild(hobbyDiv);
+            }
+            userBio.appendChild(hobbies);
+            continue
+        }
+        userBio.appendChild(text); // append the text information later
+        userBio.appendChild(document.createElement('br'));
     }
 
-    userBioDiv.appendChild(userBio);
-    profileWrapper.appendChild(userBioDiv);
-}
+    // make an edit button
+    const editButton = document.createElement('button');
+    editButton.className = 'editButton';
+    editButton.appendChild(document.createTextNode('Edit'));
+    editButton.onclick = function() {
+        if (editButton.textContent === 'Edit') {
+            editButton.textContent = 'Save';
+            spanArray.forEach((span) => {
+                const text = document.getElementById(span);
+                let input;
+                if (span === 'age') {
+                    input = document.createElement('input');
+                    input.type = 'number';
+                    input.min = '18';
+                    input.max = '120';
+                    input.step = '1';
+                } else if (span === 'email') {
+                    input = document.createElement('input');
+                    input.type = 'email';
+                } else if (span == 'gender'){
+                    input = document.createElement('select');
+                    const options = [
+                        { value: '', text: 'Select Gender' },
+                        { value: 'male', text: 'Male' },
+                        { value: 'female', text: 'Female' },
+                        { value: 'nonbinary', text: 'Non-binary' },
+                        { value: 'other', text: 'Other' },
+                        { value: 'prefer-not-to-say', text: 'Prefer not to say' }
+                    ];
 
-// Run the rendering process
-renderProfile();
+                    options.forEach(optionData => {
+                        const option = document.createElement('option');
+                        option.value = optionData.value;
+                        option.textContent = optionData.text;
+                        if (text.textContent.toLowerCase() === optionData.text.toLowerCase()) {
+                            option.selected = true; 
+                        }
+                        input.appendChild(option);
+                    });
+                } else if (span === "phoneNumber") {
+                    input = document.createElement('input');
+                    input.type = 'number';
+                } else {
+                    input = document.createElement('input');
+                    input.type = 'text';
+                }
+                input.value = text.textContent;
+                text.textContent = '';
+                text.appendChild(input);
+            });
+        } else {
+            let isValid = true;
+            spanArray.forEach((span) => {
+                const text = document.getElementById(span);
+                if (!text) {
+                    console.warn(`Element with ID '${span}' not found.`);
+                    return; 
+                }
+                const input = text.querySelector('input');
+                const select = text.querySelector('select');
+                if (input) {
+                    if (input.value.trim() === '') {
+                        isValid = false;
+                        input.style.border = '1px solid red';
+                    } else {
+                        const updatedValue = input.value;
+                        text.textContent = updatedValue;
+                    }
+                } else if (select) {
+                    if (select.selectedIndex === 0 || select.value.trim() === '') {
+                        isValid = false;
+                        select.style.border = '1px solid red';
+                    } else {
+                        const updatedValue = select.options[select.selectedIndex].text;
+                        text.textContent = updatedValue;
+                    }
+                } 
+            });
+            if (isValid) {
+                editButton.textContent = 'Edit';
+            }
+        }
+    };
+
+    userBioDiv.appendChild(editButton);
+    userBioDiv.appendChild(userBio);
+    divArray.push(userBioDiv);
+
+    divArray.forEach((div) => {
+        profileWrapper.appendChild(div);
+    });
+}
