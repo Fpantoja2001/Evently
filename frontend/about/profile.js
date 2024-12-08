@@ -45,11 +45,57 @@ if (profileWrapper) {
         if (displayData[info] === undefined) {
             continue;
         }
+
+        const fieldWrapper = document.createElement('div');
+        fieldWrapper.className = 'fieldWrapper';
+
         const label = document.createElement('strong');
         label.className = 'label';
-        label.appendChild(document.createTextNode(displayData[info] + ': ')); 
-        const text = document.createTextNode(data[info]);
-        userBio.appendChild(label);
+        label.textContent = displayData[info] + ': ';
+        // label.appendChild(document.createTextNode(displayData[info] + ': ')); 
+        //const text = document.createTextNode(data[info]);
+        // userBio.appendChild(label);
+        fieldWrapper.appendChild(label);
+
+        const textWrapper = document.createElement('span');
+        //const text = document.createTextNode(data[info]);
+        //extWrapper.appendChild(text);
+        //userBio.appendChild(textWrapper);
+        textWrapper.textContent = data[info];
+        fieldWrapper.appendChild(textWrapper);
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = data[info];
+        input.className = 'editInput';
+        input.style.display = 'none';
+        fieldWrapper.appendChild(input);
+
+        const editButton = document.createElement('button');
+        editButton.className = 'editButton';
+        editButton.textContent = 'Edit';
+        editButton.addEventListener = ('click', () => {
+            textWrapper.style.display = 'none';
+            input.style.display = 'inline';
+            editButton.style.display = 'none';
+            saveButton.style.display = 'inline';
+        });
+        fieldWrapper.appendChild(editButton);
+
+        const saveButton = document.createElement('button');
+        saveButton.className = 'saveButton';
+        saveButton.textContent = 'Save';
+        saveButton.style.display = 'none';
+        saveButton.addEventListener = ('click', () => {
+            data[info] = input.value;
+            textWrapper.textContent = input.value;
+            textWrapper.style.display = 'inline';
+            input.style.display = 'none';
+            editButton.style.display = 'inline';
+            saveButton.style.display = 'none';
+        });
+        fieldWrapper.appendChild(saveButton);
+        userBio.appendChild(fieldWrapper);
 
         // label links separately
         if (info === 'socialLinks') {
@@ -62,7 +108,7 @@ if (profileWrapper) {
                 a.appendChild(document.createElement('br'));
                 socialLinks.appendChild(a);
             }
-            userBio.appendChild(socialLinks);
+            fieldWrapper.appendChild(socialLinks);
             continue;
         }  
 
@@ -76,7 +122,7 @@ if (profileWrapper) {
                 skillDiv.appendChild(document.createTextNode(skill));
                 skills.appendChild(skillDiv);
             }
-            userBio.appendChild(skills);
+            fieldWrapper.appendChild(skills);
             continue;
         }
 
@@ -93,8 +139,8 @@ if (profileWrapper) {
             userBio.appendChild(hobbies);
             continue
         }
-        userBio.appendChild(text);
-        userBio.appendChild(document.createElement('br'));
+        // userBio.appendChild(text);
+        // userBio.appendChild(document.createElement('br'));
     }
     userBioDiv.appendChild(userBio);
     divArray.push(userBioDiv);

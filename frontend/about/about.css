@@ -170,3 +170,76 @@ a.git{
     color: black;
     font-family: 'Courier New', Courier, monospace;
 }
+
+/* Edit and Save Buttons */
+.editButton, .saveButton {
+    margin-left: 10px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    background-color: #FFB0B0;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.editButton:hover, .saveButton:hover {
+    background-color: #FF8A8A;
+    transform: translateY(-2px);
+}
+
+/* Input Field for Editing */
+.editInput {
+    margin-left: 10px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    background-color: #fff;
+    width: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease;
+}
+
+.editInput:focus {
+    border-color: #FFB0B0;
+    outline: none;
+}
+
+/* User Bio */
+.userBio {
+    text-align: left;
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.8;
+    margin-top: 1rem;
+}
+
+/* Social Links */
+.socialLinks a {
+    display: inline-block;
+    margin: 5px 0;
+    text-decoration: none;
+    color: #fe5656;
+    font-size: 0.9rem;
+}
+
+.socialLinks a:hover {
+    color: #FF8A8A;
+    text-decoration: underline;
+}
+
+/* Responsive Design Enhancements */
+@media (max-width: 768px) {
+    .editInput {
+        width: 100%;
+    }
+
+    .editButton, .saveButton {
+        margin: 0.5rem 0;
+        width: 100%;
+        text-align: center;
+    }
+}
