@@ -27,7 +27,6 @@ const seedDatabase = async () => {
                 socialLinks: JSON.stringify({ twitter: '@alicej', linkedin: 'linkedin.com/in/alicej' }),
                 skills: JSON.stringify(['Networking', 'Event Planning']),
                 hobbies: JSON.stringify(['Hiking', 'Cooking']),
-                pfpImage: 'https://example.com/alice.jpg',
             },
             {
                 name: 'Bob Smith',
@@ -40,7 +39,6 @@ const seedDatabase = async () => {
                 socialLinks: JSON.stringify({ instagram: '@bobtravel' }),
                 skills: JSON.stringify(['Photography', 'Graphic Design']),
                 hobbies: JSON.stringify(['Traveling', 'Photography']),
-                pfpImage: 'https://example.com/bob.jpg',
             },
         ]);
 
@@ -60,7 +58,6 @@ const seedDatabase = async () => {
                 eventCreator: users[0].id, // Assume User IDs start from 1
                 eventAddress: '123 Tech Street, Silicon Valley, CA',
                 eventDescription: 'A meetup for tech enthusiasts to share and learn.',
-                eventImage: 'https://example.com/tech-meetup.jpg',
             },
             {
                 eventName: 'Cooking Workshop',
@@ -74,7 +71,6 @@ const seedDatabase = async () => {
                 eventCreator: users[1].id,
                 eventAddress: '456 Culinary Lane, Food City, CA',
                 eventDescription: 'Hands-on cooking experience with a professional chef.',
-                eventImage: 'https://example.com/cooking-workshop.jpg',
             },
         ]);
 
