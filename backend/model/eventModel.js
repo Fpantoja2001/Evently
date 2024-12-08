@@ -5,7 +5,7 @@ const sequelize = require('../db');
 const Event = sequelize.define('Event', {
     eventid: {
         type: DataTypes.UUID,
-        autoIncrement: true,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
     },
     eventName: {
