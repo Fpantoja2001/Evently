@@ -1,5 +1,5 @@
 const express = require('express');
-const Event = require('../models/eventModel'); // Import the Event model
+const Event = require('../model/eventModel'); // Import the Event model
 const router = express.Router();
 
 // Create a new event
