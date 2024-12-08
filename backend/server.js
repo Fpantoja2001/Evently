@@ -1,28 +1,39 @@
-//import express from 'express';
-//import TaskRoutes from './routes/TaskRoutes.js';
 const express = require('express');
-const TaskRoutes = require('./routes/TaskRoutes.js');
+const sequelize = require('./db'); // Sequelize instance
+const EventRoutes = require('./routes/eventRoutes'); // Event routes
+const UserRoutes = require('./routes/userRoutes'); // User routes
 
 class Server {
     constructor() {
         this.app = express();
         this.configureMiddleware();
         this.setupRoutes();
+        this.syncDatabase();
     }
 
-//have to use ExpressJS, SQLite, and Sequelize 
-//have to use routes, models, and controllers 
-
+    // Configure middleware
     configureMiddleware() {
-        // not sure if i should route this to home
-        this.app.use(express.static("../frontend"));
-        this.app.use(express.json({ limit: '10mb' }));
+        this.app.use(express.static('../frontend')); // Serve frontend files
+        this.app.use(express.json({ limit: '10mb' })); // Parse incoming JSON
     }
 
+    // Set up routes
     setupRoutes() {
-        this.app.use('/v1', TaskRoutes);
+        this.app.use('/api/events', EventRoutes); // Routes for event management
+        this.app.use('/api/users', UserRoutes); // Routes for user management
     }
 
+    // Synchronize database models
+    async syncDatabase() {
+        try {
+            await sequelize.sync({ force: false });
+            console.log('Database synchronized successfully.');
+        } catch (error) {
+            console.error('Error synchronizing the database:', error);
+        }
+    }
+
+    // Start the server
     start(port = 3000) {
         this.app.listen(port, () => {
             console.log(`Server started on http://localhost:${port}`);
@@ -30,6 +41,7 @@ class Server {
     }
 }
 
-console.log("Starting server");
+// Initialize and start the server
+console.log('Starting server...');
 const server = new Server();
 server.start();
