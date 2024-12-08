@@ -2,6 +2,7 @@ const express = require('express');
 const sequelize = require('./db'); // Sequelize instance
 const EventRoutes = require('./routes/eventRoutes'); // Event routes
 const UserRoutes = require('./routes/userRoutes'); // User routes
+const path = require('path');
 
 class Server {
     constructor() {
@@ -13,7 +14,7 @@ class Server {
 
     // Configure middleware
     configureMiddleware() {
-        this.app.use(express.static('../frontend')); // Serve frontend files
+        this.app.use(express.static(path.join(__dirname, '../frontend'))); // Serve frontend files
         this.app.use(express.json({ limit: '10mb' })); // Parse incoming JSON
     }
 
