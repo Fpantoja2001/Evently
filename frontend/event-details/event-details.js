@@ -2,27 +2,22 @@ import reviewData from "../review/review.json" with { type: "json" };
 
 const requestButton = document.getElementById('button-request');
 const joinButton = document.getElementById('button-join');
-const declineButton = document.getElementById('button-decline');
+const dontJoinButton = document.getElementById('button-decline');
 
 document.addEventListener('DOMContentLoaded', async function() {
-  //alert(JSON.stringify(reviewData));
-  const ratings = reviewData.johndoe.map(item => item.rating);
+  const ratings = reviewData.johndoe.map(item => item.rating); // GETTING REVIEW DATA
   const sum = ratings.reduce((total, val) => total + val, 0);
   const meanrating = sum/ratings.length;
-  //alert(JSON.stringify(meanrating));
 
-  const url = new URL(window.location.href);
+  const url = new URL(window.location.href); // GETTING URL / EVENT ID
   let eventId = url.searchParams.get('eventid');
   if(eventId === null){
     eventId = 123;
   }
-  //alert(eventId);
-  //alert(url.origin);
   url.pathname = `api/event/${eventId}`
   //url.searchParams.append("eventId", eventId);
 
-  url.searchParams.append("deBug", true);
-  //alert(url.toString());
+  url.searchParams.append("deBug", true); // FOR SWITCH TO DEBUB MODE
   fetch(url)
   .then(response => {
     if (response.ok){
@@ -35,8 +30,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (data.error){
       document.getElementById('event-name').textContent = data.error;
     } else {
-    //alert(JSON.stringify(data));
-    //alert(data.task.title);
     console.log(data);
     document.getElementById('event-name').textContent = data.eventName;
     document.getElementById('event-time-date').textContent = data.eventDate;
@@ -48,49 +41,57 @@ document.addEventListener('DOMContentLoaded', async function() {
     // document.getElementById('event-creators').textContent = data.eventCreator; // Uncomment if needed
     document.getElementById('event-address').textContent = data.eventAddress;
     document.getElementById('event-description').textContent = data.eventDescription;
-    document.getElementById('Attendee_num').textContent = 0;
+    document.getElementById('Attendee_num').textContent = 0; // PLACEHOLDER VAL
+    document.getElementById('Attendee_not_num').textContent = 0; // PLACEHOLDER VAL
 
-      if(data.privacy === "Public"){
-        //alert("disabled = false");
+      if(data.privacy === "Public"){ // DISABLING BUTTONS IF PRIVATE EVENT
         joinButton.disabled = false;
+        dontJoinButton.disabled = false;
       } else {
         joinButton.disabled = true;
+        dontJoinButton.disabled = true;
       }
     }
   })
   .catch(error =>  console.error('Request failed', error));
 
-  let ratingTextElement = document.getElementById('rating-text');
+  let ratingTextElement = document.getElementById('rating-text');// CALCULATING REVIEW STARS
   ratingTextElement.textContent = `${meanrating} Stars`;
-
-    const stars = document.querySelectorAll('.stars .star');
-    stars.forEach((star, index) => {
-        let rating = index + 1;
-        if (rating <= Math.floor(meanrating)) {
-            star.classList.add("star-filled");
-            star.classList.remove("star-half", "star-quarter", "star-three-quarter");
-        }
-        else if (rating - 0.25 <= meanrating) {
-            star.classList.add("star-three-quarter");
-            star.classList.remove("star-filled", "star-quarter", "star-half");
-        }
-        else if (rating - 0.5 <= meanrating) {
-            star.classList.add("star-half");
-            star.classList.remove("star-filled", "star-quarter", "star-three-quarter");
-        }
-        else if (rating - 0.75 <= meanrating) {
-            star.classList.add("star-quarter");
-            star.classList.remove("star-filled", "star-half", "star-three-quarter");
-        }
-        else {
-            star.classList.remove("star-filled", "star-half", "star-quarter");
-        }
-    });
+  const stars = document.querySelectorAll('.stars .star'); 
+  stars.forEach((star, index) => {
+      let rating = index + 1;
+      if (rating <= Math.floor(meanrating)) {
+          star.classList.add("star-filled");
+          star.classList.remove("star-half", "star-quarter", "star-three-quarter");
+      }
+      else if (rating - 0.25 <= meanrating) {
+          star.classList.add("star-three-quarter");
+          star.classList.remove("star-filled", "star-quarter", "star-half");
+      }
+      else if (rating - 0.5 <= meanrating) {
+          star.classList.add("star-half");
+          star.classList.remove("star-filled", "star-quarter", "star-three-quarter");
+      }
+      else if (rating - 0.75 <= meanrating) {
+          star.classList.add("star-quarter");
+          star.classList.remove("star-filled", "star-half", "star-three-quarter");
+      }
+      else {
+          star.classList.remove("star-filled", "star-half", "star-quarter");
+      }
+  });
 });
 
-// JOIN
+// JOIN BUTTON
 joinButton.addEventListener('click', async () => {
-  //alert("join button");
   document.getElementById("Attendee_num").textContent = 1; 
   joinButton.disabled = true;
+  dontJoinButton.disabled = true;
+});
+
+// DONT JOIN BUTTON
+dontJoinButton.addEventListener('click', async () => {
+  document.getElementById("Attendee_not_num").textContent = 1; 
+  joinButton.disabled = true;
+  dontJoinButton.disabled = true;
 });
