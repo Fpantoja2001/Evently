@@ -1,5 +1,4 @@
 
-
 const testUser = "8cda6dcf-3f34-47f1-990c-7a304f7a3f7a";
 const profileWrapper = document.getElementById('profile_wrapper');
 
@@ -63,12 +62,36 @@ const spanArray = [];
 
 if (profileWrapper) {
     // make a div for profile image
+    const profileImageWrapper = document.createElement('div');
+    profileImageWrapper.className = 'profileImageWrapper';
+
     const profileImage = document.createElement('div');
     profileImage.className = 'profileImage';
     const pfp = document.createElement('img');
     pfp.src = '../about/defaultpfp.jpg';
     profileImage.appendChild(pfp);
     divArray.push(profileImage);
+
+    const imageUploadInput = document.createElement('input');
+    imageUploadInput.type = 'file';
+    imageUploadInput.accept = 'image/*';
+    imageUploadInput.className = 'editInput';
+    imageUploadInput.style.display = 'none'; // Hidden by default
+    profileImageWrapper.appendChild(imageUploadInput);
+
+    divArray.push(profileImageWrapper);
+
+    // Handle image upload
+    imageUploadInput.addEventListener('change', () => {
+        const file = imageUploadInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                profileImage.src = e.target.result; // Update the image preview
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 
     const userDiv = document.createElement('div');
     const username = document.createElement('h2');
@@ -128,6 +151,9 @@ if (profileWrapper) {
     editButton.onclick = function() {
         if (editButton.textContent === 'Edit') {
             editButton.textContent = 'Save';
+            
+            imageUploadInput.style.display = 'inline'; // Show the image upload input
+
             spanArray.forEach((span) => {
                 const text = document.getElementById(span);
                 let input;
@@ -193,6 +219,8 @@ if (profileWrapper) {
             });
         } else {
             let isValid = true;
+            imageUploadInput.style.display = 'none'; // Hide the image upload input
+
             spanArray.forEach((span) => {
                 const text = document.getElementById(span);
                 if (!text) {
