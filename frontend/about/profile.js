@@ -15,6 +15,28 @@ const displayData = {
     'location': 'Location'
 };
 
+// update user data on the server
+async function updateUserData(userId, updatedData) {
+    try {
+        const response = await fetch(`/api/user/${userId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedData),
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error. status: ${response.status}`);
+        }
+        const result = await response.json();
+        console.log('User updated successfully:', result);
+        return result;
+    } catch (error) {
+        console.error('Error updating user data:', error);
+    }
+}
+
+
 function renderList(list, className) {
     const lists = document.createElement('div');
     lists.className = className;
@@ -219,6 +241,7 @@ if (profileWrapper) {
             });
         } else {
             let isValid = true;
+            const updatedData = {id: testUser};
             imageUploadInput.style.display = 'none'; // Hide the image upload input
 
             spanArray.forEach((span) => {
@@ -234,16 +257,16 @@ if (profileWrapper) {
                         isValid = false;
                         input.style.border = '1px solid red';
                     } else {
-                        const updatedValue = input.value;
-                        text.textContent = updatedValue;
+                        updatedData[span] = input.value.trim();
+                        text.textContent = input.value.trim();
                     }
                 } else if (select) {
                     if (select.selectedIndex === 0 || select.value.trim() === '') {
                         isValid = false;
                         select.style.border = '1px solid red';
                     } else {
-                        const updatedValue = select.options[select.selectedIndex].text;
-                        text.textContent = updatedValue;
+                        updatedData[span] = select.value.trim();
+                        text.textContent = select.options[select.selectedIndex].text;
                     }
                 } 
                 if (span === 'socialLinks') {
@@ -264,7 +287,8 @@ if (profileWrapper) {
 
     divArray.forEach((div) => {
         profileWrapper.appendChild(div);
-    });
+    });  
 
     console.log(spanArray);
+    const result = await updateUserData(testUser, updatedData);
 }
