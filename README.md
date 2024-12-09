@@ -15,3 +15,18 @@ To start the server, run npm run start
 ```
 node seed.js
 ```
+# To start the server 
+
+- Make sure the there is no database.sqlite 
+- First start the server to set up the database 
+```
+npm run start 
+```
+- close the server then on the event-tbd directory 
+```
+node seed.js 
+```
+- then run the server again
+```
+npm run start 
+```
