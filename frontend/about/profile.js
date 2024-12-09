@@ -16,6 +16,31 @@ const displayData = {
     'location': 'Location'
 };
 
+function renderList(list, className) {
+    const lists = document.createElement('div');
+    lists.className = className;
+    for (let l of list) {
+        const listDiv = document.createElement('div');
+        listDiv.className = 'skill';
+        listDiv.appendChild(document.createTextNode(l));
+        lists.appendChild(listDiv);
+    }
+    return lists;
+}
+
+function renderSocialLinks(links) {
+    const socialLinks = document.createElement('div');
+    socialLinks.className = 'socialLinks';
+    for (let link in JSON.parse(links)) {
+        const a = document.createElement('a');
+        a.href = links[link];
+        a.appendChild(document.createTextNode(link));
+        a.appendChild(document.createElement('br'));
+        socialLinks.appendChild(a);
+    }
+    return socialLinks;
+}
+
 // Fetch user data
 async function getUserData() {
     try {
@@ -69,48 +94,29 @@ if (profileWrapper) {
         text.appendChild(document.createTextNode(data[info]));
         userBio.appendChild(label);
 
-        // label links separately
         if (info === 'socialLinks') {
-            const socialLinks = document.createElement('div');
-            socialLinks.className = 'socialLinks';
-            for (let link in JSON.parse(data[info])) {
-                const a = document.createElement('a');
-                a.href = data[info][link];
-                a.appendChild(document.createTextNode(link));
-                a.appendChild(document.createElement('br'));
-                socialLinks.appendChild(a);
-            }
-            userBio.appendChild(socialLinks);
-            continue;
-        }  
-
-        // format the skills
-        if (info === "skills") {
-            const skills = document.createElement('div');
-            skills.className = 'skills';
-            for (let skill of data[info]) {
-                const skillDiv = document.createElement('div');
-                skillDiv.className = 'skill';
-                skillDiv.appendChild(document.createTextNode(skill));
-                skills.appendChild(skillDiv);
-            }
-            userBio.appendChild(skills);
+            const text = document.createElement('span');
+            text.id = info; 
+            spanArray.push(text.id); 
+        
+            const rendered = renderSocialLinks(data[info]);
+            text.appendChild(rendered); // Append the rendered links inside the span
+            userBio.appendChild(text);
+            userBio.appendChild(document.createElement('br'));
             continue;
         }
 
-        // format hobbies
-        if (info === 'hobbies') {
-            const hobbies = document.createElement('div');
-            hobbies.className = 'hobbies';
-            for (let hobby of data[info]) {
-                const hobbyDiv = document.createElement('div');
-                hobbyDiv.className = 'hobby';
-                hobbyDiv.appendChild(document.createTextNode(hobby));
-                hobbies.appendChild(hobbyDiv);
-            }
-            userBio.appendChild(hobbies);
-            continue
+        if (info === "skills" || info === "hobbies") {
+            const text = document.createElement('span');
+            text.id = info;
+            spanArray.push(text.id);
+
+            const rendered = renderList(data[info], info);
+            userBio.appendChild(rendered);
+            userBio.appendChild(document.createElement('br'));
+            continue;
         }
+
         userBio.appendChild(text); // append the text information later
         userBio.appendChild(document.createElement('br'));
     }
@@ -157,6 +163,26 @@ if (profileWrapper) {
                 } else if (span === "phoneNumber") {
                     input = document.createElement('input');
                     input.type = 'number';
+                } else if (span === "socialLinks") {
+                    const addButton = document.createElement('button');
+                    addButton.className = 'editButton';
+                    addButton.id = 'addButton';
+                    addButton.appendChild(document.createTextNode('Add'));
+                    addButton.onclick = function() {
+                        input = document.createElement('input');
+                        input.type = 'text';
+                    }
+
+                    const removeButton = document.createElement('button');
+                    removeButton.className = 'editButton';
+                    removeButton.id = 'removeButton';
+                    removeButton.appendChild(document.createTextNode('Remove'));
+                    removeButton.onclick = function() {
+                        input = document.createElement('input');
+                        input.type = 'text';
+                    }
+                    text.appendChild(addButton);
+                    text.appendChild(removeButton);
                 } else {
                     input = document.createElement('input');
                     input.type = 'text';
@@ -192,6 +218,11 @@ if (profileWrapper) {
                         text.textContent = updatedValue;
                     }
                 } 
+                if (span === 'socialLinks') {
+                    text.removeChild(document.getElementById('addButton'));
+                    text.removeChild(document.getElementById('removeButton'));
+                    isValid = true;
+                }
             });
             if (isValid) {
                 editButton.textContent = 'Edit';
@@ -206,4 +237,6 @@ if (profileWrapper) {
     divArray.forEach((div) => {
         profileWrapper.appendChild(div);
     });
+
+    console.log(spanArray);
 }
