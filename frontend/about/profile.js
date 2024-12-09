@@ -170,7 +170,7 @@ if (profileWrapper) {
     const editButton = document.createElement('button');
     editButton.className = 'editButton';
     editButton.appendChild(document.createTextNode('Edit'));
-    editButton.onclick = function() {
+    editButton.onclick = async function() {
         if (editButton.textContent === 'Edit') {
             editButton.textContent = 'Save';
             
@@ -178,6 +178,11 @@ if (profileWrapper) {
 
             spanArray.forEach((span) => {
                 const text = document.getElementById(span);
+                if (!text) {
+                    console.warn(`Element with ID '${span}' not found.`);
+                    return;
+                }
+
                 let input;
                 if (span === 'age') {
                     input = document.createElement('input');
@@ -241,7 +246,7 @@ if (profileWrapper) {
             });
         } else {
             let isValid = true;
-            const updatedData = {id: testUser};
+            const updatedData = {};
             imageUploadInput.style.display = 'none'; // Hide the image upload input
 
             spanArray.forEach((span) => {
@@ -270,16 +275,57 @@ if (profileWrapper) {
                     }
                 } 
                 if (span === 'socialLinks') {
-                    text.removeChild(document.getElementById('addButton'));
-                    text.removeChild(document.getElementById('removeButton'));
-                    isValid = true;
+                    const addButton = document.getElementById('addButton');
+                    const removeButton = document.getElementById('removeButton');
+                    
+                    if (addButton) text.removeChild(addButton); 
+                    if (removeButton) text.removeChild(removeButton); 
                 }
-            });
+            });         
             if (isValid) {
-                editButton.textContent = 'Edit';
+                if (updatedData.age) {
+                    const parsedAge = parseInt(updatedData.age, 10);
+                    if (!isNaN(parsedAge)) {
+                        updatedData.age = parsedAge;
+                    } else {
+                        delete updatedData.age;
+                    }
+                }
+                
+                if (Array.isArray(updatedData.skills)) {
+                    updatedData.skills = JSON.stringify(updatedData.skills);
+                }
+                
+                if (typeof updatedData.socialLinks === 'object') {
+                    updatedData.socialLinks = JSON.stringify(updatedData.socialLinks);
+                }
+                const result = await updateUserData(testUser, updatedData);
+                console.log(updatedData);
+
+                if (result) {
+                    console.log('User data updated successfully:', result);
+                
+                    // Update the UI with the new data
+                    spanArray.forEach((span) => {
+                        const text = document.getElementById(span);
+                        if (text) {
+                            text.textContent = result[span] || ""; // Update each span with the returned value
+                        }
+                    });
+                
+                    // Update the profile image if it was changed
+                    if (result.pfpImage) {
+                        profileImage.src = result.pfpImage; // Update the image src to the new profile picture
+                    }
+                    editButton.textContent = 'Edit';
+                    alert('Profile updated successfully!');
+                } else {
+                    alert('Failed to update profile. Please try again.');
+                } 
             }
         }
     };
+
 
     userBioDiv.appendChild(editButton);
     userBioDiv.appendChild(userBio);
@@ -290,5 +336,4 @@ if (profileWrapper) {
     });  
 
     console.log(spanArray);
-    const result = await updateUserData(testUser, updatedData);
 }
