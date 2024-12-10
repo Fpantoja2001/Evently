@@ -2,6 +2,8 @@ const express = require('express');
 const sequelize = require('./db.js'); // Sequelize instance
 const EventRoutes = require('./routes/eventRoutes.js'); // Event routes
 const UserRoutes = require('./routes/userRoutes.js'); // User routes
+const session = require('express-session')
+const store = new session.MemoryStore();
 const path = require('path');
 
 class Server {
@@ -10,12 +12,14 @@ class Server {
         this.configureMiddleware();
         this.setupRoutes();
         this.syncDatabase();
+        this.setUpSession();
     }
 
     // Configure middleware
     configureMiddleware() {
         this.app.use(express.static(path.join(__dirname, '../frontend'))); // Serve frontend files
         this.app.use(express.json({ limit: '10mb' })); // Parse incoming JSON
+        this.setUpSession()
     }
 
     // Set up routes
@@ -32,6 +36,20 @@ class Server {
         } catch (error) {
             console.error('Error synchronizing the database:', error);
         }
+    }
+
+    // Set up Session
+
+    setUpSession() {
+        this.app.use(session({
+            secret: "some secret",
+            cookie: {
+                maxAge: 1000 * 60 * 60 * 24
+            },
+            saveUninitialized: false,
+            resave: false,
+            store: store,
+        }))
     }
 
     // Start the server
