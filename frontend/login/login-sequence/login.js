@@ -76,13 +76,14 @@ export class emailInputComponent extends HTMLElement {
 
             }
             try{
-                const response=await fetch('user/getAll');
+                const response=await fetch('http://localhost:3000/api/user/getAll');
                 const users=await response.json();
                 const userExists=users.some(user => user.email === email);
                 
                 
                 if(userExists){
                     const passwordInputComponent=document.createElement('password-input-component');
+                    passwordInputComponent.classList.add("sign-up-component");
                     passwordInputComponent.setAttribute('data-email', email);
                     this.loginContainer.innerHTML = "";
                     this.loginContainer.appendChild(passwordInputComponent);
@@ -98,7 +99,7 @@ export class emailInputComponent extends HTMLElement {
         this.signUpRoute.addEventListener("click", (e) => {
             e.preventDefault();
             const signUpComponent = document.createElement("create-account-component");
-            signUpComponent.classList.add("sign-up-component");
+            signUpComponent.classList.add(".sign-up-component");
             this.loginComponent.remove()
             this.loginContainer.appendChild(signUpComponent);
         });
@@ -116,16 +117,17 @@ class passwordInputComponent extends HTMLElement {
         shadow.append(template.content.cloneNode(true))
 
         // Setting variables for ease of use
-        this.inputComponent = shadow.querySelector(".component-input")
+        this.inputComponent = shadow.querySelector(".component-input");
         this.errorComponent=shadow.querySelector(".component-form-error");
-        this.email=this.getAttribute('data-email');
+        this.continueBtn = shadow.querySelector(".continueBtn");
+        this.component = null;
+        this.email = null;
     }
 
     connectedCallback() {
-        const shadowRoot = this.loginComponent.shadowRoot;
-        const continueBtn = shadowRoot.querySelector(".continueBtn")
-
-        continueBtn.addEventListener("click", async (e) => {
+        this.component = document.querySelector('password-input-component')
+        this.email = this.component.getAttribute('data-email')
+        this.continueBtn.addEventListener("click", async (e) => {
             e.preventDefault()
             const password=this.inputComponent.value.trim();
             if(!password){
@@ -137,9 +139,12 @@ class passwordInputComponent extends HTMLElement {
                 const users=await response.json();
                 const user = users.find(user => user.email === this.email);
 
-                if(user && user.password===password){
-                    console.log("login succ");
+                if(user && user.password === password){
+                    console.log("login successful");
                     this.errorComponent.innerText="Login successful";
+
+                    // what happens after login
+                    
                 }else{
                     this.errorComponent.innerText="Invalid pass";
                     this.errorComponent.style.color="red";
