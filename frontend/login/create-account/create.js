@@ -2,7 +2,7 @@ const template = document.createElement("template");
 
 // Ensure template has the correct HTML for rendering
 template.innerHTML = `
-  <link rel="stylesheet" href="../../../../frontend/login/create-account/create.css">
+  <link rel="stylesheet" href="../login/create-account/create.css">
   <div class="logo">logo</div>
   <slot class="component-title">Enter your personal info</slot>
 
@@ -27,9 +27,8 @@ export class createAccount extends HTMLElement {
         super();
         this.shadow = this.attachShadow({ mode: "open" });
         this.shadow.append(template.content.cloneNode(true));
-
         this.continueBtn = this.shadow.querySelector(".continueBtn");
-
+        this.page = document.querySelector(".login-container");
         console.log("Shadow DOM initialized.");
     }
 
@@ -87,6 +86,12 @@ export class createAccount extends HTMLElement {
             passwordInput.classList.remove("incorrectInput");
         }
 
+        console.log({
+            name: userNameInput.value.trim(),
+            email: emailInput.value.trim(),
+            password: passwordInput.value.trim()
+        })
+
         if (isValid) {
             console.log("Form passed validation. Attempting user creation...");
             const userData = {
@@ -96,22 +101,24 @@ export class createAccount extends HTMLElement {
             };
 
             try {
-                // yeah
                 const response = await fetch('http://localhost:3000/api/user/create', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(userData)
                 });
 
+
                 if (!response.ok) {
                     throw new Error('Error');
+                } else {
+                    console.log("response ok")
                 }
 
                 const result = await response.json();
                 console.log('Server response:', result);
 
-                if (result && result.success) {
-                    alert('Account created successfully!');
+                if (result) {
+                    // alert('Account created successfully!');
                     this.navigateToNextStep();
                 } else {
                     console.error('Failed to create account: ' + (result.message || 'Unknown error'));
@@ -127,6 +134,18 @@ export class createAccount extends HTMLElement {
 
     navigateToNextStep() {
         console.log("Navigating to the next step...");
+
+        const component = document.querySelector('create-account-component')
+
+        // initializing new component to pass in
+        const newC = document.createElement("email-input-component");
+        newC.classList.add("login-component");
+
+        // removing current component
+        component.remove();
+
+        // adding new component
+        this.page.appendChild(newC); 
     }
 
     disconnectedCallback() {
