@@ -2,7 +2,7 @@ import reviewData from "./review.json" with { type: "json" };
 
 //get data using username
 //TODO
-var userReviews = reviewData.johndoe || [];
+var userReviews = reviewData.reviews || [];
 
 //helper function for creating a review div
 function createDiv(review){
