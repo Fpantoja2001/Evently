@@ -145,11 +145,11 @@ class passwordInputComponent extends HTMLElement {
                 const response=await fetch('http://localhost:3000/api/user/getAll');
                 const users=await response.json();
                 const user = users.find(user => user.email === userEmail);
-
                 if(user && user.password === password){
+                    const userID = user.id
                     console.log("login successful");
                     // this.errorComponent.innerText="Login successful";
-                    const body = {userEmail, password}
+                    const body = {userEmail, password, userID}
 
                     const loginResponse = await fetch('http://localhost:3000/api/user/login', {
                         method: 'POST',
