@@ -60,12 +60,9 @@ const seedDatabase = async () => {
                 eventCreator: users[0].id, // Assume User IDs start from 1
                 eventAddress: '123 Tech Street, Silicon Valley, CA',
                 eventDescription: 'A meetup for tech enthusiasts to share and learn.',
-<<<<<<< HEAD
                 eventImage: 'tech-meetup.jpg',
-=======
                 //eventImage: 'https://example.com/tech-meetup.jpg',
                 eventImage: 'https://cdn.prod.website-files.com/64f989999025f3e47402a969/65433da3841c29ac9e3fc41b_Accelerate-your-career-by-attending-tech-meetups.jpeg',
->>>>>>> origin
             },
             {
                 eventName: 'Cooking Workshop',
@@ -79,12 +76,9 @@ const seedDatabase = async () => {
                 eventCreator: users[1].id,
                 eventAddress: '456 Culinary Lane, Food City, CA',
                 eventDescription: 'Hands-on cooking experience with a professional chef.',
-<<<<<<< HEAD
                 eventImage: 'cooking-workshop.jpg',
-=======
                 //eventImage: 'https://example.com/cooking-workshop.jpg',
                 eventImage: 'https://www.allculinaryschools.com/wp-content/uploads/2016/12/culinary-arts-find-a-cooking-class.jpg',
->>>>>>> origin
             },
         ]);
 
