@@ -170,3 +170,106 @@ a.git{
     color: black;
     font-family: 'Courier New', Courier, monospace;
 }
+
+/* Edit and Save Buttons */
+.addButton, .removeButton, .editButton, .saveButton {
+    display: inline-block; 
+    width: auto;
+    padding: 8px 16px; 
+    font-size: 14px;
+    border: none; 
+    background-color: #f5a3a3; 
+    color: #fff; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    text-align: center; 
+    white-space: nowrap; 
+    margin-left: 1rem;
+}
+
+.addButton:hover, .removeButton:hover, .editButton:hover, .saveButton:hover {
+    background-color: #f08484; 
+}
+
+/* Input Field for Editing */
+.editInput {
+    margin-left: 10px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    background-color: #fff;
+    width: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease;
+}
+
+.editInput:focus {
+    border-color: #FFB0B0;
+    outline: none;
+}
+
+/* User Bio */
+.userBio {
+    text-align: left;
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.8;
+    margin-top: 1rem;
+}
+.socialLinks {
+    margin-top: 16px; /* Add spacing above the section */
+}
+
+.socialLinkItem {
+    margin-bottom: 8px; /* Add spacing between links */
+}
+
+.socialLinkItem a {
+    text-decoration: none; /* Remove underline */
+    color: #007bff; /* Link color */
+    font-weight: bold; /* Make link text bold */
+}
+
+.socialLinkItem a:hover {
+    text-decoration: underline; /* Add underline on hover */
+    color: #0056b3; /* Change color on hover */
+}
+
+
+/* Responsive Design Enhancements */
+/* @media (max-width: 768px) {
+    .editInput {
+        width: 100%;
+    }
+
+    .editButton, .saveButton {
+        margin: 0.5rem 0;
+        width: 100%;
+        text-align: center;
+    }
+} */
+
+.profileImageWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.editInput {
+    display: block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #f5a3a3;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.editInput:hover {
+    background-color: #f08484;
+}

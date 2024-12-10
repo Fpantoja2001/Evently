@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   url.pathname = `api/event/${eventId}`
   //url.searchParams.append("eventId", eventId);
 
-  url.searchParams.append("deBug", true); // FOR SWITCH TO DEBUB MODE
+  //url.searchParams.append("deBug", true); // FOR SWITCH TO DEBUB MODE
   fetch(url)
   .then(response => {
     if (response.ok){
@@ -43,6 +43,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('event-description').textContent = data.eventDescription;
     document.getElementById('Attendee_num').textContent = 0; // PLACEHOLDER VAL
     document.getElementById('Attendee_not_num').textContent = 0; // PLACEHOLDER VAL
+    if(data.eventImage){
+      document.getElementById('event-image').src = data.eventImage;
+    }
 
       if(data.privacy === "Public"){ // DISABLING BUTTONS IF PRIVATE EVENT
         joinButton.disabled = false;
