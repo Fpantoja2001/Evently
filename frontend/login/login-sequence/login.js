@@ -119,6 +119,10 @@ class passwordInputComponent extends HTMLElement {
         this.email=this.getAttribute('data-email');
     }
 
+    saveIdLocal(userId){
+        localStorage.setItem("userId",userId);
+    }
+
     connectedCallback() {
         const continueBtn = shadowRoot.querySelector(".continueBtn")
 

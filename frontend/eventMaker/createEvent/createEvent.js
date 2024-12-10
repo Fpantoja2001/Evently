@@ -319,6 +319,13 @@ class EventMaker extends HTMLElement {
     }
 
     submit(){
+        const userId = localStorage.getItem("userId");
+
+    if (userId) {
+    console.log("Current loggedin user ID:", userId);
+    } else {
+    console.log("Noone is currently logged in.");
+}
         console.log(this.eventDetails);
 
         fetch("http://localhost:3000/api/event/create", {
@@ -334,7 +341,7 @@ class EventMaker extends HTMLElement {
                 eventLimit: this.eventDetails.occupancy === "Limited" ? 50 : 0,
                 eventCategory: this.eventDetails.category,
                 reservation: this.eventDetails.seating === "Reservation" ? true : false,
-                eventCreator: users[0].id, //CHANGE TO CURRENT USER. HOW? IDK.
+                eventCreator: userId, //CHANGE TO CURRENT USER. HOW? IDK.
                 eventAddress: this.eventDetails.location,
                 eventDescription: this.eventDetails.description,
             })
