@@ -124,6 +124,10 @@ class passwordInputComponent extends HTMLElement {
         this.email = null;
     }
 
+    saveIdLocal(userId){
+        localStorage.setItem("userId",userId);
+    }
+
     connectedCallback() {
         this.component = document.querySelector('password-input-component')
         this.email = this.component.getAttribute('data-email')

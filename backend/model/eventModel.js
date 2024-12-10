@@ -16,10 +16,10 @@ const Event = sequelize.define('Event', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    eventTime: {
-        type: DataTypes.TIME,
-        allowNull: false,
-    },
+    //eventTime: {
+      //  type: DataTypes.TIME,
+       // allowNull: false,
+    //},
     privacy: {
         type: DataTypes.STRING,
         allowNull: false,
