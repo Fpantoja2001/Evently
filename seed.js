@@ -51,7 +51,7 @@ const seedDatabase = async () => {
             {
                 eventName: 'Tech Meetup',
                 eventDate: '2024-12-20',
-                eventTime: '18:00',
+                //eventTime: '18:00',
                 privacy: 'Public',
                 inviteOption: 'Anyone',
                 eventLimit: 50,
@@ -65,7 +65,7 @@ const seedDatabase = async () => {
             {
                 eventName: 'Cooking Workshop',
                 eventDate: '2024-12-15',
-                eventTime: '14:00',
+                //eventTime: '14:00',
                 privacy: 'Private',
                 inviteOption: 'Invite Only',
                 eventLimit: 20,
