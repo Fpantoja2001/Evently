@@ -6,9 +6,9 @@ const router = express.Router();
 
 // Create a new user
 router.post('/user/create', async (req, res) => {
-    try {
-        const { name, email, password, bio, phoneNumber, age, gender, socialLinks, skills, hobbies, pfpImage } = req.body;
+    const { name, email, password, bio, phoneNumber, age, gender, socialLinks, skills, hobbies, pfpImage } = req.body;
 
+    try {
         const user = await User.create({
             name,
             email,
@@ -18,12 +18,12 @@ router.post('/user/create', async (req, res) => {
             age,
             gender,
             socialLinks,
-            skills: JSON.stringify(skills), // Store skills as a JSON string
-            hobbies: JSON.stringify(hobbies), // Store hobbies as a JSON string
+            skills, //: JSON.stringify(skills), // Store skills as a JSON string
+            hobbies, //: JSON.stringify(hobbies), // Store hobbies as a JSON string
             pfpImage,
         });
 
-        res.status(201).json(user);
+        res.status(201).JSON(user);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

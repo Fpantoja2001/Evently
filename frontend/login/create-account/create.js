@@ -83,7 +83,7 @@ export class createAccount extends HTMLElement {
         const formErrorTwo = this.shadow.querySelector(".component-form-error-two");
         const formErrorThree = this.shadow.querySelector(".component-form-error-three");
 
-        //uesr
+        //user
         if (userNameInput?.value.trim() === "") {
             formErrorOne.innerText = "Please enter a valid username.";
             userNameInput.classList.add("incorrectInput");
@@ -111,11 +111,11 @@ export class createAccount extends HTMLElement {
             passwordInput.classList.remove("incorrectInput");
         }
 
-        console.log({
-            name: userNameInput.value.trim(),
-            email: emailInput.value.trim(),
-            password: passwordInput.value.trim()
-        })
+        // console.log({
+        //     name: userNameInput.value.trim(),
+        //     email: emailInput.value.trim(),
+        //     password: passwordInput.value.trim()
+        // })
 
         if (isValid) {
             console.log("Form passed validation. Attempting user creation...");
@@ -127,6 +127,7 @@ export class createAccount extends HTMLElement {
 
             try {
                 console.log(JSON.stringify(userData))
+
                 const response = await fetch('http://localhost:3000/api/user/create', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -145,6 +146,7 @@ export class createAccount extends HTMLElement {
 
                 if (result) {
                     // alert('Account created successfully!');
+                    
                     this.navigateToNextStep();
                 } else {
                     console.error('Failed to create account: ' + (result.message || 'Unknown error'));
