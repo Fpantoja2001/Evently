@@ -5,7 +5,7 @@ const User = require('./backend/model/userModel.js'); // Adjust the path as need
 
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: './database.sqlite', // Adjust path if necessary
+    storage: '../database.sqlite', // Adjust path if necessary
 });
 
 const seedDatabase = async () => {
@@ -18,8 +18,8 @@ const seedDatabase = async () => {
         const users = await User.bulkCreate([
             {
                 name: 'Alice Johnson',
+                email: 'alice@umass.edu',
                 username: 'alicej',
-                email: 'alice@example.com',
                 password: 'password123',
                 bio: 'Event enthusiast and tech geek.',
                 phoneNumber: '555-1234',
@@ -28,10 +28,11 @@ const seedDatabase = async () => {
                 socialLinks: JSON.stringify({ twitter: '@alicej', linkedin: 'linkedin.com/in/alicej' }),
                 skills: JSON.stringify(['Networking', 'Event Planning']),
                 hobbies: JSON.stringify(['Hiking', 'Cooking']),
+                pfpImage: 'https://example.com/alice.jpg',
             },
             {
                 name: 'Bob Smith',
-                username: 'bobsmith',
+                username: 'bsmith',
                 email: 'bob@example.com',
                 password: 'password123',
                 bio: 'Avid traveler and foodie.',
@@ -41,6 +42,7 @@ const seedDatabase = async () => {
                 socialLinks: JSON.stringify({ instagram: '@bobtravel' }),
                 skills: JSON.stringify(['Photography', 'Graphic Design']),
                 hobbies: JSON.stringify(['Traveling', 'Photography']),
+                pfpImage: 'https://example.com/bob.jpg',
             },
         ]);
 
