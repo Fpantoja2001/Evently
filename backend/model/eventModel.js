@@ -53,7 +53,7 @@ const Event = sequelize.define('Event', {
         allowNull: false,
     },
     eventImage: {
-        type: DataTypes.BLOB,
+        type: DataTypes.STRING,
         allowNull: true,
     },
     eventIcon: {

@@ -122,6 +122,7 @@ class passwordInputComponent extends HTMLElement {
         this.continueBtn = shadow.querySelector(".continueBtn");
         this.showPasswordBtn = shadow.querySelector(".showPasswordBtn")
         this.showPasswordHoverText = shadow.querySelector(".show-password-hover-text")
+        this.showPasswordImg = shadow.querySelector(".show-password-img")
         this.component = null;
         this.email = null;
     }
@@ -132,7 +133,7 @@ class passwordInputComponent extends HTMLElement {
 
     connectedCallback() {
         this.component = document.querySelector('password-input-component')
-        this.email = this.component.getAttribute('data-email')
+        const userEmail = this.component.getAttribute('data-email')
         this.continueBtn.addEventListener("click", async (e) => {
             e.preventDefault()
             const password=this.inputComponent.value.trim();
@@ -143,14 +144,23 @@ class passwordInputComponent extends HTMLElement {
             try{
                 const response=await fetch('http://localhost:3000/api/user/getAll');
                 const users=await response.json();
-                const user = users.find(user => user.email === this.email);
+                const user = users.find(user => user.email === userEmail);
 
                 if(user && user.password === password){
                     console.log("login successful");
-                    this.errorComponent.innerText="Login successful";
+                    // this.errorComponent.innerText="Login successful";
+                    const body = {userEmail, password}
 
-                    // what happens after login ???? 
+                    const loginResponse = await fetch('http://localhost:3000/api/user/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(body),
+                    })
+                    const auth = await loginResponse.json()
+
+                    // Takes you back to home
                     
+                    window.location.href = 'http://localhost:3000'
                 }else{
                     this.errorComponent.innerText="Invalid pass";
                     this.errorComponent.style.color="red";

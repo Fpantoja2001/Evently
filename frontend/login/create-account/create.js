@@ -1,10 +1,32 @@
-const template = document.createElement("template");
+const template = document.createElement("template")
 
-// Ensure template has the correct HTML for rendering
-template.innerHTML = `
-  <link rel="stylesheet" href="../login/create-account/create.css">
-  <div class="logo">logo</div>
-  <slot class="component-title">Enter your personal info</slot>
+const componentTemplates = [
+    `
+        <link rel="stylesheet" href="../../../../frontend/login/create-account/create.css">
+        <div class="logo">logo</div>
+        <slot class="component-title">Enter your personal info</slot>
+
+        <div class="component-container">
+            <input type="text" class="component-input-one" id="firstNameInput" placeholder=" ">
+            <label for="firstName" class="component-placeholder-one">First Name</label>
+            <span class="component-form-error-one"></span>
+
+            <input type="text" class="component-input-two" id="lastNameInput" placeholder=" ">
+            <label for="lastName" class="component-placeholder-two">Last Name</label>
+            <span class="component-form-error-two"></span>
+
+            <input type="text" class="component-input-three" id="birthdayInput" placeholder=" ">
+            <label for="lastName" class="component-placeholder-three">Birthday (MMDDYYYY)</label>
+            <span class="component-form-error-three"></span>
+
+            <button class="continueBtn">Continue</button>
+            <span class="signInT ext">Already have an account?<span class="signInRoute"> Sign in </span></span>
+        <div>
+    `,
+    `
+        <link rel="stylesheet" href="../../../../frontend/login/create-account/create.css">
+        <div class="logo">logo</div>
+        <slot class="component-title">Enter account details</slot>
 
   <div class="component-container">
     <input type="text" class="component-input-one" id="userNameInput" placeholder=" ">
@@ -21,7 +43,7 @@ template.innerHTML = `
 
     <button class="continueBtn">Sign Up</button>
   </div>
-`;
+`];
 export class createAccount extends HTMLElement {
     constructor() {
         super();
