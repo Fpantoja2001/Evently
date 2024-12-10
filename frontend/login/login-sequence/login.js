@@ -120,6 +120,8 @@ class passwordInputComponent extends HTMLElement {
         this.inputComponent = shadow.querySelector(".component-input");
         this.errorComponent=shadow.querySelector(".component-form-error");
         this.continueBtn = shadow.querySelector(".continueBtn");
+        this.showPasswordBtn = shadow.querySelector(".showPasswordBtn")
+        this.showPasswordHoverText = shadow.querySelector(".show-password-hover-text")
         this.component = null;
         this.email = null;
     }
@@ -147,7 +149,7 @@ class passwordInputComponent extends HTMLElement {
                     console.log("login successful");
                     this.errorComponent.innerText="Login successful";
 
-                    // what happens after login
+                    // what happens after login ???? 
                     
                 }else{
                     this.errorComponent.innerText="Invalid pass";
@@ -158,7 +160,42 @@ class passwordInputComponent extends HTMLElement {
                 this.errorComponent.innerText="cant connect to server";
             }
         });
+
+        // forgotPassRoute.addEventListener("click", () => {
+        //     console.log("forgotPassRoute clicked")
+        //     // to be implemented with backend
+        // })
+
+        this.showPasswordBtn.addEventListener("click", () => {
+            const currentActive = this.showPasswordBtn.getAttribute("active")
+
+            if(currentActive === "true"){
+                this.showPasswordBtn.setAttribute("active", "false")
+                this.showPasswordImg.setAttribute("src","./icons/show-password.svg")
+                this.showPasswordHoverText.innerText = "Show password"
+                this.inputComponent.setAttribute("type", "password")
+            } else {
+                this.showPasswordBtn.setAttribute("active", "true")
+                this.showPasswordImg.setAttribute("src","./icons/hide-password.svg")
+                this.showPasswordHoverText.innerText = "Hide password"
+                this.inputComponent.setAttribute("type", "text")
+            }
+        })
+
+        this.showPasswordBtn.addEventListener("mouseover", () => {
+            this.showPasswordHoverText.removeAttribute("hidden")
+            
+        })
+
+        this.showPasswordBtn.addEventListener("mouseleave", () => {
+            this.showPasswordHoverText.setAttribute("hidden", true);
+        });
     }
+
+    disconnectedCallback(){
+        console.log("password component removed")
+    }
+
 }
 
 customElements.define("email-input-component", emailInputComponent)
