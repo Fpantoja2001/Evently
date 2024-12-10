@@ -5,7 +5,7 @@ const joinButton = document.getElementById('button-join');
 const dontJoinButton = document.getElementById('button-decline');
 
 document.addEventListener('DOMContentLoaded', async function() {
-  const ratings = reviewData.johndoe.map(item => item.rating); // GETTING REVIEW DATA
+  const ratings = reviewData.reviews.map(item => item.rating); // GETTING REVIEW DATA
   const sum = ratings.reduce((total, val) => total + val, 0);
   const meanrating = sum/ratings.length;
 

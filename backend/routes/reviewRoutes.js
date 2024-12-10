@@ -30,7 +30,23 @@ router.post('/review/create', async (req, res) => {
 // Get all reviews of a user using the userName
 router.get('/review/getUserReviews', async (req, res) => {
     try {
-        const reviewsAndCount = await Review.findAndCountAll(req.params.id);
+        const reviewsAndCount = await Review.findAndCountAll(req.params.userName);
+        const reviews = reviewsAndCount.rows;
+        const count = reviewsAndCount.count;
+        // Parse JSON strings for reviews
+        const parsedReviews = reviews.map(review => ({
+            ...review.toJSON(),
+        }));
+        res.json({"reviews": parsedReviews, "total": count});
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Get all reviews of a user using the eventName
+router.get('/review/getUserReviews', async (req, res) => {
+    try {
+        const reviewsAndCount = await Review.findAndCountAll(req.params.eventName);
         const reviews = reviewsAndCount.rows;
         const count = reviewsAndCount.count;
         // Parse JSON strings for reviews

@@ -1,7 +1,7 @@
 import reviewData from "./review.json" with { type: "json" };
+import Review from "../../backend/model/reviewModel";
 
 //get data using username
-//TODO
 var userReviews = reviewData.reviews || [];
 
 //helper function for creating a review div
