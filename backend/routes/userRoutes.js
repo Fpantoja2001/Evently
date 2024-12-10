@@ -1,5 +1,7 @@
 const express = require('express');
 const User = require('../model/userModel.js');
+const session = require('express-session');
+const { CONSTRAINT } = require('sqlite3');
 const router = express.Router();
 
 // Create a new user
@@ -109,5 +111,17 @@ router.delete('/user/:id', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+// Auth session
+router.post('/user/login', async (req, res) => {
+    try {
+        req.session.authenticated = true; 
+        req.session.user = req.body;
+    } catch (error) {
+        res.status(500).json({
+            error: error.message,
+        })
+    }
+})
 
 module.exports = router;

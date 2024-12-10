@@ -1,4 +1,3 @@
-import openDatabase from "../../model/SQLiteConnection.js";
 const template = document.createElement("template")
 
 const componentTemplates = [
@@ -44,7 +43,7 @@ const componentTemplates = [
 
     <button class="continueBtn">Sign Up</button>
   </div>
-`;
+`];
 export class createAccount extends HTMLElement {
     constructor() {
         super();
