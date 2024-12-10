@@ -117,6 +117,7 @@ router.post('/user/login', async (req, res) => {
     try {
         req.session.authenticated = true; 
         req.session.user = req.body;
+        console.log(req.sessionID, req.session)
     } catch (error) {
         res.status(500).json({
             error: error.message,
