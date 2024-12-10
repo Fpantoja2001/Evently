@@ -1,7 +1,6 @@
 const express = require('express');
 const User = require('../model/userModel.js');
 const session = require('express-session');
-const { CONSTRAINT } = require('sqlite3');
 const router = express.Router();
 
 // Create a new user
