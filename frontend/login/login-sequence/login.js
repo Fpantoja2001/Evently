@@ -15,7 +15,7 @@ const componentTemplates = [
         </div>
     `,
     `
-        <link rel="stylesheet" href="../../../frontend/login/login-sequence/login.css"">
+        <link rel="stylesheet" href="../login/login-sequence/login.css"">
         <div class="logo">logo</div>
         <slot class="component-title"></slot>
 
@@ -53,13 +53,15 @@ export class emailInputComponent extends HTMLElement {
         this.inputComponent = shadow.querySelector(".component-input")
         this.errorComponent = shadow.querySelector(".component-form-error")
         this.componentPlaceholder = shadow.querySelector(".component-placeholder")
-        this.loginContainer = document.querySelector(".login-container")
-        this.loginComponent = document.querySelector(".login-component")
         this.signUpRoute = shadow.querySelector(".signUpRoute")
         this.page = document.querySelector(".login-container");
+        this.loginContainer = null;
+        this.loginComponent = null;
     }
 
     connectedCallback() {
+        this.loginContainer = document.querySelector(".login-container")
+        this.loginComponent = document.querySelector('email-input-component')
 
         // Validates Input
         this.continueBtn.addEventListener("click", async (e) => {
@@ -74,7 +76,7 @@ export class emailInputComponent extends HTMLElement {
 
             }
             try{
-                const response=await fetch('user/getAll');
+                const response = await fetch('http://localhost:3000/api/user/getAll');
                 const users=await response.json();
                 const userExists=users.some(user => user.email === email);
                 
@@ -95,10 +97,10 @@ export class emailInputComponent extends HTMLElement {
         });
         this.signUpRoute.addEventListener("click", (e) => {
             e.preventDefault();
-            const signUpComponent=document.createElement("create-account-component");
+            const signUpComponent = document.createElement("create-account-component");
             signUpComponent.classList.add("sign-up-component");
-            this.loginComponent.innerHTML="";
-            this.loginComponent.appendChild(signUpComponent);
+            this.loginComponent.remove()
+            this.loginContainer.appendChild(signUpComponent);
         });
     }
 }
@@ -120,6 +122,7 @@ class passwordInputComponent extends HTMLElement {
     }
 
     connectedCallback() {
+        const shadowRoot = this.loginComponent.shadowRoot;
         const continueBtn = shadowRoot.querySelector(".continueBtn")
 
         continueBtn.addEventListener("click", async (e) => {
@@ -132,7 +135,7 @@ class passwordInputComponent extends HTMLElement {
             try{
                 const response=await fetch('http://localhost:3000/api/user/getAll');
                 const users=await response.json();
-                const user=users.find(user => user.email === this.email);
+                const user = users.find(user => user.email === this.email);
 
                 if(user && user.password===password){
                     console.log("login succ");
