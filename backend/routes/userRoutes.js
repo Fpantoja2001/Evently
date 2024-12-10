@@ -6,11 +6,31 @@ const router = express.Router();
 
 // Create a new user
 router.post('/user/create', async (req, res) => {
+    console.log(req.body)
     try {
-        const { name, email, password, bio, phoneNumber, age, gender, socialLinks, skills, hobbies, pfpImage } = req.body;
+        // const { name, email, password, bio, phoneNumber, age, gender, socialLinks, skills, hobbies, pfpImage } = req.body;
+
+        // const user = await User.create({
+        //     name,
+        //     email,
+        //     password,
+        //     bio,
+        //     phoneNumber,
+        //     age,
+        //     gender,
+        //     socialLinks,
+        //     skills: JSON.stringify(skills), // Store skills as a JSON string
+        //     hobbies: JSON.stringify(hobbies), // Store hobbies as a JSON string
+        //     pfpImage,
+        // });
+
+        const { name, email, password} = req.body;
+
+        console.log(typeof(name), typeof(email), typeof(password))
 
         const user = await User.create({
             name,
+            username,
             email,
             password,
             bio,
@@ -21,8 +41,9 @@ router.post('/user/create', async (req, res) => {
             skills: JSON.stringify(skills), // Store skills as a JSON string
             hobbies: JSON.stringify(hobbies), // Store hobbies as a JSON string
             pfpImage,
-        });
+        })
 
+        console.log(user)
         res.status(201).json(user);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -66,39 +87,35 @@ router.get('/user/:id', async (req, res) => {
 
 // Update a user
 router.put('/user/:id', async (req, res) => {
-    console.log("request body", req.body);
     try {
         const user = await User.findByPk(req.params.id);
         if (!user) return res.status(404).json({ error: 'User not found' });
-        const allowedFields = ['name', 'email', 'password', 'bio', 'phoneNumber', 'age', 'gender', 'socialLinks', 'skills', 'hobbies', 'pfpImage'];
-        const updates = req.body;
 
-        Object.keys(updates).forEach((key) => {
-            if (allowedFields.includes(key)) {
-                if (key === 'skills' || key === 'hobbies') {
-                    user[key] = Array.isArray(updates[key]) ? JSON.stringify(updates[key]) : updates[key];
-                } else if (key === 'socialLinks' && typeof updates[key] === 'object') {
-                    user[key] = JSON.stringify(updates[key]);
-                } else {
-                    user[key] = updates[key];
-                }
-            }
-        });
+        const { name, email, password, bio, phoneNumber, age, gender, socialLinks, skills, hobbies, pfpImage } = req.body;
 
-        // Save the updated user
+        user.name = name;
+        user.email = email;
+        user.password = password;
+        user.bio = bio;
+        user.phoneNumber = phoneNumber;
+        user.age = age;
+        user.gender = gender;
+        user.socialLinks = socialLinks;
+        user.skills = skills ? JSON.stringify(skills) : null; // Store skills as a JSON string
+        user.hobbies = hobbies ? JSON.stringify(hobbies) : null; // Store hobbies as a JSON string
+        user.pfpImage = pfpImage;
+
         await user.save();
 
-        // Parse JSON strings for skills, hobbies, and socialLinks before sending the response
+        // Parse JSON strings for skills and hobbies
         const parsedUser = {
             ...user.toJSON(),
             skills: user.skills ? JSON.parse(user.skills) : [],
             hobbies: user.hobbies ? JSON.parse(user.hobbies) : [],
-            socialLinks: user.socialLinks ? JSON.parse(user.socialLinks) : null,
         };
 
         res.json(parsedUser);
     } catch (error) {
-        console.error('Error updating user:', error.message);
         res.status(500).json({ error: error.message });
     }
 });
