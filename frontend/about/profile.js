@@ -1,5 +1,25 @@
+const token = localStorage.getItem('userId');
+if (!token) {
 
-const testUser = "8cda6dcf-3f34-47f1-990c-7a304f7a3f7a";
+    console.log('User token not found.');
+    window.localStorage.href = '../login';
+}
+
+// Fetch user data
+async function getUserData() {
+    try {
+        const response = await fetch(`/api/user/${token}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Failed to fetch user data:', error);
+        profileWrapper.textContent = 'Error loading profile. Please try again later.';
+        return null;
+    }
+}
+
 const profileWrapper = document.getElementById('profile_wrapper');
 
 const displayData = {
@@ -61,22 +81,6 @@ function renderSocialLinks(links) {
     }
     return socialLinks;
 }
-
-// Fetch user data
-async function getUserData() {
-    try {
-        const response = await fetch(`/api/user/${testUser}`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Failed to fetch user data:', error);
-        profileWrapper.textContent = 'Error loading profile. Please try again later.';
-        return null;
-    }
-}
-
 const data = await getUserData();
 
 const divArray = [];
@@ -299,7 +303,7 @@ if (profileWrapper) {
                 if (typeof updatedData.socialLinks === 'object') {
                     updatedData.socialLinks = JSON.stringify(updatedData.socialLinks);
                 }
-                const result = await updateUserData(testUser, updatedData);
+                const result = await updateUserData(token, updatedData);
                 console.log(updatedData);
 
                 if (result) {
