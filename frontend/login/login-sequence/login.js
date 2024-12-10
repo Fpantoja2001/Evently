@@ -76,7 +76,7 @@ export class emailInputComponent extends HTMLElement {
 
             }
             try{
-                const response = await fetch('http://localhost:3000/api/user/getAll');
+                const response=await fetch('user/getAll');
                 const users=await response.json();
                 const userExists=users.some(user => user.email === email);
                 
