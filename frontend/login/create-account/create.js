@@ -1,4 +1,5 @@
-import {openDatabase} from "../../model/SQLiteConnection.js";
+import openDatabase from "../../model/SQLiteConnection.js";
+
 const template = document.createElement("template")
 
 const componentTemplates = [
