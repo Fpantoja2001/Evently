@@ -34,12 +34,14 @@ body {
     position: relative;    
     display: flex;
     flex-direction: column;  
-  }
+    height:150px;
+    overflow: hidden;
+}
 
 .header {
     z-index: 0;
     width: 100%;            
-    height: 150px; 
+    height: 400px;
 }
 
 .logo {
@@ -206,12 +208,6 @@ h1,p{
     cursor: pointer;
 }
 
-/*.button:disabled,
-.button[disabled]{
-  border: 1px solid #999999;
-  background-color: #cccccc;
-  color: #666666;
-}*/
 .buttons-join{
     background-color: rgb(52, 205, 52);
 }
@@ -251,6 +247,18 @@ h1,p{
     opacity: 1;
 }
 .buttons-join:active:disabled{
+    transform: translateY(0px);
+    box-shadow: 0 2px #ffca68;
+}
+
+.buttons-decline:disabled{
+    background-color: rgb(138, 138, 138);
+}
+.buttons-decline:disabled:hover{
+    background-color: rgb(86, 86, 86);
+    opacity: 1;
+}
+.buttons-decline:active:disabled{
     transform: translateY(0px);
     box-shadow: 0 2px #ffca68;
 }
