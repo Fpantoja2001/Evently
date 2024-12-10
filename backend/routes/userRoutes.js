@@ -70,20 +70,16 @@ router.put('/user/:id', async (req, res) => {
     try {
         const user = await User.findByPk(req.params.id);
         if (!user) return res.status(404).json({ error: 'User not found' });
-        // Iterate over the keys in req.body and update the user fields dynamically
         const allowedFields = ['name', 'email', 'password', 'bio', 'phoneNumber', 'age', 'gender', 'socialLinks', 'skills', 'hobbies', 'pfpImage'];
         const updates = req.body;
 
         Object.keys(updates).forEach((key) => {
             if (allowedFields.includes(key)) {
                 if (key === 'skills' || key === 'hobbies') {
-                    // Stringify arrays for skills and hobbies
                     user[key] = Array.isArray(updates[key]) ? JSON.stringify(updates[key]) : updates[key];
                 } else if (key === 'socialLinks' && typeof updates[key] === 'object') {
-                    // Stringify socialLinks if it's an object
                     user[key] = JSON.stringify(updates[key]);
                 } else {
-                    // Update other fields directly
                     user[key] = updates[key];
                 }
             }
