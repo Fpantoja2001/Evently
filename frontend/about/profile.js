@@ -28,6 +28,7 @@ const displayData = {
     'bio': 'Bio',
     'age': 'Age',
     'gender': 'Gender',
+    'socialLinks': 'Social Links',
 };
 
 // update user data on the server
@@ -117,11 +118,21 @@ if (profileWrapper) {
 
     const userDiv = document.createElement('div');
     userDiv.className = 'userDiv';
+    const usernameSpan = document.createElement('span');
+    const at = document.createElement('span');
+    at.textContent = '@';
+    usernameSpan.textContent = data.username;
+    usernameSpan.id = 'username';
     const username = document.createElement('h2');
     username.className = 'username';
-    username.appendChild(document.createTextNode('@' + data.username));
+    username.appendChild(at);
+    username.appendChild(usernameSpan);
+    // username.appendChild(document.createTextNode(data.username));
+    // usernameSpan.appendChild(username);
+    // userDiv.appendChild(usernameSpan);
     userDiv.appendChild(username);
     divArray.push(userDiv);
+    spanArray.push(usernameSpan.id);
 
     const userBioDiv = document.createElement('div');
     const userBio = document.createElement('p');
@@ -263,6 +274,7 @@ if (profileWrapper) {
                         isValid = false;
                         input.style.border = '1px solid red';
                     } else {
+                        console.log(input.value.trim());
                         updatedData[span] = input.value.trim();
                         text.textContent = input.value.trim();
                     }

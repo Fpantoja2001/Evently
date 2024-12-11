@@ -73,6 +73,7 @@ router.put('/user/:id', async (req, res) => {
         // List of updatable fields
         const updatableFields = [
             'name', 
+            'username',
             'email', 
             'password', 
             'bio', 
