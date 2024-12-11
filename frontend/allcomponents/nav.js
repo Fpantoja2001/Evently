@@ -18,15 +18,7 @@ function scrollToEvent(element) {
   element.scrollIntoView({ behavior: 'smooth' });
 }
 
-// // Example usage: Simulate login
-// localStorage.setItem('loggedIn', 'false'); // Uncomment to simulate a logged-in state
-
-// // Simulating login state; replace this with actual login check logic
-// const isLoggedIn = () => {
-//   // Example: Check if a user is logged in via localStorage or a cookie
-//   return localStorage.getItem('loggedIn') === 'true'; 
-// };
-
+// Check login state using userId in localStorage
 const isLoggedIn = () => {
   return localStorage.getItem('userId') !== null;
 };
@@ -35,8 +27,26 @@ const links = [
   { href: '../index.html', text: 'Event TBD' },
   { href: '../index.html', text: 'Events', onclick: scrollToEvent },
   { href: '../eventMaker/index.html', text: 'Create Event' },
-  { href: '../login/index.html', text: 'Login/Sign Up', showWhenLoggedOut: true },
   { href: '../about/index.html', text: 'Profile', showWhenLoggedIn: true },
+  {
+    href: '#',
+    text: 'Login/Sign Up',
+    showWhenLoggedOut: true,
+    onClick: function () {
+      // Redirect to login page
+      window.location.href = '../login/index.html';
+    },
+  },
+  {
+    href: '#',
+    text: 'Sign Out',
+    showWhenLoggedIn: true,
+    onClick: function () {
+      // Sign out logic
+      localStorage.removeItem('userId');
+      location.reload(); // Reload to reflect changes
+    },
+  },
 ];
 
 // Dynamically add links based on login state
@@ -55,10 +65,15 @@ links.forEach(link => {
   a.href = link.href;
   a.textContent = link.text;
 
+  // Handle custom onclick events
+  if (link.onClick) {
+    a.onclick = link.onClick;
+  }
+
   // When "Events" is clicked, scroll to the event section in the homepage
   const eventlist_wrapper = document.getElementById('eventlist_wrapper');
   if (link.onclick) {
-    a.onclick = function() {
+    a.onclick = function () {
       if (eventlist_wrapper) {
         link.onclick(document.getElementById('eventlist_wrapper'));
         return false;
