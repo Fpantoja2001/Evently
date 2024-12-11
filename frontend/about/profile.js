@@ -1,6 +1,5 @@
 const token = localStorage.getItem('userId');
 if (!token) {
-
     console.log('User token not found.');
     window.localStorage.href = '../login';
 }
@@ -26,19 +25,15 @@ const displayData = {
     'name': 'Name',
     'email': 'Email',
     'phoneNumber': 'Phone Number',
-    'socialLinks': 'Social Links',
-    'skills': 'Skills',
-    'hobbies': 'Hobbies',
     'bio': 'Bio',
     'age': 'Age',
     'gender': 'Gender',
-    'location': 'Location'
 };
 
 // update user data on the server
-async function updateUserData(userId, updatedData) {
+async function updateUserData(updatedData) {
     try {
-        const response = await fetch(`/api/user/${userId}`, {
+        const response = await fetch(`/api/user/${token}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -96,14 +91,15 @@ if (profileWrapper) {
     const pfp = document.createElement('img');
     pfp.src = '../about/defaultpfp.jpg';
     profileImage.appendChild(pfp);
-    divArray.push(profileImage);
 
     const imageUploadInput = document.createElement('input');
     imageUploadInput.type = 'file';
     imageUploadInput.accept = 'image/*';
     imageUploadInput.className = 'editInput';
     imageUploadInput.style.display = 'none'; // Hidden by default
+    profileImageWrapper.appendChild(profileImage);
     profileImageWrapper.appendChild(imageUploadInput);
+
 
     divArray.push(profileImageWrapper);
 
@@ -120,6 +116,7 @@ if (profileWrapper) {
     });
 
     const userDiv = document.createElement('div');
+    userDiv.className = 'userDiv';
     const username = document.createElement('h2');
     username.className = 'username';
     username.appendChild(document.createTextNode('@' + data.username));
@@ -303,7 +300,7 @@ if (profileWrapper) {
                 if (typeof updatedData.socialLinks === 'object') {
                     updatedData.socialLinks = JSON.stringify(updatedData.socialLinks);
                 }
-                const result = await updateUserData(token, updatedData);
+                const result = await updateUserData(updatedData);
                 console.log(updatedData);
 
                 if (result) {
@@ -331,7 +328,7 @@ if (profileWrapper) {
     };
 
 
-    userBioDiv.appendChild(editButton);
+    userDiv.appendChild(editButton);
     userBioDiv.appendChild(userBio);
     divArray.push(userBioDiv);
 
