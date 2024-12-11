@@ -127,6 +127,10 @@ class passwordInputComponent extends HTMLElement {
         this.email = null;
     }
 
+    saveIdLocal(userId){
+        localStorage.setItem("userId",userId);
+    }
+
     connectedCallback() {
         this.component = document.querySelector('password-input-component')
         const userEmail = this.component.getAttribute('data-email')
@@ -143,6 +147,7 @@ class passwordInputComponent extends HTMLElement {
                 const user = users.find(user => user.email === userEmail);
                 if(user && user.password === password){
                     const userID = user.id
+                    this.saveIdLocal(userID);
                     console.log("login successful");
                     // this.errorComponent.innerText="Login successful";
                     const body = {userEmail, password, userID}
