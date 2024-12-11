@@ -77,6 +77,47 @@ function renderSocialLinks(links) {
     }
     return socialLinks;
 }
+
+function blobToImage(blob) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader(); 
+        reader.onload = (event) => {
+            const img = new Image(); 
+            img.onload = () => resolve(img); 
+            img.onerror = (error) => reject(error); 
+            img.src = event.target.result;
+        };
+        reader.onerror = (error) => reject(error); 
+        reader.readAsDataURL(blob); 
+    });
+}
+
+function imageToBlob(img, mimeType = "image/jpeg", quality = 0.95) {
+    return new Promise((resolve, reject) => {
+        try {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            canvas.toBlob(
+                (blob) => {
+                    if (blob) {
+                        resolve(blob); 
+                    } else {
+                        reject("Failed to create Blob from image");
+                    }
+                },
+                mimeType, 
+                quality 
+            );
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
 const data = await getUserData();
 
 const divArray = [];
@@ -90,6 +131,9 @@ if (profileWrapper) {
     const profileImage = document.createElement('div');
     profileImage.className = 'profileImage';
     const pfp = document.createElement('img');
+    if (data['pfpImage']) {
+        console.log(data['pfpImage']);
+    }
     pfp.src = '../about/defaultpfp.jpg';
     profileImage.appendChild(pfp);
 
@@ -104,15 +148,20 @@ if (profileWrapper) {
 
     divArray.push(profileImageWrapper);
 
+    let changeImage = false;
+    const desiredChange = {};
     // Handle image upload
     imageUploadInput.addEventListener('change', () => {
         const file = imageUploadInput.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                profileImage.src = e.target.result; // Update the image preview
-            };
-            reader.readAsDataURL(file);
+            blobToImage(file).then((img) => {
+                pfp.src = img.src;
+                changeImage = true;
+                desiredChange['pfpImage'] = img.src;
+                console.log(desiredChange);
+            }).catch((error) => {
+                console.error('Error uploading image:', error);
+            });
         }
     });
 
@@ -311,6 +360,11 @@ if (profileWrapper) {
                 
                 if (typeof updatedData.socialLinks === 'object') {
                     updatedData.socialLinks = JSON.stringify(updatedData.socialLinks);
+                }
+
+                if (changeImage) {
+                    const img = await imageToBlob(pfp);
+                    updatedData['pfpImage'] = img;
                 }
                 const result = await updateUserData(updatedData);
                 console.log(updatedData);
