@@ -142,6 +142,7 @@ class passwordInputComponent extends HTMLElement {
                 const users=await response.json();
                 const user = users.find(user => user.email === userEmail);
                 if(user && user.password === password){
+                    const userID = user.id
                     console.log("login successful");
                     // this.errorComponent.innerText="Login successful";
                     const body = {userEmail, password, userID}
