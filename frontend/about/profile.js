@@ -1,6 +1,5 @@
 const token = localStorage.getItem('userId');
 if (!token) {
-
     console.log('User token not found.');
     window.localStorage.href = '../login';
 }
@@ -26,19 +25,16 @@ const displayData = {
     'name': 'Name',
     'email': 'Email',
     'phoneNumber': 'Phone Number',
-    'socialLinks': 'Social Links',
-    'skills': 'Skills',
-    'hobbies': 'Hobbies',
     'bio': 'Bio',
     'age': 'Age',
     'gender': 'Gender',
-    'location': 'Location'
+    'socialLinks': 'Social Links',
 };
 
 // update user data on the server
-async function updateUserData(userId, updatedData) {
+async function updateUserData(updatedData) {
     try {
-        const response = await fetch(`/api/user/${userId}`, {
+        const response = await fetch(`/api/user/${token}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -81,6 +77,47 @@ function renderSocialLinks(links) {
     }
     return socialLinks;
 }
+
+function blobToImage(blob) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader(); 
+        reader.onload = (event) => {
+            const img = new Image(); 
+            img.onload = () => resolve(img); 
+            img.onerror = (error) => reject(error); 
+            img.src = event.target.result;
+        };
+        reader.onerror = (error) => reject(error); 
+        reader.readAsDataURL(blob); 
+    });
+}
+
+function imageToBlob(img, mimeType = "image/jpeg", quality = 0.95) {
+    return new Promise((resolve, reject) => {
+        try {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            canvas.toBlob(
+                (blob) => {
+                    if (blob) {
+                        resolve(blob); 
+                    } else {
+                        reject("Failed to create Blob from image");
+                    }
+                },
+                mimeType, 
+                quality 
+            );
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
 const data = await getUserData();
 
 const divArray = [];
@@ -94,37 +131,57 @@ if (profileWrapper) {
     const profileImage = document.createElement('div');
     profileImage.className = 'profileImage';
     const pfp = document.createElement('img');
+    if (data['pfpImage']) {
+        console.log(data['pfpImage']);
+    }
     pfp.src = '../about/defaultpfp.jpg';
     profileImage.appendChild(pfp);
-    divArray.push(profileImage);
 
     const imageUploadInput = document.createElement('input');
     imageUploadInput.type = 'file';
     imageUploadInput.accept = 'image/*';
     imageUploadInput.className = 'editInput';
     imageUploadInput.style.display = 'none'; // Hidden by default
+    profileImageWrapper.appendChild(profileImage);
     profileImageWrapper.appendChild(imageUploadInput);
+
 
     divArray.push(profileImageWrapper);
 
+    let changeImage = false;
+    const desiredChange = {};
     // Handle image upload
     imageUploadInput.addEventListener('change', () => {
         const file = imageUploadInput.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                profileImage.src = e.target.result; // Update the image preview
-            };
-            reader.readAsDataURL(file);
+            blobToImage(file).then((img) => {
+                pfp.src = img.src;
+                changeImage = true;
+                desiredChange['pfpImage'] = img.src;
+                console.log(desiredChange);
+            }).catch((error) => {
+                console.error('Error uploading image:', error);
+            });
         }
     });
 
     const userDiv = document.createElement('div');
+    userDiv.className = 'userDiv';
+    const usernameSpan = document.createElement('span');
+    const at = document.createElement('span');
+    at.textContent = '@';
+    usernameSpan.textContent = data.username;
+    usernameSpan.id = 'username';
     const username = document.createElement('h2');
     username.className = 'username';
-    username.appendChild(document.createTextNode('@' + data.username));
+    username.appendChild(at);
+    username.appendChild(usernameSpan);
+    // username.appendChild(document.createTextNode(data.username));
+    // usernameSpan.appendChild(username);
+    // userDiv.appendChild(usernameSpan);
     userDiv.appendChild(username);
     divArray.push(userDiv);
+    spanArray.push(usernameSpan.id);
 
     const userBioDiv = document.createElement('div');
     const userBio = document.createElement('p');
@@ -266,6 +323,7 @@ if (profileWrapper) {
                         isValid = false;
                         input.style.border = '1px solid red';
                     } else {
+                        console.log(input.value.trim());
                         updatedData[span] = input.value.trim();
                         text.textContent = input.value.trim();
                     }
@@ -303,7 +361,12 @@ if (profileWrapper) {
                 if (typeof updatedData.socialLinks === 'object') {
                     updatedData.socialLinks = JSON.stringify(updatedData.socialLinks);
                 }
-                const result = await updateUserData(token, updatedData);
+
+                if (changeImage) {
+                    const img = await imageToBlob(pfp);
+                    updatedData['pfpImage'] = img;
+                }
+                const result = await updateUserData(updatedData);
                 console.log(updatedData);
 
                 if (result) {
@@ -331,7 +394,7 @@ if (profileWrapper) {
     };
 
 
-    userBioDiv.appendChild(editButton);
+    userDiv.appendChild(editButton);
     userBioDiv.appendChild(userBio);
     divArray.push(userBioDiv);
 

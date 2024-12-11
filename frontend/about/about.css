@@ -17,13 +17,21 @@ body {
 #profile_wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: left;
     background-color: #FFECC8;
     padding: 1.5rem;
     border-radius: 0.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     max-width: 600px;
     margin: auto;
+}
+
+/* username format */
+.userDiv { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
 /* Profile Image */
@@ -184,7 +192,6 @@ a.git{
     cursor: pointer; 
     text-align: center; 
     white-space: nowrap; 
-    margin-left: 1rem;
 }
 
 .addButton:hover, .removeButton:hover, .editButton:hover, .saveButton:hover {

@@ -70,22 +70,35 @@ router.put('/user/:id', async (req, res) => {
     try {
         const user = await User.findByPk(req.params.id);
         if (!user) return res.status(404).json({ error: 'User not found' });
-        const allowedFields = ['name', 'email', 'password', 'bio', 'phoneNumber', 'age', 'gender', 'socialLinks', 'skills', 'hobbies', 'pfpImage'];
-        const updates = req.body;
 
-        Object.keys(updates).forEach((key) => {
-            if (allowedFields.includes(key)) {
-                if (key === 'skills' || key === 'hobbies') {
-                    user[key] = Array.isArray(updates[key]) ? JSON.stringify(updates[key]) : updates[key];
-                } else if (key === 'socialLinks' && typeof updates[key] === 'object') {
-                    user[key] = JSON.stringify(updates[key]);
+        // List of updatable fields
+        const updatableFields = [
+            'name', 
+            'username',
+            'email', 
+            'password', 
+            'bio', 
+            'phoneNumber', 
+            'age', 
+            'gender', 
+            'socialLinks', 
+            'skills', 
+            'hobbies', 
+            'pfpImage'
+        ];
+
+        // Update only provided fields
+        for (const field of updatableFields) {
+            if (req.body[field] !== undefined) {
+                if (field === 'skills' || field === 'hobbies') {
+                    // Convert to JSON string if it's an array/object
+                    user[field] = req.body[field] ? JSON.stringify(req.body[field]) : null;
                 } else {
-                    user[key] = updates[key];
+                    user[field] = req.body[field];
                 }
             }
-        });
+        }
 
-        // Save the updated user
         await user.save();
 
         // Parse JSON strings for skills, hobbies, and socialLinks before sending the response
@@ -102,6 +115,7 @@ router.put('/user/:id', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
 
 // Delete a user
 router.delete('/user/:id', async (req, res) => {
@@ -122,6 +136,7 @@ router.post('/user/login', async (req, res) => {
         req.session.authenticated = true; 
         req.session.user = req.body;
         console.log(req.sessionID, req.session)
+        res.json({ message: 'Logged in successfully.' });
     } catch (error) {
         res.status(500).json({
             error: error.message,
