@@ -18,13 +18,17 @@ function scrollToEvent(element) {
   element.scrollIntoView({ behavior: 'smooth' });
 }
 
-// Example usage: Simulate login
-localStorage.setItem('loggedIn', 'false'); // Uncomment to simulate a logged-in state
+// // Example usage: Simulate login
+// localStorage.setItem('loggedIn', 'false'); // Uncomment to simulate a logged-in state
 
-// Simulating login state; replace this with actual login check logic
+// // Simulating login state; replace this with actual login check logic
+// const isLoggedIn = () => {
+//   // Example: Check if a user is logged in via localStorage or a cookie
+//   return localStorage.getItem('loggedIn') === 'true'; 
+// };
+
 const isLoggedIn = () => {
-  // Example: Check if a user is logged in via localStorage or a cookie
-  return localStorage.getItem('loggedIn') === 'true'; 
+  return localStorage.getItem('userId') !== null;
 };
 
 const links = [
