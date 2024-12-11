@@ -28,7 +28,6 @@ const displayData = {
     'bio': 'Bio',
     'age': 'Age',
     'gender': 'Gender',
-    'socialLinks': 'Social Links',
 };
 
 // update user data on the server
