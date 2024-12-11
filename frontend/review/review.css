@@ -3,21 +3,30 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
 }
 
-/* Style for the container */
+/* Style for the review form container */
 .container {
     background: #fff;
     padding: 20px;
+    margin: auto;
+    margin-top: 2%;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 500px;
     text-align: center;
+}
+
+/* Style for the reviews container */
+#reviewsContainer {
+    background: #FFECC8;
+    padding: 20px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    width: 95%;
 }
 
 /* Style for headings */
@@ -83,16 +92,26 @@ form button:hover {
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 10px;
+    margin: auto;
     margin-bottom: 15px;
     background: #fff;
+    width: 400px;
+    height: 100px;
 }
 
 .review h3 {
     margin-top: 0;
+    margin-bottom: 0;
     color: #555;
 }
 
 .review p {
     margin: 5px 0;
     color: #666;
+}
+
+.comment {
+    height:50px; 
+    width:400px; 
+    overflow: auto; 
 }

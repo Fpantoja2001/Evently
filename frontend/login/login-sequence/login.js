@@ -2,7 +2,7 @@ const template = document.createElement("template");
 
 const componentTemplates = [
     `
-        <link rel="stylesheet" href="../../../frontend/login/login-sequence/login.css"">
+        <link rel="stylesheet" href="../login/login-sequence/login.css"">
         <div class="logo">logo</div>
         <slot class="component-title">Welcome back</slot>
 
@@ -15,7 +15,7 @@ const componentTemplates = [
         </div>
     `,
     `
-        <link rel="stylesheet" href="../../../frontend/login/login-sequence/login.css"">
+        <link rel="stylesheet" href="../login/login-sequence/login.css"">
         <div class="logo">logo</div>
         <slot class="component-title"></slot>
 
@@ -53,55 +53,59 @@ export class emailInputComponent extends HTMLElement {
         this.inputComponent = shadow.querySelector(".component-input")
         this.errorComponent = shadow.querySelector(".component-form-error")
         this.componentPlaceholder = shadow.querySelector(".component-placeholder")
-        this.loginContainer = document.querySelector(".login-container")
-        this.loginComponent = document.querySelector(".login-component")
         this.signUpRoute = shadow.querySelector(".signUpRoute")
         this.page = document.querySelector(".login-container");
+        this.loginContainer = null;
+        this.loginComponent = null;
     }
 
     connectedCallback() {
+        this.loginContainer = document.querySelector(".login-container")
+        this.loginComponent = document.querySelector('email-input-component')
 
         // Validates Input
-        this.continueBtn.addEventListener("click", (e) => {
+        this.continueBtn.addEventListener("click", async (e) => {
             e.preventDefault()
-            const emailInput = this.inputComponent.value.trim().split("@")
+            const email = this.inputComponent.value.trim();
 
             // will return false if the email address doesn't contain any text or a umass.edu after the @
-            if(emailInput.length == 1){
+            if(!email.includes("@umass.edu")){
                 this.errorComponent.innerText = `Please enter a valid email`
-                this.inputComponent.classList.add("incorrectInput")
                 this.componentPlaceholder.style.color = "red"
-                this.componentPlaceholder.style.transition = "none"
+                return;
 
-            } else if (emailInput[1] != "umass.edu"){
-                this.errorComponent.innerText = `Please enter a valid umass email`
-                this.inputComponent.classList.add("incorrectInput")
-                this.componentPlaceholder.style.color = "red"
-                this.componentPlaceholder.style.transition = "none"
-            } else {
-                const loginComponent = document.querySelector(".login-component")
-                loginComponent.remove()
-                const passwordInputComponent = document.createElement('password-input-component')
-                passwordInputComponent.innerText = "Enter your password"
-                passwordInputComponent.classList.add("login-component")
-                this.loginContainer.appendChild(passwordInputComponent) 
             }
-        })
-
-        this.signUpRoute.addEventListener("click" , (e) => {
-            e.preventDefault()
-
+            try{
+                const response=await fetch('http://localhost:3000/api/user/getAll');
+                const users=await response.json();
+                const userExists=users.some(user => user.email === email);
+                
+                
+                if(userExists){
+                    const passwordInputComponent=document.createElement('password-input-component');
+                    passwordInputComponent.classList.add("sign-up-component");
+                    passwordInputComponent.setAttribute('data-email', email);
+                    this.loginContainer.innerHTML = "";
+                    this.loginContainer.appendChild(passwordInputComponent);
+                }else{
+                    this.errorComponent.innerText="No account found w/ this email";
+                    this.errorComponent.style.color="red";
+                }
+            }catch(error){
+                console.error("cant fetch data",error);
+                this.errorComponent.innerText="Error connecting to server";
+            }
+        });
+        this.signUpRoute.addEventListener("click", (e) => {
+            e.preventDefault();
             const signUpComponent = document.createElement("create-account-component");
-            signUpComponent.classList.add("sign-up-component");
-            const loginComponent = document.querySelector(".login-component")
-            loginComponent.remove()
-            this.page.appendChild(signUpComponent);
-        })
-    }
-    disconnectedCallback(){
-        console.log("email component removed")
+            signUpComponent.classList.add(".sign-up-component");
+            this.loginComponent.remove()
+            this.loginContainer.appendChild(signUpComponent);
+        });
     }
 }
+
 
 class passwordInputComponent extends HTMLElement {
     constructor(){
@@ -113,40 +117,66 @@ class passwordInputComponent extends HTMLElement {
         shadow.append(template.content.cloneNode(true))
 
         // Setting variables for ease of use
-        this.inputComponent = shadow.querySelector(".component-input")
+        this.inputComponent = shadow.querySelector(".component-input");
+        this.errorComponent=shadow.querySelector(".component-form-error");
+        this.continueBtn = shadow.querySelector(".continueBtn");
         this.showPasswordBtn = shadow.querySelector(".showPasswordBtn")
         this.showPasswordHoverText = shadow.querySelector(".show-password-hover-text")
         this.showPasswordImg = shadow.querySelector(".show-password-img")
+        this.component = null;
+        this.email = null;
+    }
+
+    saveIdLocal(userId){
+        localStorage.setItem("userId",userId);
     }
 
     connectedCallback() {
-        const shadowRoot = this.shadowRoot
-        shadowRoot.querySelector(".continueBtn")
-        const continueBtn = shadowRoot.querySelector(".continueBtn")
-        const forgotPassRoute = shadowRoot.querySelector(".forgotPassRoute")
-
-        // Validates Input
-        continueBtn.addEventListener("click", (e) => {
+        this.component = document.querySelector('password-input-component')
+        const userEmail = this.component.getAttribute('data-email')
+        this.continueBtn.addEventListener("click", async (e) => {
             e.preventDefault()
-            const errorComponent = shadowRoot.querySelector(".component-form-error")
-            const componentPlaceholder = shadowRoot.querySelector(".component-placeholder")
-
-            // will return false if password is incorrect
-            if (this.inputComponent.value.trim() == "testPass") {
-                console.log("login success")
-            } else {
-                errorComponent.innerText = `Incorrect password`
-                this.inputComponent.classList.add("incorrectInput")
-                componentPlaceholder.style.color = "red"
-                componentPlaceholder.style.transition = "none"
-                this.showPasswordBtn.style.borderColor = "red";
+            const password=this.inputComponent.value.trim();
+            if(!password){
+                this.errorComponent.innerText="Password cant be empty"
+                return;
             }
-        })
+            try{
+                const response=await fetch('http://localhost:3000/api/user/getAll');
+                const users=await response.json();
+                const user = users.find(user => user.email === userEmail);
+                if(user && user.password === password){
+                    const userID = user.id
+                    this.saveIdLocal(userID);
+                    console.log("login successful");
+                    // this.errorComponent.innerText="Login successful";
+                    const body = {userEmail, password, userID}
 
-        forgotPassRoute.addEventListener("click", () => {
-            console.log("forgotPassRoute clicked")
-            // to be implemented with backend
-        })
+                    const loginResponse = await fetch('http://localhost:3000/api/user/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(body),
+                    })
+                    const auth = await loginResponse.json()
+                    localStorage.setItem("auth", JSON.stringify(auth))
+
+                    // Takes you back to home
+                    console.log("redirecting to home...");
+                    window.open('http://localhost:3000');
+                }else{
+                    this.errorComponent.innerText="Invalid pass";
+                    this.errorComponent.style.color="red";
+                }
+            }catch(error){
+                console.error("cant validate password",error);
+                this.errorComponent.innerText="cant connect to server";
+            }
+        });
+
+        // forgotPassRoute.addEventListener("click", () => {
+        //     console.log("forgotPassRoute clicked")
+        //     // to be implemented with backend
+        // })
 
         this.showPasswordBtn.addEventListener("click", () => {
             const currentActive = this.showPasswordBtn.getAttribute("active")
@@ -177,6 +207,7 @@ class passwordInputComponent extends HTMLElement {
     disconnectedCallback(){
         console.log("password component removed")
     }
+
 }
 
 customElements.define("email-input-component", emailInputComponent)

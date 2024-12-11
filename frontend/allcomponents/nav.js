@@ -18,27 +18,71 @@ function scrollToEvent(element) {
   element.scrollIntoView({ behavior: 'smooth' });
 }
 
+// Check login state using userId in localStorage
+const isLoggedIn = () => {
+  try {
+    const session = JSON.parse(localStorage.getItem("auth"))
+    return session.isAuth;
+  } catch (e){
+    return false;
+  }
+};
+
 const links = [
   { href: '../index.html', text: 'Event TBD' },
   { href: '../index.html', text: 'Events', onclick: scrollToEvent },
-  { href: '../about/index.html', text: 'Profile' },
   { href: '../eventMaker/index.html', text: 'Create Event' },
-  { href: '../login/index.html', text: 'Login/Sign Up' },
+  { href: '../about/index.html', text: 'Profile', showWhenLoggedIn: true },
+  {
+    href: '#',
+    text: 'Login/Sign Up',
+    showWhenLoggedOut: true,
+    onClick: function () {
+      // Redirect to login page
+      window.location.href = '../login/index.html';
+    },
+  },
+  {
+    href: '#',
+    text: 'Sign Out',
+    showWhenLoggedIn: true,
+    onClick: async function () {
+      // Sign out logic
+
+      const logoutResponse = await fetch('http://localhost:3000/api/user/logout')
+      console.log(logoutResponse)
+      localStorage.removeItem('auth');
+      location.reload(); // Reload to reflect changes
+      window.location.href = '../index.html';
+    },
+  },
 ];
 
-//window.onload = function() {
-
+// Dynamically add links based on login state
 links.forEach(link => {
+  // Skip links that shouldn't be displayed based on login state
+  if (link.showWhenLoggedIn && !isLoggedIn()) {
+    return;
+  }
+  if (link.showWhenLoggedOut && isLoggedIn()) {
+    return;
+  }
+
   const li = document.createElement('li'); 
   const a = document.createElement('a');
 
   a.href = link.href;
   a.textContent = link.text;
 
-  // when Event is clicked, scroll to the event section in Homepage
+  // Handle custom onclick events
+  if (link.onClick) {
+    a.onclick = link.onClick;
+  }
+
+  // When "Events" is clicked, scroll to the event section in the homepage
   const eventlist_wrapper = document.getElementById('eventlist_wrapper');
   if (link.onclick) {
-    a.onclick = function() {
+    a.onclick = function () {
       if (eventlist_wrapper) {
         link.onclick(document.getElementById('eventlist_wrapper'));
         return false;
@@ -69,5 +113,3 @@ links.forEach(link => {
 });
 
 navbar.appendChild(nav);
-
-//}

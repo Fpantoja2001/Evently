@@ -3,7 +3,7 @@ const template = document.createElement("template");
 const templates = [
     `<!-- Step 1: Event Type -->
 
-    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <link rel="stylesheet" href="../../eventMaker/createEvent/createEvent.css">
 
     <div class="step" data-step="1">
         <div class="form-group">
@@ -21,7 +21,7 @@ const templates = [
     </div>
     `,
     `<!-- Step 2: Private Options (Conditional) -->
-    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <link rel="stylesheet" href="../../eventMaker/createEvent/createEvent.css">
     <div class="step conditional-group" data-step="2" id="privateOptionsGroup">
         <div class="form-group">
             <select id="privateOptions">
@@ -41,7 +41,7 @@ const templates = [
     `, 
     `
     <!-- Step 3: Occupancy Option -->
-    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <link rel="stylesheet" href="../../eventMaker/createEvent/createEvent.css">
     <div class="step" data-step="3">
         <div class="form-group">
             <select id="occupancyOption" required>
@@ -60,7 +60,7 @@ const templates = [
     `,
     `
     <!-- Step 4: Seat Option (Conditional) -->
-    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <link rel="stylesheet" href="../../eventMaker/createEvent/createEvent.css">
     <div class="step conditional-group" data-step="4" id="seatOptionGroup">
         <div class="form-group">
             <select id="seatOption">
@@ -79,7 +79,7 @@ const templates = [
     `,
     `
     <!-- Step 5: Choose Category -->
-    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <link rel="stylesheet" href="../../eventMaker/createEvent/createEvent.css">
     <div class="step" data-step="5">
         <div class="form-group">
             <select id="eventCategory" required>
@@ -100,7 +100,7 @@ const templates = [
     `,
     `
     <!-- Step 6: Customized Category (Conditional) -->
-    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <link rel="stylesheet" href="../../eventMaker/createEvent/createEvent.css">
     <div class="step conditional-group" data-step="6" id="customCategoryGroup">
         <div class="form-group">
             <input type="text" id="customCategory" placeholder=" " />
@@ -115,7 +115,7 @@ const templates = [
     `,
     `
     <!-- Step 7: Event Title -->
-    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <link rel="stylesheet" href="../../eventMaker/createEvent/createEvent.css">
     <div class="step" data-step="7">
         <div class="form-group">
             <input type="text" id="eventTitle" required placeholder=" " />
@@ -130,7 +130,7 @@ const templates = [
     `,
     `
     <!-- Step 8: Event Date -->
-    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <link rel="stylesheet" href="../../eventMaker/createEvent/createEvent.css">
     <div class="step" data-step="8">
         <div class="form-group">
             <input type="date" id="eventDate" required placeholder=" " />
@@ -145,7 +145,7 @@ const templates = [
     `,
     `
     <!-- Step 9: Event Location -->
-    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <link rel="stylesheet" href="../../eventMaker/createEvent/createEvent.css">
     <div class="step" data-step="9">
         <div class="form-group">
             <input type="text" id="eventLocation" required placeholder=" " />
@@ -160,7 +160,7 @@ const templates = [
     `,
     `
     <!-- Step 10: Event Description -->
-    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <link rel="stylesheet" href="../../eventMaker/createEvent/createEvent.css">
     <div class="step" data-step="10">
         <div class="form-group">
             <textarea id="eventDescription" rows="4" required placeholder=" "></textarea>
@@ -175,7 +175,7 @@ const templates = [
     `,
     `
     <!-- Success Message -->
-    <link rel="stylesheet" href="../../../frontend/eventMaker/createEvent/createEvent.css">
+    <link rel="stylesheet" href="../../eventMaker/createEvent/createEvent.css">
     <div class="success-message" id="successMessage"></div>
 
     <div class="navigation-buttons">
@@ -319,9 +319,43 @@ class EventMaker extends HTMLElement {
     }
 
     submit(){
-        console.log(this.eventDetails)
-    }
+        const userId = localStorage.getItem("userId");
 
+    if (userId) {
+    console.log("Current loggedin user ID:", userId);
+    } else {
+    console.log("Noone is currently logged in.");
+}
+        console.log(this.eventDetails);
+
+        fetch("http://localhost:3000/api/event/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body:JSON.stringify({
+                eventName: this.eventDetails.title,
+                eventDate: this.eventDetails.date,
+                privacy: this.eventDetails.privacy,
+                inviteOption: this.eventDetails.privacy === "Invite only" ? true : false,
+                eventLimit: this.eventDetails.occupancy === "Limited" ? 50 : 0,
+                eventCategory: this.eventDetails.category,
+                reservation: this.eventDetails.seating === "Reservation" ? true : false,
+                eventCreator: userId, //CHANGE TO CURRENT USER. HOW? IDK.
+                eventAddress: this.eventDetails.location,
+                eventDescription: this.eventDetails.description,
+            })
+        })
+        .then(response =>response.json())
+        .then(data => {
+            console.log("Success:", data);
+            alert("Event created successfully!");
+        })
+        .catch(error =>{
+            console.error("Error creating event:", error);
+            alert("Failed to create event.");
+        });
+    }
 }
 
 customElements.define("event-maker", EventMaker);

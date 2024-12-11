@@ -1,47 +1,100 @@
-document.addEventListener('DOMContentLoaded', function() {
+import reviewData from "../review/review.json" with { type: "json" };
 
-    //fetch('placeholder_for_data')  
-    //   .then(response => response.json())
-    //   .then(data => {
-            let ratingFloat = 3.80;
-            let ratingTextElement = document.getElementById('rating-text');
-            ratingTextElement.textContent = `${ratingFloat} Stars`;
-            document.getElementById('event-name').textContent = "Event Name";
-            document.getElementById('event-time-date').textContent = "0:00 X-XX-XX";
-            document.getElementById('privacy-option').textContent = "Public";
-            document.getElementById('invite-option').textContent = "Community";
-            document.getElementById('limit-option').textContent = "Limited";
-            document.getElementById('reservation-option').textContent = "Reservation";
-            document.getElementById('category-option').textContent = "Category";
-            document.getElementById('event-creators').textContent = "Event Creators";
-            document.getElementById('event-address').textContent = "Address";
-            document.getElementById('event-description').textContent = "Description: The state has a program called the Agricultural Protection Program (APR) that works with willing farmers to buy a conservation easement on farms with prime soils as a way to help perpetuate agriculture in MA. To the best of my knowledge, they don't prioritize any farms beyond prime soils.  What other ways could we prioritize lands for agricultural protection in Massachusetts?Description: The state has a program called the Agricultural Protection Program (APR) that works with willing farmers to buy a conservation easement on farms with prime soils as a way to help perpetuate agriculture in MA. To the best of my knowledge, they don't prioritize any farms beyond prime soils.  What other ways could we prioritize lands for agricultural protection in Massachusetts?Description: The state has a program called the Agricultural Protection Program (APR) that works with willing farmers to buy a conservation easement on farms with prime soils as a way to help perpetuate agriculture in MA. To the best of my knowledge, they don't prioritize any farms beyond prime soils.  What other ways could we prioritize lands for agricultural protection in Massachusetts?Description: The state has a program called the Agricultural Protection Program (APR) that works with willing farmers to buy a conservation easement on farms with prime soils as a way to help perpetuate agriculture in MA. To the best of my knowledge, they don't prioritize any farms beyond prime soils.  What other ways could we prioritize lands for agricultural protection in Massachusetts?";
+const requestButton = document.getElementById('button-request');
+const joinButton = document.getElementById('button-join');
+const dontJoinButton = document.getElementById('button-decline');
 
+document.addEventListener('DOMContentLoaded', async function() {
+  const ratings = reviewData.johndoe.map(item => item.rating); // GETTING REVIEW DATA
+  const sum = ratings.reduce((total, val) => total + val, 0);
+  const meanrating = sum/ratings.length;
 
-            const stars = document.querySelectorAll('.stars .star');
-            stars.forEach((star, index) => {
-                let rating = index + 1;
-                if (rating <= Math.floor(ratingFloat)) {
-                    star.classList.add("star-filled");
-                    star.classList.remove("star-half", "star-quarter", "star-three-quarter");
-                }
-                else if (rating - 0.25 <= ratingFloat) {
-                    star.classList.add("star-three-quarter");
-                    star.classList.remove("star-filled", "star-quarter", "star-half");
-                }
-                else if (rating - 0.5 <= ratingFloat) {
-                    star.classList.add("star-half");
-                    star.classList.remove("star-filled", "star-quarter", "star-three-quarter");
-                }
-                else if (rating - 0.75 <= ratingFloat) {
-                    star.classList.add("star-quarter");
-                    star.classList.remove("star-filled", "star-half", "star-three-quarter");
-                }
- 
-                else {
-                    star.classList.remove("star-filled", "star-half", "star-quarter");
-                }
-            });
-    //})
-    //.catch(error => console.error('Error fetching event data:', error));
+  const url = new URL(window.location.href); // GETTING URL / EVENT ID
+  let eventId = url.searchParams.get('eventid');
+  if(eventId === null){
+    eventId = 123;
+  }
+  url.pathname = `api/event/${eventId}`
+  //url.searchParams.append("eventId", eventId);
+
+  //url.searchParams.append("deBug", true); // FOR SWITCH TO DEBUG MODE
+  fetch(url)
+  .then(response => {
+    if (response.ok){
+      return response.json()
+    } else {
+      return {error: "Unable to display event details page"} // WHEN NO PAGE
+    }
+  })
+  .then(data => { // GETTING EVENT DATA
+    if (data.error){
+      document.getElementById('event-name').textContent = data.error;
+    } else {
+    console.log(data);
+    document.getElementById('event-name').textContent = data.eventName;
+    document.getElementById('event-time-date').textContent = data.eventDate;
+    document.getElementById('privacy-option').textContent = data.privacy;
+    document.getElementById('invite-option').textContent = data.inviteOption;
+    document.getElementById('limit-option').textContent = data.eventLimit;
+    document.getElementById('reservation-option').textContent = data.reservation ? "Yes" : "No";
+    document.getElementById('category-option').textContent = data.eventCategory;
+    // document.getElementById('event-creators').textContent = data.eventCreator; // Uncomment if needed
+    document.getElementById('event-address').textContent = data.eventAddress;
+    document.getElementById('event-description').textContent = data.eventDescription;
+    document.getElementById('Attendee_num').textContent = 0; // PLACEHOLDER VAL
+    document.getElementById('Attendee_not_num').textContent = 0; // PLACEHOLDER VAL
+    if(data.eventImage){
+      document.getElementById('event-image').src = data.eventImage;
+    }
+
+      if(data.privacy === "Public"){ // DISABLING BUTTONS IF PRIVATE EVENT
+        joinButton.disabled = false;
+        dontJoinButton.disabled = false;
+      } else {
+        joinButton.disabled = true;
+        dontJoinButton.disabled = true;
+      }
+    }
+  })
+  .catch(error =>  console.error('Request failed', error));
+
+  let ratingTextElement = document.getElementById('rating-text');// CALCULATING REVIEW STARS
+  ratingTextElement.textContent = `${meanrating} Stars`;
+  const stars = document.querySelectorAll('.stars .star'); 
+  stars.forEach((star, index) => {
+      let rating = index + 1;
+      if (rating <= Math.floor(meanrating)) {
+          star.classList.add("star-filled");
+          star.classList.remove("star-half", "star-quarter", "star-three-quarter");
+      }
+      else if (rating - 0.25 <= meanrating) {
+          star.classList.add("star-three-quarter");
+          star.classList.remove("star-filled", "star-quarter", "star-half");
+      }
+      else if (rating - 0.5 <= meanrating) {
+          star.classList.add("star-half");
+          star.classList.remove("star-filled", "star-quarter", "star-three-quarter");
+      }
+      else if (rating - 0.75 <= meanrating) {
+          star.classList.add("star-quarter");
+          star.classList.remove("star-filled", "star-half", "star-three-quarter");
+      }
+      else {
+          star.classList.remove("star-filled", "star-half", "star-quarter");
+      }
+  });
+});
+
+// JOIN BUTTON
+joinButton.addEventListener('click', async () => {
+  document.getElementById("Attendee_num").textContent = 1; 
+  joinButton.disabled = true;
+  dontJoinButton.disabled = true;
+});
+
+// DONT JOIN BUTTON
+dontJoinButton.addEventListener('click', async () => {
+  document.getElementById("Attendee_not_num").textContent = 1; 
+  joinButton.disabled = true;
+  dontJoinButton.disabled = true;
 });
