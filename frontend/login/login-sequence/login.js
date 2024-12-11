@@ -147,6 +147,7 @@ class passwordInputComponent extends HTMLElement {
                 const user = users.find(user => user.email === userEmail);
                 if(user && user.password === password){
                     const userID = user.id
+                    this.saveIdLocal(userID); // add this for local storage of token
                     console.log("login successful");
                     // this.errorComponent.innerText="Login successful";
                     const body = {userEmail, password, userID}
@@ -159,8 +160,8 @@ class passwordInputComponent extends HTMLElement {
                     const auth = await loginResponse.json()
 
                     // Takes you back to home
-                    
-                    window.location.href = 'http://localhost:3000'
+                    console.log("redirecting to home...");
+                    window.open('http://localhost:3000');
                 }else{
                     this.errorComponent.innerText="Invalid pass";
                     this.errorComponent.style.color="red";
