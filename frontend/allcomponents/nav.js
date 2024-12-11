@@ -18,6 +18,9 @@ function scrollToEvent(element) {
   element.scrollIntoView({ behavior: 'smooth' });
 }
 
+// Example usage: Simulate login
+localStorage.setItem('loggedIn', 'false'); // Uncomment to simulate a logged-in state
+
 // Simulating login state; replace this with actual login check logic
 const isLoggedIn = () => {
   // Example: Check if a user is logged in via localStorage or a cookie
@@ -27,16 +30,18 @@ const isLoggedIn = () => {
 const links = [
   { href: '../index.html', text: 'Event TBD' },
   { href: '../index.html', text: 'Events', onclick: scrollToEvent },
-  { href: '../about/index.html', text: 'Profile' },
   { href: '../eventMaker/index.html', text: 'Create Event' },
-  { href: '../login/index.html', text: 'Login/Sign Up', hideWhenLoggedIn: true },
+  { href: '../login/index.html', text: 'Login/Sign Up', showWhenLoggedOut: true },
+  { href: '../about/index.html', text: 'Profile', showWhenLoggedIn: true },
 ];
 
-//window.onload = function() {
-
+// Dynamically add links based on login state
 links.forEach(link => {
-  // Skip links that should be hidden when logged in
-  if (link.hideWhenLoggedIn && isLoggedIn()) {
+  // Skip links that shouldn't be displayed based on login state
+  if (link.showWhenLoggedIn && !isLoggedIn()) {
+    return;
+  }
+  if (link.showWhenLoggedOut && isLoggedIn()) {
     return;
   }
 
@@ -80,8 +85,3 @@ links.forEach(link => {
 });
 
 navbar.appendChild(nav);
-
-//}
-
-// Example usage: Simulate login
-localStorage.setItem('loggedIn', 'true'); // Uncomment to simulate a logged-in state
