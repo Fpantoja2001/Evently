@@ -66,7 +66,7 @@ router.get('/user/:id', async (req, res) => {
 
 // Update a user
 router.put('/user/:id', async (req, res) => {
-    console.log("request body", req.body);
+    console.log("request body", req.body['pfpImage'][0]);
     try {
         const user = await User.findByPk(req.params.id);
         if (!user) return res.status(404).json({ error: 'User not found' });

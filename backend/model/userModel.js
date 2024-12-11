@@ -57,7 +57,7 @@ const User = sequelize.define('User', {
         allowNull: true,
     },
     pfpImage: {
-        type: DataTypes.BLOB,
+        type: DataTypes.STRING,
         allowNull: true,
     },
 }, {

@@ -78,47 +78,9 @@ function renderSocialLinks(links) {
     return socialLinks;
 }
 
-function blobToImage(blob) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader(); 
-        reader.onload = (event) => {
-            const img = new Image(); 
-            img.onload = () => resolve(img); 
-            img.onerror = (error) => reject(error); 
-            img.src = event.target.result;
-        };
-        reader.onerror = (error) => reject(error); 
-        reader.readAsDataURL(blob); 
-    });
-}
-
-function imageToBlob(img, mimeType = "image/jpeg", quality = 0.95) {
-    return new Promise((resolve, reject) => {
-        try {
-            const canvas = document.createElement("canvas");
-            const ctx = canvas.getContext("2d");
-
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-            canvas.toBlob(
-                (blob) => {
-                    if (blob) {
-                        resolve(blob); 
-                    } else {
-                        reject("Failed to create Blob from image");
-                    }
-                },
-                mimeType, 
-                quality 
-            );
-        } catch (error) {
-            reject(error);
-        }
-    });
-}
 
 const data = await getUserData();
+
 
 const divArray = [];
 const spanArray = [];
@@ -131,10 +93,14 @@ if (profileWrapper) {
     const profileImage = document.createElement('div');
     profileImage.className = 'profileImage';
     const pfp = document.createElement('img');
-    if (data['pfpImage']) {
-        console.log(data['pfpImage']);
+    pfp.className = 'profileImageTag';
+
+    if (data.pfpImage) {
+        pfp.src = `data:image/jpeg;base64,${data.pfpImage}`;
+    } else {
+        pfp.src = '../about/defaultpfp.jpg';
     }
-    pfp.src = '../about/defaultpfp.jpg';
+
     profileImage.appendChild(pfp);
 
     const imageUploadInput = document.createElement('input');
@@ -150,18 +116,22 @@ if (profileWrapper) {
 
     let changeImage = false;
     const desiredChange = {};
+
     // Handle image upload
-    imageUploadInput.addEventListener('change', () => {
-        const file = imageUploadInput.files[0];
+    imageUploadInput.addEventListener('change', (event) => {
+        const file = event.target.files[0]; // Get the uploaded file
         if (file) {
-            blobToImage(file).then((img) => {
-                pfp.src = img.src;
+            const reader = new FileReader();
+    
+            reader.onloadend = () => {
+                const base64String = reader.result.split(",")[1]; // Extract Base64 string (without the prefix)
+                pfp.src = reader.result;
                 changeImage = true;
-                desiredChange['pfpImage'] = img.src;
-                console.log(desiredChange);
-            }).catch((error) => {
-                console.error('Error uploading image:', error);
-            });
+                desiredChange['pfpImage'] = base64String;
+                console.log("Base64 string:", base64String);
+            };
+    
+            reader.readAsDataURL(file); // Convert the file to a Base64 string
         }
     });
 
@@ -363,9 +333,9 @@ if (profileWrapper) {
                 }
 
                 if (changeImage) {
-                    const img = await imageToBlob(pfp);
-                    updatedData['pfpImage'] = img;
+                    updatedData['pfpImage'] = desiredChange['pfpImage'];
                 }
+
                 const result = await updateUserData(updatedData);
                 console.log(updatedData);
 
