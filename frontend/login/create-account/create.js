@@ -2,7 +2,7 @@ const template = document.createElement("template")
 
 const componentTemplates = [
     `
-        <link rel="stylesheet" href="../../../../frontend/login/create-account/create.css">
+        <link rel="stylesheet" href="../login/create-account/create.css">
         <div class="logo">logo</div>
         <slot class="component-title">Enter your personal info</slot>
 
@@ -24,26 +24,29 @@ const componentTemplates = [
         <div>
     `,
     `
-        <link rel="stylesheet" href="../../../../frontend/login/create-account/create.css">
+        <link rel="stylesheet" href="../login/create-account/create.css">
         <div class="logo">logo</div>
         <slot class="component-title">Enter account details</slot>
 
-  <div class="component-container">
-    <input type="text" class="component-input-one" id="userNameInput" placeholder=" ">
-    <label for="userNameInput" class="component-placeholder-one">Username</label>
-    <span class="component-form-error-one"></span>
+        <div class="component-container">
+        <input type="text" class="component-input-one" id="userNameInput" placeholder=" ">
+        <label for="userNameInput" class="component-placeholder-one">Username</label>
+        <span class="component-form-error-one"></span>
 
-    <input type="email" class="component-input-two" id="emailInput" placeholder=" ">
-    <label for="emailInput" class="component-placeholder-two">Email Address</label>
-    <span class="component-form-error-two"></span>
+        <input type="email" class="component-input-two" id="emailInput" placeholder=" ">
+        <label for="emailInput" class="component-placeholder-two">Email Address</label>
+        <span class="component-form-error-two"></span>
 
-    <input type="password" class="component-input-three" id="passwordInput" placeholder=" ">
-    <label for="passwordInput" class="component-placeholder-three">Password</label>
-    <span class="component-form-error-three"></span>
+        <input type="password" class="component-input-three" id="passwordInput" placeholder=" ">
+        <label for="passwordInput" class="component-placeholder-three">Password</label>
+        <span class="component-form-error-three"></span>
 
-    <button class="continueBtn">Sign Up</button>
-  </div>
+        <button class="continueBtn">Sign Up</button>
+        </div>
 `];
+
+template.innerHTML = componentTemplates[1];
+
 export class createAccount extends HTMLElement {
     constructor() {
         super();
@@ -80,7 +83,7 @@ export class createAccount extends HTMLElement {
         const formErrorTwo = this.shadow.querySelector(".component-form-error-two");
         const formErrorThree = this.shadow.querySelector(".component-form-error-three");
 
-        //uesr
+        //user
         if (userNameInput?.value.trim() === "") {
             formErrorOne.innerText = "Please enter a valid username.";
             userNameInput.classList.add("incorrectInput");
@@ -108,11 +111,11 @@ export class createAccount extends HTMLElement {
             passwordInput.classList.remove("incorrectInput");
         }
 
-        console.log({
-            name: userNameInput.value.trim(),
-            email: emailInput.value.trim(),
-            password: passwordInput.value.trim()
-        })
+        // console.log({
+        //     name: userNameInput.value.trim(),
+        //     email: emailInput.value.trim(),
+        //     password: passwordInput.value.trim()
+        // })
 
         if (isValid) {
             console.log("Form passed validation. Attempting user creation...");
@@ -123,6 +126,8 @@ export class createAccount extends HTMLElement {
             };
 
             try {
+                console.log(JSON.stringify(userData))
+
                 const response = await fetch('http://localhost:3000/api/user/create', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -141,6 +146,7 @@ export class createAccount extends HTMLElement {
 
                 if (result) {
                     // alert('Account created successfully!');
+                    
                     this.navigateToNextStep();
                 } else {
                     console.error('Failed to create account: ' + (result.message || 'Unknown error'));

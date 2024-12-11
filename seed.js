@@ -5,7 +5,7 @@ const User = require('./backend/model/userModel.js'); // Adjust the path as need
 
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: './database.sqlite', // Adjust path if necessary
+    storage: '../database.sqlite', // Adjust path if necessary
 });
 
 const seedDatabase = async () => {
@@ -18,8 +18,8 @@ const seedDatabase = async () => {
         const users = await User.bulkCreate([
             {
                 name: 'Alice Johnson',
+                email: 'alice@umass.edu',
                 username: 'alicej',
-                email: 'alice@example.com',
                 password: 'password123',
                 bio: 'Event enthusiast and tech geek.',
                 phoneNumber: '555-1234',
@@ -31,7 +31,7 @@ const seedDatabase = async () => {
             },
             {
                 name: 'Bob Smith',
-                username: 'bobsmith',
+                username: 'bsmith',
                 email: 'bob@example.com',
                 password: 'password123',
                 bio: 'Avid traveler and foodie.',
@@ -60,12 +60,8 @@ const seedDatabase = async () => {
                 eventCreator: users[0].id, // Assume User IDs start from 1
                 eventAddress: '123 Tech Street, Silicon Valley, CA',
                 eventDescription: 'A meetup for tech enthusiasts to share and learn.',
-<<<<<<< HEAD
-                eventImage: 'tech-meetup.jpg',
-=======
                 //eventImage: 'https://example.com/tech-meetup.jpg',
                 eventImage: 'https://cdn.prod.website-files.com/64f989999025f3e47402a969/65433da3841c29ac9e3fc41b_Accelerate-your-career-by-attending-tech-meetups.jpeg',
->>>>>>> origin
             },
             {
                 eventName: 'Cooking Workshop',
@@ -79,12 +75,8 @@ const seedDatabase = async () => {
                 eventCreator: users[1].id,
                 eventAddress: '456 Culinary Lane, Food City, CA',
                 eventDescription: 'Hands-on cooking experience with a professional chef.',
-<<<<<<< HEAD
-                eventImage: 'cooking-workshop.jpg',
-=======
                 //eventImage: 'https://example.com/cooking-workshop.jpg',
                 eventImage: 'https://www.allculinaryschools.com/wp-content/uploads/2016/12/culinary-arts-find-a-cooking-class.jpg',
->>>>>>> origin
             },
         ]);
 

@@ -1,16 +1,16 @@
 const express = require('express');
 const User = require('../model/userModel.js');
 const session = require('express-session');
-const { CONSTRAINT } = require('sqlite3');
 const router = express.Router();
 
 // Create a new user
 router.post('/user/create', async (req, res) => {
     try {
-        const { name, email, password, bio, phoneNumber, age, gender, socialLinks, skills, hobbies, pfpImage } = req.body;
+        const { name, username, email, password, bio, phoneNumber, age, gender, socialLinks, skills, hobbies, pfpImage } = req.body;
 
         const user = await User.create({
             name,
+            username,
             email,
             password,
             bio,
@@ -121,6 +121,7 @@ router.post('/user/login', async (req, res) => {
     try {
         req.session.authenticated = true; 
         req.session.user = req.body;
+        console.log(req.sessionID, req.session)
     } catch (error) {
         res.status(500).json({
             error: error.message,
