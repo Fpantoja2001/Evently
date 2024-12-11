@@ -18,24 +18,44 @@ function scrollToEvent(element) {
   element.scrollIntoView({ behavior: 'smooth' });
 }
 
+// // Example usage: Simulate login
+// localStorage.setItem('loggedIn', 'false'); // Uncomment to simulate a logged-in state
+
+// // Simulating login state; replace this with actual login check logic
+// const isLoggedIn = () => {
+//   // Example: Check if a user is logged in via localStorage or a cookie
+//   return localStorage.getItem('loggedIn') === 'true'; 
+// };
+
+const isLoggedIn = () => {
+  return localStorage.getItem('userId') !== null;
+};
+
 const links = [
   { href: '../index.html', text: 'Event TBD' },
   { href: '../index.html', text: 'Events', onclick: scrollToEvent },
-  { href: '../about/index.html', text: 'Profile' },
   { href: '../eventMaker/index.html', text: 'Create Event' },
-  { href: '../login/index.html', text: 'Login/Sign Up' },
+  { href: '../login/index.html', text: 'Login/Sign Up', showWhenLoggedOut: true },
+  { href: '../about/index.html', text: 'Profile', showWhenLoggedIn: true },
 ];
 
-//window.onload = function() {
-
+// Dynamically add links based on login state
 links.forEach(link => {
+  // Skip links that shouldn't be displayed based on login state
+  if (link.showWhenLoggedIn && !isLoggedIn()) {
+    return;
+  }
+  if (link.showWhenLoggedOut && isLoggedIn()) {
+    return;
+  }
+
   const li = document.createElement('li'); 
   const a = document.createElement('a');
 
   a.href = link.href;
   a.textContent = link.text;
 
-  // when Event is clicked, scroll to the event section in Homepage
+  // When "Events" is clicked, scroll to the event section in the homepage
   const eventlist_wrapper = document.getElementById('eventlist_wrapper');
   if (link.onclick) {
     a.onclick = function() {
@@ -69,5 +89,3 @@ links.forEach(link => {
 });
 
 navbar.appendChild(nav);
-
-//}
