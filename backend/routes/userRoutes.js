@@ -70,19 +70,32 @@ router.put('/user/:id', async (req, res) => {
         const user = await User.findByPk(req.params.id);
         if (!user) return res.status(404).json({ error: 'User not found' });
 
-        const { name, email, password, bio, phoneNumber, age, gender, socialLinks, skills, hobbies, pfpImage } = req.body;
+        // List of updatable fields
+        const updatableFields = [
+            'name', 
+            'email', 
+            'password', 
+            'bio', 
+            'phoneNumber', 
+            'age', 
+            'gender', 
+            'socialLinks', 
+            'skills', 
+            'hobbies', 
+            'pfpImage'
+        ];
 
-        user.name = name;
-        user.email = email;
-        user.password = password;
-        user.bio = bio;
-        user.phoneNumber = phoneNumber;
-        user.age = age;
-        user.gender = gender;
-        user.socialLinks = socialLinks;
-        user.skills = skills ? JSON.stringify(skills) : null; // Store skills as a JSON string
-        user.hobbies = hobbies ? JSON.stringify(hobbies) : null; // Store hobbies as a JSON string
-        user.pfpImage = pfpImage;
+        // Update only provided fields
+        for (const field of updatableFields) {
+            if (req.body[field] !== undefined) {
+                if (field === 'skills' || field === 'hobbies') {
+                    // Convert to JSON string if it's an array/object
+                    user[field] = req.body[field] ? JSON.stringify(req.body[field]) : null;
+                } else {
+                    user[field] = req.body[field];
+                }
+            }
+        }
 
         await user.save();
 
@@ -98,6 +111,7 @@ router.put('/user/:id', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
 
 // Delete a user
 router.delete('/user/:id', async (req, res) => {
