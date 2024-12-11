@@ -66,6 +66,7 @@ router.get('/user/:id', async (req, res) => {
 
 // Update a user
 router.put('/user/:id', async (req, res) => {
+    console.log("request body", req.body['pfpImage'][0]);
     try {
         const user = await User.findByPk(req.params.id);
         if (!user) return res.status(404).json({ error: 'User not found' });
@@ -100,15 +101,17 @@ router.put('/user/:id', async (req, res) => {
 
         await user.save();
 
-        // Parse JSON strings for skills and hobbies
+        // Parse JSON strings for skills, hobbies, and socialLinks before sending the response
         const parsedUser = {
             ...user.toJSON(),
             skills: user.skills ? JSON.parse(user.skills) : [],
             hobbies: user.hobbies ? JSON.parse(user.hobbies) : [],
+            socialLinks: user.socialLinks ? JSON.parse(user.socialLinks) : null,
         };
 
         res.json(parsedUser);
     } catch (error) {
+        console.error('Error updating user:', error.message);
         res.status(500).json({ error: error.message });
     }
 });

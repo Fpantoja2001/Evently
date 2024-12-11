@@ -122,7 +122,12 @@ export class createAccount extends HTMLElement {
             const userData = {
                 name: userNameInput.value.trim(),
                 email: emailInput.value.trim(),
-                password: passwordInput.value.trim()
+                password: passwordInput.value.trim(),
+                bio: "Hi everyone! I’m new here and super excited to join this community. I’m looking forward to connecting, sharing, and exploring everything this app has to offer. I love discovering new content, meeting like-minded people, and being part of an engaging space. Feel free to say hi or share any tips for a newbie—I’m all ears!",
+                phoneNumber: "Not Provided",
+                age: 18,
+                gender: "Not Provided",
+                username: userNameInput.value.trim() + Math.floor(Math.random() * 1000),
             };
 
             try {

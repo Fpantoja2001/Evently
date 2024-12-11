@@ -28,7 +28,6 @@ const seedDatabase = async () => {
                 socialLinks: JSON.stringify({ twitter: '@alicej', linkedin: 'linkedin.com/in/alicej' }),
                 skills: JSON.stringify(['Networking', 'Event Planning']),
                 hobbies: JSON.stringify(['Hiking', 'Cooking']),
-                pfpImage: 'https://example.com/alice.jpg',
             },
             {
                 name: 'Bob Smith',
@@ -42,7 +41,6 @@ const seedDatabase = async () => {
                 socialLinks: JSON.stringify({ instagram: '@bobtravel' }),
                 skills: JSON.stringify(['Photography', 'Graphic Design']),
                 hobbies: JSON.stringify(['Traveling', 'Photography']),
-                pfpImage: 'https://example.com/bob.jpg',
             },
         ]);
 
