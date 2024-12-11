@@ -28,7 +28,8 @@ function scrollToEvent(element) {
 // };
 
 const isLoggedIn = () => {
-  return localStorage.getItem('userId') !== null;
+  const session = JSON.parse(localStorage.getItem("auth"))
+  return session.isAuth;
 };
 
 const links = [
