@@ -1,4 +1,5 @@
 const token = localStorage.getItem('userId');
+
 if (!token) {
     console.log('User token not found.');
     window.localStorage.href = '../login';

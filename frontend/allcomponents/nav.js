@@ -20,7 +20,12 @@ function scrollToEvent(element) {
 
 // Check login state using userId in localStorage
 const isLoggedIn = () => {
-  return localStorage.getItem('userId') !== null;
+  try {
+    const session = JSON.parse(localStorage.getItem("auth"))
+    return session.isAuth;
+  } catch (e){
+    return false;
+  }
 };
 
 const links = [
@@ -41,10 +46,14 @@ const links = [
     href: '#',
     text: 'Sign Out',
     showWhenLoggedIn: true,
-    onClick: function () {
+    onClick: async function () {
       // Sign out logic
-      localStorage.removeItem('userId');
+
+      const logoutResponse = await fetch('http://localhost:3000/api/user/logout')
+      console.log(logoutResponse)
+      localStorage.removeItem('auth');
       location.reload(); // Reload to reflect changes
+      window.location.href = '../index.html';
     },
   },
 ];

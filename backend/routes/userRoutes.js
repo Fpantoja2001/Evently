@@ -130,14 +130,29 @@ router.delete('/user/:id', async (req, res) => {
     }
 });
 
-// Auth session
+// session generation on login
 router.post('/user/login', async (req, res) => {
     try {
         req.session.authenticated = true; 
         req.session.user = req.body;
-        console.log(req.sessionID, req.session)
-        res.json({ message: 'Logged in successfully.' });
+        res.json({
+            id: req.sessionID,
+            isAuth: req.session.authenticated,
+            userData: req.session.user
+        });
     } catch (error) {
+        res.status(500).json({
+            error: error.message,
+        })
+    }
+})
+
+// session deletion on logout
+router.post('/logout', (req,res) => {
+    try {
+        req.session.destroy()
+        res.json("success")
+    } catch(error){
         res.status(500).json({
             error: error.message,
         })

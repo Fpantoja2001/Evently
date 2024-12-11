@@ -147,7 +147,7 @@ class passwordInputComponent extends HTMLElement {
                 const user = users.find(user => user.email === userEmail);
                 if(user && user.password === password){
                     const userID = user.id
-                    this.saveIdLocal(userID); // add this for local storage of token
+                    this.saveIdLocal(userID);
                     console.log("login successful");
                     // this.errorComponent.innerText="Login successful";
                     const body = {userEmail, password, userID}
@@ -158,6 +158,7 @@ class passwordInputComponent extends HTMLElement {
                         body: JSON.stringify(body),
                     })
                     const auth = await loginResponse.json()
+                    localStorage.setItem("auth", JSON.stringify(auth))
 
                     // Takes you back to home
                     console.log("redirecting to home...");
