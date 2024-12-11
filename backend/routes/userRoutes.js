@@ -118,6 +118,7 @@ router.post('/user/login', async (req, res) => {
         req.session.authenticated = true; 
         req.session.user = req.body;
         console.log(req.sessionID, req.session)
+        res.json({ message: 'Logged in successfully.' });
     } catch (error) {
         res.status(500).json({
             error: error.message,
