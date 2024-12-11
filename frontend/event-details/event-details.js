@@ -17,16 +17,16 @@ document.addEventListener('DOMContentLoaded', async function() {
   url.pathname = `api/event/${eventId}`
   //url.searchParams.append("eventId", eventId);
 
-  //url.searchParams.append("deBug", true); // FOR SWITCH TO DEBUB MODE
+  //url.searchParams.append("deBug", true); // FOR SWITCH TO DEBUG MODE
   fetch(url)
   .then(response => {
     if (response.ok){
       return response.json()
     } else {
-      return {error: "Unable to display event details page"}
+      return {error: "Unable to display event details page"} // WHEN NO PAGE
     }
   })
-  .then(data => {
+  .then(data => { // GETTING EVENT DATA
     if (data.error){
       document.getElementById('event-name').textContent = data.error;
     } else {
