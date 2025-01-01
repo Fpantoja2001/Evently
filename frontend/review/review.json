@@ -1,9 +1,33 @@
 {
-    "johndoe": 
+    "reviews": 
         [
-            {"eventName": "event1", "rating": 2, "comment": "No comment provided."},
-            {"eventName": "event1", "rating": 4, "comment": "No comment provided."},
-            {"eventName": "event1", "rating": 3, "comment": "No comment provided."},
-            {"eventName": "event1", "rating": 5, "comment": "No comment provided."}
+            {
+                "reviewId": "1",
+                "eventName": "event1",
+                "userName": "johndoe",
+                "rating": 2,
+                "comment": "No comment provided."
+            },
+            {
+                "reviewId": "2",
+                "eventName": "event1",
+                "userName": "johndoe",
+                "rating": 4,
+                "comment": "No comment provided."
+            },
+            {
+                "reviewId": "3",
+                "eventName": "event1",
+                "userName": "johndoe",
+                "rating": 3,
+                "comment": "No comment provided."
+            },
+            {
+                "reviewId": "4",
+                "eventName": "event1",
+                "userName": "johndoe",
+                "rating": 5,
+                "comment": "No comment provided."
+            }
         ]
 }
