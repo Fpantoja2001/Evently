@@ -133,13 +133,35 @@ router.delete('/user/:id', async (req, res) => {
 // session generation on login
 router.post('/user/login', async (req, res) => {
     try {
-        req.session.authenticated = true; 
-        req.session.user = req.body;
-        res.json({
-            id: req.sessionID,
-            isAuth: req.session.authenticated,
-            userData: req.session.user
-        });
+        if("email" in req.body && !("password" in req.body)) {
+            const user = await User.findOne({where: {"email": req.body.email}});
+            
+            if (user){
+                res.json({
+                    "validEmail": true,
+                })
+            } else {
+                throw new Error("cannot validate email")
+            } 
+        }
+        
+        if("password" in req.body) {
+            const user = await User.findOne({where: {"email": req.body.email}});
+
+            if(user.password === req.body.password) {
+                req.session.authenticated = true; 
+                req.session.user = req.body;
+                res.json({
+                    id: req.sessionID,
+                    isAuth: req.session.authenticated,
+                    userData: req.session.user,
+                    userId: user.id,
+                });
+            } else {
+                res.json({isAuth: false})
+            }
+        }
+        
     } catch (error) {
         res.status(500).json({
             error: error.message,

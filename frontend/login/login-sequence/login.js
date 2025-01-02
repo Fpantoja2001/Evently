@@ -73,15 +73,17 @@ export class emailInputComponent extends HTMLElement {
                 this.errorComponent.innerText = `Please enter a valid email`
                 this.componentPlaceholder.style.color = "red"
                 return;
-
             }
             try{
-                const response=await fetch('http://localhost:3000/api/user/getAll');
-                const users=await response.json();
-                const userExists=users.some(user => user.email === email);
-                
-                
-                if(userExists){
+                const loginResponse = await fetch('http://localhost:3000/api/user/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json'},
+                    body: JSON.stringify({"email":email}),
+                })
+
+                const auth = await loginResponse.json()
+
+                if(auth.validEmail){
                     const passwordInputComponent=document.createElement('password-input-component');
                     passwordInputComponent.classList.add("sign-up-component");
                     passwordInputComponent.setAttribute('data-email', email);
@@ -127,10 +129,6 @@ class passwordInputComponent extends HTMLElement {
         this.email = null;
     }
 
-    saveIdLocal(userId){
-        localStorage.setItem("userId",userId);
-    }
-
     connectedCallback() {
         this.component = document.querySelector('password-input-component')
         const userEmail = this.component.getAttribute('data-email')
@@ -138,35 +136,34 @@ class passwordInputComponent extends HTMLElement {
             e.preventDefault()
             const password=this.inputComponent.value.trim();
             if(!password){
-                this.errorComponent.innerText="Password cant be empty"
+                this.errorComponent.innerText="Password cannot be empty"
                 return;
             }
+
             try{
-                const response=await fetch('http://localhost:3000/api/user/getAll');
-                const users=await response.json();
-                const user = users.find(user => user.email === userEmail);
-                if(user && user.password === password){
-                    const userID = user.id
-                    this.saveIdLocal(userID);
-                    console.log("login successful");
-                    // this.errorComponent.innerText="Login successful";
-                    const body = {userEmail, password, userID}
+                const body = {"email": userEmail, "password": password}
 
-                    const loginResponse = await fetch('http://localhost:3000/api/user/login', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(body),
-                    })
-                    const auth = await loginResponse.json()
+                const loginResponse = await fetch('http://localhost:3000/api/user/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body),
+                })
+
+                const auth = await loginResponse.json()
+
+                if(auth.isAuth){
+                    // Saves Session Data
+                    this.errorComponent.innerText="Login successful";
+                    localStorage.setItem("userId",auth.userId);
                     localStorage.setItem("auth", JSON.stringify(auth))
-
-                    // Takes you back to home
+                    
+                    // Redirects User to home
                     console.log("redirecting to home...");
-                    window.open('http://localhost:3000');
-                }else{
-                    this.errorComponent.innerText="Invalid pass";
-                    this.errorComponent.style.color="red";
+                    window.location.href = 'http://localhost:3000';
+                } else {
+                    console.log("cannot validate password")
                 }
+                
             }catch(error){
                 console.error("cant validate password",error);
                 this.errorComponent.innerText="cant connect to server";
