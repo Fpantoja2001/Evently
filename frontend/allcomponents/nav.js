@@ -53,7 +53,7 @@ const links = [
       console.log(logoutResponse)
       localStorage.removeItem('auth');
       location.reload(); // Reload to reflect changes
-      window.location.href = '../index.html';
+      window.location.href = '../login/index.html';
     },
   },
 ];
@@ -62,6 +62,7 @@ const links = [
 links.forEach(link => {
   // Skip links that shouldn't be displayed based on login state
   if (link.showWhenLoggedIn && !isLoggedIn()) {
+    window.location.href = '../login/index.html';
     return;
   }
   if (link.showWhenLoggedOut && isLoggedIn()) {
