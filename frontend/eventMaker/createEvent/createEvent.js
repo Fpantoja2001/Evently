@@ -319,15 +319,8 @@ class EventMaker extends HTMLElement {
     }
 
     submit(){
-        const userId = localStorage.getItem("userId");
-
-    if (userId) {
-    console.log("Current loggedin user ID:", userId);
-    } else {
-    console.log("Noone is currently logged in.");
-}
-        console.log(this.eventDetails);
-
+        const user = JSON.parse(localStorage.getItem("auth")).userId
+        console.log(this.eventDetails)
         fetch("http://localhost:3000/api/event/create", {
             method: "POST",
             headers: {
@@ -336,20 +329,34 @@ class EventMaker extends HTMLElement {
             body:JSON.stringify({
                 eventName: this.eventDetails.title,
                 eventDate: this.eventDetails.date,
-                privacy: this.eventDetails.privacy,
+                privacy: this.eventDetails.type,
                 inviteOption: this.eventDetails.privacy === "Invite only" ? true : false,
                 eventLimit: this.eventDetails.occupancy === "Limited" ? 50 : 0,
                 eventCategory: this.eventDetails.category,
                 reservation: this.eventDetails.seating === "Reservation" ? true : false,
-                eventCreator: userId, //CHANGE TO CURRENT USER. HOW? IDK.
+                eventCreator: user,
                 eventAddress: this.eventDetails.location,
                 eventDescription: this.eventDetails.description,
             })
         })
-        .then(response =>response.json())
-        .then(data => {
-            console.log("Success:", data);
+        .then(response => response.json())
+        .then(async data => {
+            const user = JSON.parse(localStorage.getItem("auth")).userId
+            console.log(user)
+            
+            const response = await fetch(`/api/user/${user}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({"currentEvents": data.event.eventid}),
+            });
+
+            const result = await response.json();
+            console.log('User updated successfully:', result);
+
             alert("Event created successfully!");
+            window.location.href = 'http://localhost:3000';
         })
         .catch(error =>{
             console.error("Error creating event:", error);

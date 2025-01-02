@@ -5,7 +5,7 @@ const router = express.Router();
 // Create a new event
 router.post('/event/create', async (req, res) => {
     try {
-        const {
+        const { 
             eventName,
             eventDate,
             eventTime,
@@ -37,7 +37,7 @@ router.post('/event/create', async (req, res) => {
             eventIcon,
         });
 
-        res.status(201).json({ message: 'Event created successfully.', event: newEvent });
+        res.status(201).json({ message: 'Event created successfully.', event: newEvent, eventId: newEvent.id,});
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

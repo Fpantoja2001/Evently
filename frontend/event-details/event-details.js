@@ -26,35 +26,45 @@ document.addEventListener('DOMContentLoaded', async function() {
       return {error: "Unable to display event details page"} // WHEN NO PAGE
     }
   })
-  .then(data => { // GETTING EVENT DATA
-    if (data.error){
-      document.getElementById('event-name').textContent = data.error;
-    } else {
-    console.log(data);
-    document.getElementById('event-name').textContent = data.eventName;
-    document.getElementById('event-time-date').textContent = data.eventDate;
-    document.getElementById('privacy-option').textContent = data.privacy;
-    document.getElementById('invite-option').textContent = data.inviteOption;
-    document.getElementById('limit-option').textContent = data.eventLimit;
-    document.getElementById('reservation-option').textContent = data.reservation ? "Yes" : "No";
-    document.getElementById('category-option').textContent = data.eventCategory;
-    // document.getElementById('event-creators').textContent = data.eventCreator; // Uncomment if needed
-    document.getElementById('event-address').textContent = data.eventAddress;
-    document.getElementById('event-description').textContent = data.eventDescription;
-    document.getElementById('Attendee_num').textContent = 0; // PLACEHOLDER VAL
-    document.getElementById('Attendee_not_num').textContent = 0; // PLACEHOLDER VAL
-    if(data.eventImage){
-      document.getElementById('event-image').src = data.eventImage;
-    }
+  .then(async data => { // GETTING EVENT DATA
+      if (data.error){
+        document.getElementById('event-name').textContent = data.error;
+      } else {
+      // load creator profile
+      const getCreator = await fetch(`/api/user/${data.eventCreator}`)
+      const creator = await getCreator.json()
+      //
+      document.getElementById('event-name').textContent = data.eventName;
+      document.getElementById('event-time-date').textContent = data.eventDate;
+      document.getElementById('privacy-option').textContent = data.privacy;
+      document.getElementById('invite-option').textContent = data.inviteOption;
+      document.getElementById('limit-option').textContent = data.eventLimit;
+      document.getElementById('reservation-option').textContent = data.reservation ? "Yes" : "No";
+      document.getElementById('category-option').textContent = data.eventCategory;
+      document.getElementById('event-creators').textContent = `Created by: ${creator.name}`  // Uncomment if needed
+      document.getElementById('event-address').textContent = data.eventAddress;
+      document.getElementById('event-description').textContent = data.eventDescription;
+      document.getElementById('Attendee_num').textContent = 0; // PLACEHOLDER VAL
+      document.getElementById('Attendee_not_num').textContent = 0; // PLACEHOLDER VAL
+      if(data.eventImage){
+        document.getElementById('event-image').src = data.eventImage;
+      }
+      // joining your own event handling 
+      const currentUser = JSON.parse(localStorage.getItem('auth')).userId
 
       if(data.privacy === "Public"){ // DISABLING BUTTONS IF PRIVATE EVENT
         joinButton.disabled = false;
         dontJoinButton.disabled = false;
+
+        if(creator.id === currentUser){
+          joinButton.disabled = true;
+          dontJoinButton.disabled = true;
+        }
       } else {
         joinButton.disabled = true;
         dontJoinButton.disabled = true;
       }
-    }
+      }
   })
   .catch(error =>  console.error('Request failed', error));
 

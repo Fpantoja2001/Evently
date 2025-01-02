@@ -60,6 +60,14 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING,
         allowNull: true,
     },
+    currentEvents: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    pastEvents: {
+        type: DataTypes.STRING,
+        allowNull: true
+    }
 }, {
     timestamps: true, // Adds createdAt and updatedAt
     tableName: 'users', // Explicitly define table name

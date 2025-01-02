@@ -6,7 +6,7 @@ const router = express.Router();
 // Create a new user
 router.post('/user/create', async (req, res) => {
     try {
-        const { name, username, email, password, bio, phoneNumber, age, gender, socialLinks, skills, hobbies, pfpImage } = req.body;
+        const { name, username, email, password, bio, phoneNumber, age, gender, socialLinks, skills, hobbies, pfpImage, currentEvents, pastEvents } = req.body;
 
         const user = await User.create({
             name,
@@ -21,6 +21,8 @@ router.post('/user/create', async (req, res) => {
             skills: JSON.stringify(skills), // Store skills as a JSON string
             hobbies: JSON.stringify(hobbies), // Store hobbies as a JSON string
             pfpImage,
+            currentEvents,
+            pastEvents,
         });
 
         res.status(201).json(user);
@@ -66,7 +68,7 @@ router.get('/user/:id', async (req, res) => {
 
 // Update a user
 router.put('/user/:id', async (req, res) => {
-    console.log("request body", req.body['pfpImage'][0]);
+    // console.log("request body", req.body['pfpImage'][0]);
     try {
         const user = await User.findByPk(req.params.id);
         if (!user) return res.status(404).json({ error: 'User not found' });
@@ -84,7 +86,9 @@ router.put('/user/:id', async (req, res) => {
             'socialLinks', 
             'skills', 
             'hobbies', 
-            'pfpImage'
+            'pfpImage',
+            'currentEvents',
+            'pastEvents',
         ];
 
         // Update only provided fields
