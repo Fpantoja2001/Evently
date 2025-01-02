@@ -1,4 +1,5 @@
-const token = localStorage.getItem('userId');
+const auth = JSON.parse(localStorage.getItem('auth'))
+const token = auth.userId
 
 if (!token) {
     console.log('User token not found.');

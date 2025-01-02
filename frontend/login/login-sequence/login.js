@@ -154,7 +154,6 @@ class passwordInputComponent extends HTMLElement {
                 if(auth.isAuth){
                     // Saves Session Data
                     this.errorComponent.innerText="Login successful";
-                    localStorage.setItem("userId",auth.userId);
                     localStorage.setItem("auth", JSON.stringify(auth))
                     
                     // Redirects User to home
