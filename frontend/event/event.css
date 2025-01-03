@@ -14,6 +14,36 @@ body {
     padding: 1rem;
 }
 
+.title{
+    height: 5%;
+    width: 100%;
+    margin: 10px 0px 10px 10px !important;
+    font-size: 1.5rem;
+}
+
+.eventlist_wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.eventColumns {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: beige;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+#card {
+    height: 95%;
+    margin: 10px 0px 10px 10px;
+    width: calc(25% - 10px);
+}
+
 .category {
     margin-bottom: 3rem;
     background-color: #FFECC8;
