@@ -6,11 +6,16 @@ html, body {
     color: #333;
     margin: 0;
     padding: 0;
+    height: 100%;
 }
 
 body {
     margin: 0;
     padding: 1rem;
+}
+
+section { 
+    height: calc(100% - 53px);
 }
 
 /* Profile Wrapper */
@@ -22,8 +27,9 @@ body {
     padding: 1.5rem;
     border-radius: 0.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: auto;
+    width: 100%;
+    height: 100%;
+    margin: 10px 0px 10px 0px;
 }
 
 /* username format */
@@ -32,6 +38,17 @@ body {
     flex-direction: column;
     align-items: center;
     margin-bottom: 1rem;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.options {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    display: flex;
 }
 
 /* Profile Image */
@@ -180,7 +197,7 @@ a.git{
 }
 
 /* Edit and Save Buttons */
-.addButton, .removeButton, .editButton, .saveButton {
+.addButton, .removeButton, .editButton, .saveButton, .signoutButton {
     display: inline-block; 
     width: auto;
     padding: 8px 16px; 
@@ -194,7 +211,11 @@ a.git{
     white-space: nowrap; 
 }
 
-.addButton:hover, .removeButton:hover, .editButton:hover, .saveButton:hover {
+.editButton, .signoutButton {
+    margin-right: 10px;
+}
+
+.addButton:hover, .removeButton:hover, .editButton:hover, .saveButton:hover, .signoutButton:hover {
     background-color: #f08484; 
 }
 

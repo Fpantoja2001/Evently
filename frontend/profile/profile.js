@@ -364,8 +364,26 @@ if (profileWrapper) {
         }
     };
 
+    // Signout button
+    
+    const signOutBtn =  document.createElement("button")
+    signOutBtn.textContent = "Sign Out"
+    signOutBtn.classList = "signoutButton"
+    signOutBtn.onclick = async function() {
+        const logoutResponse = await fetch('http://localhost:3000/api/user/logout')
+        console.log(logoutResponse)
+        localStorage.removeItem('auth');
+        location.reload(); // Reload to reflect changes
+        window.location.href = '../login/index.html';
+    }
 
-    userDiv.appendChild(editButton);
+    const options = document.createElement('div');
+    options.classList = "options"
+    options.appendChild(editButton);
+    options.appendChild(signOutBtn);
+
+
+    userDiv.appendChild(options)
     userBioDiv.appendChild(userBio);
     divArray.push(userBioDiv);
 

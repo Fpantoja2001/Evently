@@ -42,20 +42,20 @@ const links = [
       window.location.href = '../login/index.html';
     },
   },
-  {
-    href: '#',
-    text: 'Sign Out',
-    showWhenLoggedIn: true,
-    onClick: async function () {
-      // Sign out logic
+  // {
+  //   href: '#',
+  //   text: 'Sign Out',
+  //   showWhenLoggedIn: true,
+  //   onClick: async function () {
+  //     // Sign out logic
 
-      const logoutResponse = await fetch('http://localhost:3000/api/user/logout')
-      console.log(logoutResponse)
-      localStorage.removeItem('auth');
-      location.reload(); // Reload to reflect changes
-      window.location.href = '../login/index.html';
-    },
-  },
+  //     const logoutResponse = await fetch('http://localhost:3000/api/user/logout')
+  //     console.log(logoutResponse)
+  //     localStorage.removeItem('auth');
+  //     location.reload(); // Reload to reflect changes
+  //     window.location.href = '../login/index.html';
+  //   },
+  // },
 ];
 
 // Dynamically add links based on login state
