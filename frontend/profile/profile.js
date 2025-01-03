@@ -99,7 +99,7 @@ if (profileWrapper) {
     if (data.pfpImage) {
         pfp.src = `data:image/jpeg;base64,${data.pfpImage}`;
     } else {
-        pfp.src = '../about/defaultpfp.jpg';
+        pfp.src = '../profile/defaultpfp.jpg';
     }
 
     profileImage.appendChild(pfp);
