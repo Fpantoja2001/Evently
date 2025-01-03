@@ -141,7 +141,7 @@ class passwordInputComponent extends HTMLElement {
             }
 
             try{
-                const body = {"email": userEmail, "password": password}
+                const body = {"email": userEmail.toLowerCase(), "password": password}
 
                 const loginResponse = await fetch('http://localhost:3000/api/user/login', {
                     method: 'POST',
