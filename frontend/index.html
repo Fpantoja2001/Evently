@@ -6,22 +6,21 @@
     <title>Event tbd</title>
     <link rel="stylesheet" href="./home.css">
     <script src="../navigation/nav.js" defer></script>
+    <script src="./event-list/event.js" type="module"></script> <!-- Temp , will be moved to nav-->
   </head>
   <body>
     <div>
       <nav id='navbar'>
       </nav>
     </div>
-    <section>
+    <!-- <section>
       <form id="form"> 
         <input type="search" id="query" name="q" placeholder="Search...">
         <button>Search</button>
       </form>
-    </section>
-    <eventList class = "eventlist_wrapper" id="eventlist_wrapper">
-      <script type="module" src="./event/event.js"></script>
-      <link rel = "stylesheet" href="./event/event.css" >
-    </eventList>
+    </section> -->
+
+    <event-list-component id="event-list-component"></event-list-component>
   </body>
   <!-- <footer class="footer">
     <h1 class="heading" id="site-footer-heading">Find new events on Event TBD or make your own!</h1>

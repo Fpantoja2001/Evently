@@ -31,7 +31,7 @@ const isLoggedIn = () => {
 const links = [
   { href: '../index.html', text: 'Event TBD' },
   { href: '../index.html', text: 'Events', onclick: scrollToEvent },
-  { href: '../eventMaker/index.html', text: 'Create Event' },
+  { href: '../create-event/index.html', text: 'Create Event' },
   { href: '../profile/index.html', text: 'Profile', showWhenLoggedIn: true },
   {
     href: '#',

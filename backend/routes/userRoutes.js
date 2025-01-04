@@ -62,7 +62,7 @@ router.get('/user/:id', async (req, res) => {
 
         res.json(parsedUser);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message, message: "user does not exists in db"});
     }
 });
 
