@@ -271,7 +271,7 @@ export class eventListComponent extends HTMLElement {
                     // console.log(i)
                     const newEvent = document.createElement('div');
                     const a = document.createElement('a');
-                    a.href = `../event-details/index.html?eventid=${i.eventid}`;
+                    a.href = `../event-expanded/index.html?eventid=${i.eventid}`;
                     a.appendChild(newEvent);
 
                     a.className = 'column is-one-fifth bordered-column';
