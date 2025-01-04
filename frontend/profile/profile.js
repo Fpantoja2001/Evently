@@ -393,3 +393,174 @@ if (profileWrapper) {
 
     console.log(spanArray);
 }
+
+const template = document.createElement("template");
+
+const componentTemplates = [
+    `
+        <link rel="stylesheet" href="main.css">
+
+        <div class="component-wrapper">
+            <div class="profile-details">
+                <div class="profile-left">
+                    <img class="profile-img"></img>
+                </div>
+                <div class="profile-right">
+                    <div class="profile-line-1">
+                        <div class="profile-username"></div>
+                        <div class="profile-options">
+                            <button class="profile-edit-btn">Edit Profile</button>
+                            <button class="profile-signout-btn">Sign Out</button>
+                            <button class="profile-settings-btn">Set</button>
+                        </div>
+                    </div>
+
+                    <div class="profile-line-2">
+                        <div class="profile-event-number">5 events</div>
+                        <div class="profile-follower-number">100 followers</div>
+                        <div class="profile-following-number">659 following</div>
+                    </div>
+
+                    <div class="profile-line-3">
+                        <div class="profile-name">Felix Manuel Pantoja</div>
+                    </div>
+
+                    <div class="profile-line-4">
+                        <div class="profile-bio">Wanderlust, coffee enthusiast, and eternal optimist. Turning late-night ideas into early-morning adventures, one step at a time.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-content"></div>
+        </div>
+    `
+]
+
+class Profile extends HTMLElement {
+    constructor() {
+        super();
+        const shadow = this.attachShadow({mode: "open"});
+        template.innerHTML = componentTemplates[0];
+        shadow.appendChild(template.content.cloneNode(true));
+
+        // Profile fields
+        this.profileDetails = shadow.querySelector('.profile-details');
+        this.profileImg = shadow.querySelector(".profile-img");
+        this.profileUsername = shadow.querySelector(".profile-username");
+        this.profileOptions = shadow.querySelector(".profile-options");
+        this.profileEventNumber = shadow.querySelector(".profile-event-number");
+        this.profileFollowerNumber= shadow.querySelector(".profile-follower-number");
+        this.profileFollowingNumber = shadow.querySelector(".profile-following-number");
+        this.profileName = shadow.querySelector(".profile-name");
+        this.profileBio = shadow.querySelector(".profile-bio");
+
+        // Profile Buttons
+
+        this.profileEditBtn = shadow.querySelector(".profile-edit-btn");
+        this.profileSignoutBtn = shadow.querySelector(".profile-signout-btn");
+        this.profileSettingsBtn = shadow.querySelector(".profile-settings-btn");
+
+        // Button Event Listeners
+
+        this.profileEditBtn.addEventListener("click", this.editProfile)
+        this.profileSignoutBtn.addEventListener("click", this.signOut)
+        this.profileSettingsBtn.addEventListener("click", this.changeSettings)
+    }
+
+    async connectedCallback() {
+        // check if user is checking their own profile
+
+        const user =  JSON.parse(localStorage.getItem("auth")).userId
+        
+        // somehow when ever someone clicks on an account 
+        // thats not theirs, that accounts ID gets passed in so this code
+        // can check that, TBA
+
+        const placeholder = null; 
+        
+        // Retrieving the person currently logged in
+
+        const auth = JSON.parse(localStorage.getItem('auth'))
+        const token = auth.userId
+
+        if (!token) {
+            console.log('User token not found.');
+            window.localStorage.href = '../login';
+        }
+
+        // Retrieving the data of the desired profile
+
+        let userData = {};
+
+        try {
+            const response = await fetch(`/api/user/${token}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            userData = await response.json()
+        } catch (error) {
+            console.error('Failed to fetch user data:', error);
+            // profileWrapper.textContent = 'Error loading profile. Please try again later.';
+        }
+
+        // Filling in Profile Details
+
+        console.log(userData)
+
+        this.profileUsername.textContent = userData.username;
+        this.profileName.textContent = userData.name;
+        this.profileBio.textContent = userData.bio === null ? "": userData.bio;
+        this.profileImg.src = userData.pfpImage === null ? '../profile/defaultpfp.jpg' : `data:image/jpeg;base64,${userData.pfpImage}`; 
+    }   
+
+    editProfile(){
+        // Parent component in dom
+        this.component = document.querySelector(".profile-component");
+        this.componentParent = document.querySelector(".components")
+
+        // Creating new component to mount
+        const editProfileComponent = document.createElement("edit-profile-view");
+        editProfileComponent.classList.add(".random-class");
+
+        // Removing old and adding new component
+        this.component.remove()
+        this.componentParent.appendChild(editProfileComponent);
+        console.log("edit profile button clicked");
+    }
+
+    changeSettings() {
+        console.log("change settings button clicked")
+    }
+
+    async signOut(){
+        console.log("Signout button clicked")
+        const logoutResponse = await fetch('http://localhost:3000/api/user/logout')
+        console.log(logoutResponse)
+        localStorage.removeItem('auth');
+        location.reload(); // Reload to reflect changes
+        window.location.href = '../login/index.html';
+    }
+
+    
+}
+
+class EditProfile extends HTMLElement {
+    constructor() {
+        super();
+        const shadow = this.attachShadow({mode: "open"});
+        template.innerHTML = componentTemplates[1];
+        shadow.appendChild(template.content.cloneNode(true));
+    }
+
+    connectedCallback() {
+        console.log("Edit Profile Component Connected")
+    }
+    
+    disconnectedCallback() {
+        console.log("Edit Profile Component Disconnected")
+    }
+}
+
+customElements.define("profile-view", Profile);
+customElements.define("edit-profile-view", EditProfile);
+
