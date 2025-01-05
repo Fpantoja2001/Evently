@@ -6,7 +6,7 @@ const router = express.Router();
 // Create a new user
 router.post('/user/create', async (req, res) => {
     try {
-        const { name, username, email, password, bio, phoneNumber, age, gender, socialLinks, skills, hobbies, pfpImage, currentEvents, pastEvents } = req.body;
+        const { name, username, email, password, bio, phoneNumber, age, gender, socialLinks, skills, hobbies, pfpImage, currentEvents, pastEvents, pronouns } = req.body;
 
         const user = await User.create({
             name,
@@ -21,8 +21,9 @@ router.post('/user/create', async (req, res) => {
             skills: JSON.stringify(skills), // Store skills as a JSON string
             hobbies: JSON.stringify(hobbies), // Store hobbies as a JSON string
             pfpImage,
-            currentEvents,
+            currentEvents: JSON.stringify(currentEvents),
             pastEvents,
+            pronouns,
         });
 
         res.status(201).json(user);
@@ -40,8 +41,24 @@ router.get('/user/getAll', async (req, res) => {
             ...user.toJSON(),
             skills: user.skills ? JSON.parse(user.skills) : [],
             hobbies: user.hobbies ? JSON.parse(user.hobbies) : [],
+            currentEvents: user.currentEvents ? JSON.parse(user.currentEvents) : [],
         }));
         res.json(parsedUsers);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Check Username availability
+router.post('/user/check', async (req, res) => {
+    try {
+        const user = await User.findOne({where: {"username": req.body.username}});
+
+        if (user){
+            res.status(200).json({exists: true});
+        } else {
+            res.status(200).json({exists: false});
+        }
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -58,6 +75,7 @@ router.get('/user/:id', async (req, res) => {
             ...user.toJSON(),
             skills: user.skills ? JSON.parse(user.skills) : [],
             hobbies: user.hobbies ? JSON.parse(user.hobbies) : [],
+            currentEvents: user.currentEvents ? JSON.parse(user.currentEvents) : [],
         };
 
         res.json(parsedUser);
@@ -89,12 +107,13 @@ router.put('/user/:id', async (req, res) => {
             'pfpImage',
             'currentEvents',
             'pastEvents',
+            'pronouns',
         ];
 
         // Update only provided fields
         for (const field of updatableFields) {
             if (req.body[field] !== undefined) {
-                if (field === 'skills' || field === 'hobbies') {
+                if (field === 'skills' || field === 'hobbies' || field === "currentEvents") {
                     // Convert to JSON string if it's an array/object
                     user[field] = req.body[field] ? JSON.stringify(req.body[field]) : null;
                 } else {
@@ -110,7 +129,8 @@ router.put('/user/:id', async (req, res) => {
             ...user.toJSON(),
             skills: user.skills ? JSON.parse(user.skills) : [],
             hobbies: user.hobbies ? JSON.parse(user.hobbies) : [],
-            socialLinks: user.socialLinks ? JSON.parse(user.socialLinks) : null,
+            socialLinks: user.socialLinks ? user.socialLinks : null, // need to parse it once you can add multiple links
+            currentEvents: user.currentEvents ? JSON.parse(user.currentEvents) : [],
         };
 
         res.json(parsedUser);

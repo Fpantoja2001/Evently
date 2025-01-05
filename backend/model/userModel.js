@@ -67,6 +67,10 @@ const User = sequelize.define('User', {
     pastEvents: {
         type: DataTypes.STRING,
         allowNull: true
+    },
+    pronouns: {
+        type: DataTypes.STRING,
+        allowNull:true
     }
 }, {
     timestamps: true, // Adds createdAt and updatedAt

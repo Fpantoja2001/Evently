@@ -30,6 +30,7 @@ const seedDatabase = async () => {
                 hobbies: JSON.stringify(['Hiking', 'Cooking']),
                 currentEvents: null,
                 pastEvents: null,
+                pronouns: null,
             },
             {
                 name: 'Bob Smith',
@@ -45,6 +46,23 @@ const seedDatabase = async () => {
                 hobbies: JSON.stringify(['Traveling', 'Photography']),
                 currentEvents: null,
                 pastEvents: null,
+                pronouns: null,
+            },
+            {
+                name: 'Felix Pantoja',
+                email: 'fpantoja@umass.edu',
+                username: 'fpant',
+                password: 'Curlyquail4',
+                bio: 'Event enthusiast and tech geek.',
+                phoneNumber: '555-1234',
+                age: 23,
+                gender: 'Female',
+                socialLinks: 'h',// JSON.stringify({ twitter: '@alicej', linkedin: 'linkedin.com/in/alicej' })
+                skills: JSON.stringify(['Networking', 'Event Planning']),
+                hobbies: JSON.stringify(['Hiking', 'Cooking']),
+                currentEvents: null,
+                pastEvents: null,
+                pronouns: null,
             },
         ]);
 

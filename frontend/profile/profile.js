@@ -1,399 +1,3 @@
-const auth = JSON.parse(localStorage.getItem('auth'))
-const token = auth.userId
-
-if (!token) {
-    console.log('User token not found.');
-    window.localStorage.href = '../login';
-}
-
-// Fetch user data
-async function getUserData() {
-    try {
-        const response = await fetch(`/api/user/${token}`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Failed to fetch user data:', error);
-        profileWrapper.textContent = 'Error loading profile. Please try again later.';
-        return null;
-    }
-}
-
-const profileWrapper = document.getElementById('profile_wrapper');
-
-const displayData = {
-    'name': 'Name',
-    'email': 'Email',
-    'phoneNumber': 'Phone Number',
-    'bio': 'Bio',
-    'age': 'Age',
-    'gender': 'Gender',
-};
-
-// update user data on the server
-async function updateUserData(updatedData) {
-    try {
-        const response = await fetch(`/api/user/${token}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedData),
-        });
-        if (!response.ok) {
-            throw new Error(`HTTP error. status: ${response.status}`);
-        }
-        const result = await response.json();
-        console.log('User updated successfully:', result);
-        return result;
-    } catch (error) {
-        console.error('Error updating user data:', error);
-    }
-}
-
-
-function renderList(list, className) {
-    const lists = document.createElement('div');
-    lists.className = className;
-    for (let l of list) {
-        const listDiv = document.createElement('div');
-        listDiv.className = 'skill';
-        listDiv.appendChild(document.createTextNode(l));
-        lists.appendChild(listDiv);
-    }
-    return lists;
-}
-
-function renderSocialLinks(links) {
-    const socialLinks = document.createElement('div');
-    socialLinks.className = 'socialLinks';
-    for (let link in JSON.parse(links)) {
-        const a = document.createElement('a');
-        a.href = links[link];
-        a.appendChild(document.createTextNode(link));
-        a.appendChild(document.createElement('br'));
-        socialLinks.appendChild(a);
-    }
-    return socialLinks;
-}
-
-
-const data = await getUserData();
-
-
-const divArray = [];
-const spanArray = [];
-
-if (profileWrapper) {
-    // make a div for profile image
-    const profileImageWrapper = document.createElement('div');
-    profileImageWrapper.className = 'profileImageWrapper';
-
-    const profileImage = document.createElement('div');
-    profileImage.className = 'profileImage';
-    const pfp = document.createElement('img');
-    pfp.className = 'profileImageTag';
-
-    if (data.pfpImage) {
-        pfp.src = `data:image/jpeg;base64,${data.pfpImage}`;
-    } else {
-        pfp.src = '../profile/defaultpfp.jpg';
-    }
-
-    profileImage.appendChild(pfp);
-
-    const imageUploadInput = document.createElement('input');
-    imageUploadInput.type = 'file';
-    imageUploadInput.accept = 'image/*';
-    imageUploadInput.className = 'editInput';
-    imageUploadInput.style.display = 'none'; // Hidden by default
-    profileImageWrapper.appendChild(profileImage);
-    profileImageWrapper.appendChild(imageUploadInput);
-
-
-    divArray.push(profileImageWrapper);
-
-    let changeImage = false;
-    const desiredChange = {};
-
-    // Handle image upload
-    imageUploadInput.addEventListener('change', (event) => {
-        const file = event.target.files[0]; // Get the uploaded file
-        if (file) {
-            const reader = new FileReader();
-    
-            reader.onloadend = () => {
-                const base64String = reader.result.split(",")[1]; // Extract Base64 string (without the prefix)
-                pfp.src = reader.result;
-                changeImage = true;
-                desiredChange['pfpImage'] = base64String;
-                console.log("Base64 string:", base64String);
-            };
-    
-            reader.readAsDataURL(file); // Convert the file to a Base64 string
-        }
-    });
-
-    const userDiv = document.createElement('div');
-    userDiv.className = 'userDiv';
-    const usernameSpan = document.createElement('span');
-    const at = document.createElement('span');
-    at.textContent = '@';
-    usernameSpan.textContent = data.username;
-    usernameSpan.id = 'username';
-    const username = document.createElement('h2');
-    username.className = 'username';
-    username.appendChild(at);
-    username.appendChild(usernameSpan);
-    // username.appendChild(document.createTextNode(data.username));
-    // usernameSpan.appendChild(username);
-    // userDiv.appendChild(usernameSpan);
-    userDiv.appendChild(username);
-    divArray.push(userDiv);
-    spanArray.push(usernameSpan.id);
-
-    const userBioDiv = document.createElement('div');
-    const userBio = document.createElement('p');
-    userBio.className = 'userBio';
-    for (let info in data) {
-        if (displayData[info] === undefined) {
-            continue;
-        }
-        const label = document.createElement('strong');
-        label.className = 'label';
-        label.appendChild(document.createTextNode(displayData[info] + ': ')); 
-        const text = document.createElement('span');
-        text.id = info; // give each span an id for editing later
-        spanArray.push(text.id); // append it to an array to loop later
-
-        text.appendChild(document.createTextNode(data[info]));
-        userBio.appendChild(label);
-
-        if (info === 'socialLinks') {
-            const text = document.createElement('span');
-            text.id = info; 
-            spanArray.push(text.id); 
-        
-            const rendered = renderSocialLinks(data[info]);
-            text.appendChild(rendered); // Append the rendered links inside the span
-            userBio.appendChild(text);
-            userBio.appendChild(document.createElement('br'));
-            continue;
-        }
-
-        if (info === "skills" || info === "hobbies") {
-            const text = document.createElement('span');
-            text.id = info;
-            spanArray.push(text.id);
-
-            const rendered = renderList(data[info], info);
-            userBio.appendChild(rendered);
-            userBio.appendChild(document.createElement('br'));
-            continue;
-        }
-
-        userBio.appendChild(text); // append the text information later
-        userBio.appendChild(document.createElement('br'));
-    }
-
-    // make an edit button
-    const editButton = document.createElement('button');
-    editButton.className = 'editButton';
-    editButton.appendChild(document.createTextNode('Edit'));
-    editButton.onclick = async function() {
-        if (editButton.textContent === 'Edit') {
-            editButton.textContent = 'Save';
-            
-            imageUploadInput.style.display = 'inline'; // Show the image upload input
-
-            spanArray.forEach((span) => {
-                const text = document.getElementById(span);
-                if (!text) {
-                    console.warn(`Element with ID '${span}' not found.`);
-                    return;
-                }
-
-                let input;
-                if (span === 'age') {
-                    input = document.createElement('input');
-                    input.type = 'number';
-                    input.min = '18';
-                    input.max = '120';
-                    input.step = '1';
-                } else if (span === 'email') {
-                    input = document.createElement('input');
-                    input.type = 'email';
-                } else if (span == 'gender'){
-                    input = document.createElement('select');
-                    const options = [
-                        { value: '', text: 'Select Gender' },
-                        { value: 'male', text: 'Male' },
-                        { value: 'female', text: 'Female' },
-                        { value: 'nonbinary', text: 'Non-binary' },
-                        { value: 'other', text: 'Other' },
-                        { value: 'prefer-not-to-say', text: 'Prefer not to say' }
-                    ];
-
-                    options.forEach(optionData => {
-                        const option = document.createElement('option');
-                        option.value = optionData.value;
-                        option.textContent = optionData.text;
-                        if (text.textContent.toLowerCase() === optionData.text.toLowerCase()) {
-                            option.selected = true; 
-                        }
-                        input.appendChild(option);
-                    });
-                } else if (span === "phoneNumber") {
-                    input = document.createElement('input');
-                    input.type = 'number';
-                } else if (span === "socialLinks") {
-                    const addButton = document.createElement('button');
-                    addButton.className = 'editButton';
-                    addButton.id = 'addButton';
-                    addButton.appendChild(document.createTextNode('Add'));
-                    addButton.onclick = function() {
-                        input = document.createElement('input');
-                        input.type = 'text';
-                    }
-
-                    const removeButton = document.createElement('button');
-                    removeButton.className = 'editButton';
-                    removeButton.id = 'removeButton';
-                    removeButton.appendChild(document.createTextNode('Remove'));
-                    removeButton.onclick = function() {
-                        input = document.createElement('input');
-                        input.type = 'text';
-                    }
-                    text.appendChild(addButton);
-                    text.appendChild(removeButton);
-                } else {
-                    input = document.createElement('input');
-                    input.type = 'text';
-                }
-                input.value = text.textContent;
-                text.textContent = '';
-                text.appendChild(input);
-            });
-        } else {
-            let isValid = true;
-            const updatedData = {};
-            imageUploadInput.style.display = 'none'; // Hide the image upload input
-
-            spanArray.forEach((span) => {
-                const text = document.getElementById(span);
-                if (!text) {
-                    console.warn(`Element with ID '${span}' not found.`);
-                    return; 
-                }
-                const input = text.querySelector('input');
-                const select = text.querySelector('select');
-                if (input) {
-                    if (input.value.trim() === '') {
-                        isValid = false;
-                        input.style.border = '1px solid red';
-                    } else {
-                        console.log(input.value.trim());
-                        updatedData[span] = input.value.trim();
-                        text.textContent = input.value.trim();
-                    }
-                } else if (select) {
-                    if (select.selectedIndex === 0 || select.value.trim() === '') {
-                        isValid = false;
-                        select.style.border = '1px solid red';
-                    } else {
-                        updatedData[span] = select.value.trim();
-                        text.textContent = select.options[select.selectedIndex].text;
-                    }
-                } 
-                if (span === 'socialLinks') {
-                    const addButton = document.getElementById('addButton');
-                    const removeButton = document.getElementById('removeButton');
-                    
-                    if (addButton) text.removeChild(addButton); 
-                    if (removeButton) text.removeChild(removeButton); 
-                }
-            });         
-            if (isValid) {
-                if (updatedData.age) {
-                    const parsedAge = parseInt(updatedData.age, 10);
-                    if (!isNaN(parsedAge)) {
-                        updatedData.age = parsedAge;
-                    } else {
-                        delete updatedData.age;
-                    }
-                }
-                
-                if (Array.isArray(updatedData.skills)) {
-                    updatedData.skills = JSON.stringify(updatedData.skills);
-                }
-                
-                if (typeof updatedData.socialLinks === 'object') {
-                    updatedData.socialLinks = JSON.stringify(updatedData.socialLinks);
-                }
-
-                if (changeImage) {
-                    updatedData['pfpImage'] = desiredChange['pfpImage'];
-                }
-
-                const result = await updateUserData(updatedData);
-                console.log(updatedData);
-
-                if (result) {
-                    console.log('User data updated successfully:', result);
-                
-                    // Update the UI with the new data
-                    spanArray.forEach((span) => {
-                        const text = document.getElementById(span);
-                        if (text) {
-                            text.textContent = result[span] || ""; // Update each span with the returned value
-                        }
-                    });
-                
-                    // Update the profile image if it was changed
-                    if (result.pfpImage) {
-                        profileImage.src = result.pfpImage; // Update the image src to the new profile picture
-                    }
-                    editButton.textContent = 'Edit';
-                    alert('Profile updated successfully!');
-                } else {
-                    alert('Failed to update profile. Please try again.');
-                } 
-            }
-        }
-    };
-
-    // Signout button
-    
-    const signOutBtn =  document.createElement("button")
-    signOutBtn.textContent = "Sign Out"
-    signOutBtn.classList = "signoutButton"
-    signOutBtn.onclick = async function() {
-        const logoutResponse = await fetch('http://localhost:3000/api/user/logout')
-        console.log(logoutResponse)
-        localStorage.removeItem('auth');
-        location.reload(); // Reload to reflect changes
-        window.location.href = '../login/index.html';
-    }
-
-    const options = document.createElement('div');
-    options.classList = "options"
-    options.appendChild(editButton);
-    options.appendChild(signOutBtn);
-
-
-    userDiv.appendChild(options)
-    userBioDiv.appendChild(userBio);
-    divArray.push(userBioDiv);
-
-    divArray.forEach((div) => {
-        profileWrapper.appendChild(div);
-    });  
-
-    console.log(spanArray);
-}
-
 const template = document.createElement("template");
 
 const componentTemplates = [
@@ -422,11 +26,12 @@ const componentTemplates = [
                     </div>
 
                     <div class="profile-line-3">
-                        <div class="profile-name">Felix Manuel Pantoja</div>
+                        <div class="profile-name"></div>
+                        <div class="profile-pronouns"></div>
                     </div>
 
                     <div class="profile-line-4">
-                        <div class="profile-bio">Wanderlust, coffee enthusiast, and eternal optimist. Turning late-night ideas into early-morning adventures, one step at a time.</div>
+                        <textarea readonly class="profile-bio"></textarea>
                     </div>
                 </div>
             </div>
@@ -456,9 +61,39 @@ const componentTemplates = [
             </div>
         </div>
 
-        <div class="edit-profile-website-bar">
-            <div class="edit-profile-website-title">Website</div>
-            <input class="edit-profile-website-input" type="text"></input>
+        <div class="edit-profile-names-bar">
+            <div class="edit-profile-username-bar">
+                <div class="edit-profile-username-title">Username</div>
+                <input class="edit-profile-username-input" type="text"></input>
+            </div>
+            <div class="edit-profile-name-bar">
+                <div class="edit-profile-name-title">Name</div>
+                <input class="edit-profile-name-input" type="text"></input>
+            </div>
+        </div>
+
+        <div class="edit-profile-identity-bar">
+            <div class="edit-profile-gender-bar">
+                <div class="edit-profile-gender-title">Gender</div>
+                <select class="edit-profile-gender-select">
+                    <option value="">Select</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="nonbinary">Non-binary</option>
+                    <option value="other">Other</option>
+                    <option value="prefer_not_to_say">Prefer not to say</option>
+                </select>
+            </div>
+
+            <div class="edit-profile-pronoun-bar">
+                <div class="edit-profile-pronoun-title">Pronouns</div>
+                <input class="edit-profile-pronoun-input" type="text"></input>
+            </div>  
+        </div>
+
+        <div class="edit-profile-links-bar">
+            <div class="edit-profile-links-title">Links</div>
+            <input class="edit-profile-links-input" type="text"></input>
         </div>
 
         <div class="edit-profile-bio-bar">
@@ -466,6 +101,11 @@ const componentTemplates = [
             <textarea class="edit-profile-bio-input" maxlength="150"></textarea>
             <span class="edit-profile-bio-char-count">0 / 150</span>
         </div>
+
+        <div class="edit-profile-submit-bar">
+            <button class="edit-profile-submit-btn">Submit</button>
+        </div>
+
     </div>
     `
 ]
@@ -486,7 +126,14 @@ class Profile extends HTMLElement {
         this.profileFollowerNumber= shadow.querySelector(".profile-follower-number");
         this.profileFollowingNumber = shadow.querySelector(".profile-following-number");
         this.profileName = shadow.querySelector(".profile-name");
+        this.profilePronouns = shadow.querySelector(".profile-pronouns")
         this.profileBio = shadow.querySelector(".profile-bio");
+
+        // Adjusting bio size 
+
+        this.profileBio.style.height = 'auto'
+        this.profileBio.style.height = `calc(1.8rem + ${this.profileBio.scrollHeight}px)`
+        this.profileBio.style.alignItems = `center`;
 
         // Profile Buttons
 
@@ -533,6 +180,7 @@ class Profile extends HTMLElement {
             }
             userData = await response.json()
         } catch (error) {
+
             console.error('Failed to fetch user data:', error);
             // profileWrapper.textContent = 'Error loading profile. Please try again later.';
         }
@@ -545,6 +193,8 @@ class Profile extends HTMLElement {
         this.profileName.textContent = userData.name;
         this.profileBio.textContent = userData.bio === null ? "": userData.bio;
         this.profileImg.src = userData.pfpImage === null ? '../profile/defaultpfp.jpg' : `data:image/jpeg;base64,${userData.pfpImage}`; 
+        this.profilePronouns.textContent = userData.pronouns === null ? null : userData.pronouns;
+        this.profileEventNumber.textContent = `${userData.currentEvents.length} events`
     }   
 
     editProfile(){
@@ -589,16 +239,18 @@ class EditProfile extends HTMLElement {
         this.editProfileImg = shadow.querySelector(".edit-profile-img");
         this.editProfileUsername = shadow.querySelector(".edit-profile-username");
         this.editProfileName = shadow.querySelector(".edit-profile-name");
+        this.editProfileUsernameInput = shadow.querySelector(".edit-profile-username-input");
+        this.editProfileNameInput = shadow.querySelector(".edit-profile-name-input");
+        this.editProfileLinksInput =  shadow.querySelector(".edit-profile-links-input");
         this.editProfileBioInput =  shadow.querySelector(".edit-profile-bio-input");
         this.editProfileBioCharCount =  shadow.querySelector(".edit-profile-bio-char-count");
+        this.editProfileGenderSelect = shadow.querySelector(".edit-profile-gender-select");
+        this.editProfilePronounInput = shadow.querySelector(".edit-profile-pronoun-input");
+        this.editProfileSubmitBtn = shadow.querySelector(".edit-profile-submit-btn");
 
-        // Adding Event Listeners for char count
-
-        this.editProfileBioInput.addEventListener("input", () => {
-            this.editProfileBioCharCount.textContent = `${this.editProfileBioInput.value.length} / 150`
-            this.editProfileBioInput.style.height = `auto`
-            this.editProfileBioInput.style.height = `${this.editProfileBioInput.scrollHeight}px`
-        })
+        // Adding Event Listeners
+        this.editProfileBioInput.addEventListener("input", () => this.handleCharCount());
+        this.editProfileSubmitBtn.addEventListener("click", () => this.handleSubmitBtn());
     }
 
     async connectedCallback() {
@@ -609,7 +261,104 @@ class EditProfile extends HTMLElement {
         // can check that, TBA
 
         const placeholder = null; 
+
+        // Load in profile details
+        this.fillInProfileFields()
+    }
+    
+    disconnectedCallback() {
+        console.log("Edit Profile Component Disconnected")
+    }
+
+    handleCharCount(){
+        this.editProfileBioCharCount.textContent = `${this.editProfileBioInput.value.length} / 150`
+        this.editProfileBioInput.style.height = `auto`
+        this.editProfileBioInput.style.height = `calc(1.8rem + ${this.editProfileBioInput.scrollHeight}px)`
+    }
+
+    async handleSubmitBtn(){
+        const updatedUserData = {}
+
+        // Fetch User Data
+        const token =  JSON.parse(localStorage.getItem("auth")).userId
         
+        let userData = {};
+
+        try {
+            const response = await fetch(`/api/user/${token}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            userData = await response.json()
+        } catch (error) {
+            console.error('Failed to fetch user data:', error);
+            // profileWrapper.textContent = 'Error loading profile. Please try again later.';
+        }
+
+        // Only submitting new fields
+        if (this.editProfileLinksInput.value.trim() != "" && this.editProfileLinksInput.value.trim() != userData.socialLinks){
+            updatedUserData['socialLinks'] = this.editProfileLinksInput.value.trim();
+        }
+
+        if (this.editProfileBioInput.value.trim() != userData.bio){
+            updatedUserData['bio'] = this.editProfileBioInput.value.trim();
+        }
+
+        if (this.editProfileGenderSelect.value.trim() != "" && this.editProfileGenderSelect.value.trim() != userData.gender){
+            updatedUserData['gender'] = this.editProfileGenderSelect.value.trim();
+        }
+
+        if (this.editProfilePronounInput.value.trim() != "" && this.editProfilePronounInput.value.trim() != userData.pronouns){
+            updatedUserData['pronouns'] = this.editProfilePronounInput.value.trim();
+        }
+
+        console.log(updatedUserData)
+
+        // Checking if username can be updated
+
+        if (this.editProfileUsernameInput.value.trim() != "" && this.editProfileUsernameInput.value.trim() != userData.username){
+            const response = await fetch(`/api/user/check`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({username: editProfileUsernameInput.value.trim()}),
+            }); 
+            
+            if (response.ok){
+                const result = await response.json()
+                if (result.exists){
+                    updatedUserData['username'] = this.editProfileUsernameInput.value.trim();
+                }
+            }
+        }
+
+        if (this.editProfileNameInput.value.trim() != "" && this.editProfileNameInput.value.trim() != userData.name){
+            updatedUserData['name'] = this.editProfileNameInput.value.trim();
+        }
+        
+        // Update Server with new info
+        if (Object.keys(updatedUserData).length != 0){
+            const response = await fetch(`/api/user/${token}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedUserData),
+            }); 
+            
+            if (response.ok) {
+                console.log(await response.json())
+
+                // Re-load new profile fields 
+                this.fillInProfileFields()
+            }
+        } else {
+            console.log("Nothing to Update")
+        }
+    }
+
+    async fillInProfileFields() {
         // Retrieving the person currently logged in
 
         const auth = JSON.parse(localStorage.getItem('auth'))
@@ -621,7 +370,6 @@ class EditProfile extends HTMLElement {
         }
 
         // Retrieving the data of the desired profile
-
         let userData = {};
 
         try {
@@ -640,11 +388,14 @@ class EditProfile extends HTMLElement {
         this.editProfileImg.src = userData.pfpImage === null ? '../profile/defaultpfp.jpg' : `data:image/jpeg;base64,${userData.pfpImage}`;
         this.editProfileUsername.textContent = userData.username;
         this.editProfileName.textContent = userData.name;
+        this.editProfileLinksInput.value = userData.socialLinks;
+        this.editProfileBioInput.textContent = userData.bio;
+        this.editProfileGenderSelect.value = this.editProfileGenderSelect.value != null ? userData.gender: "";
+        this.editProfileUsernameInput.value = userData.username;
+        this.editProfileNameInput.value = userData.name;
+        this.editProfilePronounInput.value = userData.pronouns;
     }
-    
-    disconnectedCallback() {
-        console.log("Edit Profile Component Disconnected")
-    }
+
 
 }
 

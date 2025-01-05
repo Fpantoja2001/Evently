@@ -143,16 +143,29 @@ body {
     height: calc(20% - .2rem);
     margin: .2rem;
     border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    background-color: #f8f8f8;
 }
 
 .profile-name {
-    background-color: #f8f8f8;
     height: 100%;
-    width: 100%;
     border-radius: 10px;
     display: flex;
+    width: fit-content;
     justify-content: left;
     align-items: center;
+}
+
+.profile-pronouns {
+    height: 100%;
+    border-radius: 10px;
+    display: flex;
+    width: fit-content;
+    justify-content: left;
+    align-items: center;
+    margin-left: .5rem;
+    font-size: .9rem;
 }
 
 
@@ -164,14 +177,17 @@ body {
 }
 
 .profile-bio {
+    box-sizing: border-box;
     background-color: #f8f8f8;
-    height: 100%;
     width: 100%;
     border-radius: 10px;
     display: flex;
     justify-content: left;
-    align-items: top;
     flex-wrap: wrap;
+    resize: none;
+    overflow-y: hidden;
+    max-height: calc((1.4 * 1.1rem * 2 ) + 1.8rem);
+    font-size: 1rem;
 }
 
 .profile-content {
@@ -231,7 +247,7 @@ body {
 }
 
 .edit-profile-names {
-    width: 30%;
+    width: 50%;
     display: flex;
     justify-content: left;
     flex-direction: column;
@@ -269,7 +285,64 @@ body {
     border-radius: 10px;
 }
 
-.edit-profile-website-bar {
+.edit-profile-names-bar{
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    margin-top: 1rem;
+    border-radius: 10px;
+    justify-content: space-between;
+}
+
+.edit-profile-username-bar {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    margin-top: 1rem;
+    border-radius: 10px;
+    
+}
+
+.edit-profile-username-title {
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+}
+
+.edit-profile-username-input {
+    margin-top: .5rem;
+    padding: .7rem;
+    border-radius: 10px;
+    border: #333 2px solid;
+}
+
+.edit-profile-name-bar {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    margin-top: 1rem;
+    border-radius: 10px;
+    
+}
+
+.edit-profile-name-title {
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+}
+
+.edit-profile-name-input {
+    margin-top: .5rem;
+    padding: .7rem;
+    border-radius: 10px;
+    border: #333 2px solid;
+}
+
+.edit-profile-links-bar {
     display: flex;
     flex-direction: column;
     width: 70%;
@@ -278,7 +351,7 @@ body {
     
 }
 
-.edit-profile-website-title {
+.edit-profile-links-title {
     width: 100%;
     font-size: 1.1rem;
     font-weight: 600;
@@ -286,7 +359,7 @@ body {
     border-radius: 10px;
 }
 
-.edit-profile-website-input {
+.edit-profile-links-input {
     margin-top: .5rem;
     padding: .7rem;
     border-radius: 10px;
@@ -299,6 +372,9 @@ select:focus {
   outline: none;        /* Removes the standard focus outline */
   box-shadow: none;     /* Removes any default focus ring (especially in Chrome) */
   border: 2px solid #333; /* Or your custom border style */
+  transition: none;
+  transform: none;
+  resize: none;
 }
 
 
@@ -332,6 +408,7 @@ select:focus {
     display: flex;
     flex-wrap: wrap;
     resize: none;
+    align-items: center;
 }
 
 .edit-profile-bio-char-count {
@@ -342,4 +419,93 @@ select:focus {
     margin-bottom: .1rem;
     border-radius:10px;
     font-size: .9rem;
-}   
+} 
+
+.edit-profile-identity-bar {
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    margin-top: 1rem;
+    border-radius: 10px;
+    position: relative;
+    margin-right: auto;
+    margin-left: 15%;
+}
+
+.edit-profile-gender-bar {
+    display: flex;
+    flex-direction: column;
+    width: 21%;
+    margin-top: 1rem;
+    border-radius: 10px;
+    position: relative;
+}
+
+.edit-profile-gender-title {
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+}
+
+.edit-profile-gender-select{
+    height: 6vh;
+    width: 100%;
+    padding: .9rem;
+    margin-top: .5rem;
+    border-radius: 10px;
+    resize: none;
+}
+
+.edit-profile-pronoun-bar {
+    display: flex;
+    flex-direction: column;
+    width: 21%;
+    margin-top: 1rem;
+    border-radius: 10px;
+    margin-left: 3%;
+}
+
+.edit-profile-pronoun-title {
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+}
+
+.edit-profile-pronoun-input {
+    margin-top: .5rem;
+    height: 6vh;
+    border-radius: 10px;
+    border: #333 2px solid;
+    padding: .9rem;
+}
+
+.edit-profile-submit-bar {
+    display: flex;
+    width: 70%;
+    margin-top: 1rem;
+    border-radius: 10px;
+    position: relative;
+    justify-content: right;
+    align-items: center;
+}
+
+.edit-profile-submit-btn {
+    background-color: pink;
+    height: 6vh;
+    width: 25%;
+    margin-top: .5rem;
+    border-radius: 10px;
+}
+
+input, select {
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc; /* Optional, to match */
+    box-sizing: border-box;
+    font-size: .8rem; /* Ensure the font size matches */
+    line-height: 1.4; /* Ensure line-height consistency */
+  }

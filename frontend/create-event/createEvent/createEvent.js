@@ -341,15 +341,31 @@ class EventMaker extends HTMLElement {
         })
         .then(response => response.json())
         .then(async data => {
-            const user = JSON.parse(localStorage.getItem("auth")).userId
-            console.log(user)
+            const token = JSON.parse(localStorage.getItem("auth")).userId
             
-            const response = await fetch(`/api/user/${user}`, {
+            const fetchUser = await fetch(`/api/user/${token}`);
+
+            if (!fetchUser.ok){
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const userCurrentEvents = await fetchUser.json()
+
+            let newCurrentEvents = [];
+            
+            if (userCurrentEvents.currentEvents.length === 0){
+                newCurrentEvents.push(data.event.eventid)
+            } else {
+                newCurrentEvents = [...userCurrentEvents.currentEvents]
+                newCurrentEvents.push(data.event.eventid)
+            }
+
+            const response = await fetch(`/api/user/${token}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({"currentEvents": data.event.eventid}),
+                body: JSON.stringify({"currentEvents": newCurrentEvents}),
             });
 
             const result = await response.json();
@@ -357,6 +373,7 @@ class EventMaker extends HTMLElement {
 
             alert("Event created successfully!");
             window.location.href = 'http://localhost:3000';
+        
         })
         .catch(error =>{
             console.error("Error creating event:", error);
