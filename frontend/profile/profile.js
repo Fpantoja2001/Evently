@@ -433,6 +433,40 @@ const componentTemplates = [
 
             <div class="profile-content"></div>
         </div>
+    `,
+    `
+    <link rel="stylesheet" href="main.css">
+
+    <div class="edit-component-wrapper">
+        <div class="edit-profile-title">Edit Profile</div>
+
+        <div class="edit-profile-top-bar">
+
+            <div class="edit-profile-img-container">
+                <img class="edit-profile-img"></img>
+            </div>
+
+            <div class="edit-profile-names">
+                <div class="edit-profile-username"></div>
+                <div class="edit-profile-name"></div>
+            </div>
+
+            <div class="edit-profile-change-photo-btn">
+                <button class="change-photo-btn"> Change Photo</button>
+            </div>
+        </div>
+
+        <div class="edit-profile-website-bar">
+            <div class="edit-profile-website-title">Website</div>
+            <input class="edit-profile-website-input" type="text"></input>
+        </div>
+
+        <div class="edit-profile-bio-bar">
+            <div class="edit-profile-bio-title">Bio</div>
+            <textarea class="edit-profile-bio-input" maxlength="150"></textarea>
+            <span class="edit-profile-bio-char-count">0 / 150</span>
+        </div>
+    </div>
     `
 ]
 
@@ -550,15 +584,68 @@ class EditProfile extends HTMLElement {
         const shadow = this.attachShadow({mode: "open"});
         template.innerHTML = componentTemplates[1];
         shadow.appendChild(template.content.cloneNode(true));
+
+        // Profile Fields
+        this.editProfileImg = shadow.querySelector(".edit-profile-img");
+        this.editProfileUsername = shadow.querySelector(".edit-profile-username");
+        this.editProfileName = shadow.querySelector(".edit-profile-name");
+        this.editProfileBioInput =  shadow.querySelector(".edit-profile-bio-input");
+        this.editProfileBioCharCount =  shadow.querySelector(".edit-profile-bio-char-count");
+
+        // Adding Event Listeners for char count
+
+        this.editProfileBioInput.addEventListener("input", () => {
+            this.editProfileBioCharCount.textContent = `${this.editProfileBioInput.value.length} / 150`
+            this.editProfileBioInput.style.height = `auto`
+            this.editProfileBioInput.style.height = `${this.editProfileBioInput.scrollHeight}px`
+        })
     }
 
-    connectedCallback() {
-        console.log("Edit Profile Component Connected")
+    async connectedCallback() {
+        const user =  JSON.parse(localStorage.getItem("auth")).userId
+        
+        // somehow when ever someone clicks on an account 
+        // thats not theirs, that accounts ID gets passed in so this code
+        // can check that, TBA
+
+        const placeholder = null; 
+        
+        // Retrieving the person currently logged in
+
+        const auth = JSON.parse(localStorage.getItem('auth'))
+        const token = auth.userId
+
+        if (!token) {
+            console.log('User token not found.');
+            window.localStorage.href = '../login';
+        }
+
+        // Retrieving the data of the desired profile
+
+        let userData = {};
+
+        try {
+            const response = await fetch(`/api/user/${token}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            userData = await response.json()
+        } catch (error) {
+            console.error('Failed to fetch user data:', error);
+            // profileWrapper.textContent = 'Error loading profile. Please try again later.';
+        }
+
+        // Filling in Profile Details
+
+        this.editProfileImg.src = userData.pfpImage === null ? '../profile/defaultpfp.jpg' : `data:image/jpeg;base64,${userData.pfpImage}`;
+        this.editProfileUsername.textContent = userData.username;
+        this.editProfileName.textContent = userData.name;
     }
     
     disconnectedCallback() {
         console.log("Edit Profile Component Disconnected")
     }
+
 }
 
 customElements.define("profile-view", Profile);
