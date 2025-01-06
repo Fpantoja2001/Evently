@@ -36,7 +36,13 @@ const componentTemplates = [
                 </div>
             </div>
 
-            <div class="profile-content"></div>
+            <div class="profile-content">
+                <div class="profile-viewing-options">
+                    <button class="profile-viewing-current-option">Current</button>
+                    <button class="profile-viewing-archived-option">Archived</button>
+                </div>
+                <event-list-component location="profile" id="event-list-component"></event-list-component>
+            </div>
         </div>
     `,
     `
@@ -140,12 +146,20 @@ class Profile extends HTMLElement {
         this.profileEditBtn = shadow.querySelector(".profile-edit-btn");
         this.profileSignoutBtn = shadow.querySelector(".profile-signout-btn");
         this.profileSettingsBtn = shadow.querySelector(".profile-settings-btn");
+        this.profileCurrentEventsOptionBtn = shadow.querySelector(".profile-viewing-current-option");
+        this.profileArchivedEventsOptionBtn = shadow.querySelector(".profile-viewing-archived-option");
 
         // Button Event Listeners
 
         this.profileEditBtn.addEventListener("click", this.editProfile)
         this.profileSignoutBtn.addEventListener("click", this.signOut)
         this.profileSettingsBtn.addEventListener("click", this.changeSettings)
+        this.profileCurrentEventsOptionBtn.addEventListener("click", () => this.currentViewOption())
+        this.profileArchivedEventsOptionBtn.addEventListener("click", () => this.archivedViewOption())
+
+        // Event Component 
+        this.eventComponent = shadow.getElementById("event-list-component");
+        
     }
 
     async connectedCallback() {
@@ -223,6 +237,14 @@ class Profile extends HTMLElement {
         localStorage.removeItem('auth');
         location.reload(); // Reload to reflect changes
         window.location.href = '../login/index.html';
+    }
+
+    currentViewOption(){
+        console.log(this.eventComponent)
+    }
+
+    archivedViewOption(){
+        console.log(this.eventComponent)
     }
 
     

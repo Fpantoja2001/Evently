@@ -217,6 +217,13 @@ export class eventListComponent extends HTMLElement {
     }
 
     async connectedCallback() {
+        // check if this component is being opened in profile page
+        if (this.attributes.location.value === "profile") {
+            const parent = document.querySelector(".profile-component");
+            const parentShadowRoot = parent.shadowRoot;
+            this.component = parentShadowRoot.getElementById("event-list-component");
+        }
+
         // Getting Dom Elements to Append to Dynamically
         const shadowRoot = this.component.shadowRoot
         const event_list_component = shadowRoot.getElementById('eventlist_wrapper')
@@ -297,7 +304,7 @@ export class eventListComponent extends HTMLElement {
 
                     // Check if events on dash belong to logged in user
                     const currentUser = JSON.parse(localStorage.getItem("auth")).userId;
-
+                    //fkmfkmfk
                     if (i.eventCreator === currentUser){
                         userEvents.append(a)
                     } else {
@@ -306,13 +313,23 @@ export class eventListComponent extends HTMLElement {
                     
                 });
 
-                if(userEvents.childElementCount > 1) {
-                    event_list_component.append(userEvents)
+                if (this.attributes.location.value != "profile"){
+                    if(userEvents.childElementCount > 1) {
+                        event_list_component.append(userEvents)
+                    }
+
+                   if (publicEvents.childElementCount > 1){
+                        event_list_component.append(publicEvents)
+                    }  
+                } else {
+                    if(userEvents.childElementCount > 1) {
+                            event_list_component.append(userEvents)
+                    } 
                 }
 
-                if(publicEvents.childElementCount > 1){
-                    event_list_component.append(publicEvents)
-                }
+                
+
+                
             });
         
     }

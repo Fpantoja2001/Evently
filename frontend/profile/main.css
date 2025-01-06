@@ -190,14 +190,6 @@ body {
     font-size: 1rem;
 }
 
-.profile-content {
-    height: calc(70% - 1rem);
-    width: calc(100% - 1rem);
-    background-color: #f8f8f8;
-    margin: .5rem;
-    border-radius: 10px;
-}
-
 .edit-component-wrapper {
     background-color: #333;
     width: 100%;
@@ -508,4 +500,37 @@ input, select {
     box-sizing: border-box;
     font-size: .8rem; /* Ensure the font size matches */
     line-height: 1.4; /* Ensure line-height consistency */
-  }
+}
+
+/* Profile content CSS */
+
+.profile-content {
+    height: calc(70% - 1rem);
+    width: calc(100% - 1rem);
+    background-color: #f8f8f8;
+    margin: .5rem;
+    border-radius: 10px;
+}
+
+.profile-viewing-options {
+    background-color: antiquewhite;
+    width: 100%;
+    height: 6vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-viewing-options button {
+    background-color: pink;
+    width: 15vw;
+    height: 5vh;
+    border-radius: 10px;
+    margin-left: 1rem;
+}
+
+.event-list-component {
+    height: (calc(100% - 6vh));
+    width: 100%;
+}
