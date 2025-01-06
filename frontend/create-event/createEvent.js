@@ -3,20 +3,22 @@ const template = document.createElement("template");
 const templates = [
     `<!-- Step 1: Event Type -->
 
-    <link rel="stylesheet" href="../../create-event/createEvent/createEvent.css">
+    <link rel="stylesheet" href="../../create-event/createEvent.css">
 
-    <div class="step" data-step="1">
-        <div class="form-group">
-            <select id="eventType" required>
-                <option value="" disabled selected hidden></option>
-                <option value="Public">Public</option>
-                <option value="Private">Private</option>
-            </select>
-            <label for="eventType">What is the type of the event?</label>
-            <span class="error-message" id="eventTypeError"></span>
-        </div>
-        <div class="navigation-buttons">
-            <button type="button" id="nextBtn" style="width:30vw">Next</button>
+    <div class="create-step-container">
+        <div class="step" data-step="1">
+            <div class="form-group">
+                <select id="eventType" required>
+                    <option value="" disabled selected hidden></option>
+                    <option value="Public">Public</option>
+                    <option value="Private">Private</option>
+                </select>
+                <label for="eventType">What is the type of the event?</label>
+                <span class="error-message" id="eventTypeError"></span>
+            </div>
+            <div class="navigation-buttons">
+                <button type="button" id="nextBtn" style="width:30vw">Next</button>
+            </div>
         </div>
     </div>
     `,

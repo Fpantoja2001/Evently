@@ -1,6 +1,16 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
 
 /* Progress indicator styling */
+
+.create-step-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+}
+
 .progress-indicator {
     display: flex;
     justify-content: center;

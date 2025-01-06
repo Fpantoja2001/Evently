@@ -2,7 +2,7 @@ const template = document.createElement("template");
 
 const componentTemplates = [
     `
-        <link rel="stylesheet" href="main.css">
+        <link rel="stylesheet" href="../profile/main.css">
 
         <div class="component-wrapper">
             <div class="profile-details">
@@ -116,7 +116,7 @@ const componentTemplates = [
     `
 ]
 
-class Profile extends HTMLElement {
+export class Profile extends HTMLElement {
     constructor() {
         super();
         const shadow = this.attachShadow({mode: "open"});
@@ -164,28 +164,29 @@ class Profile extends HTMLElement {
 
     async connectedCallback() {
         // check if user is checking their own profile
-
-        const user =  JSON.parse(localStorage.getItem("auth")).userId
-        
-        // somehow when ever someone clicks on an account 
-        // thats not theirs, that accounts ID gets passed in so this code
-        // can check that, TBA
-
-        const placeholder = null; 
-        
-        // Retrieving the person currently logged in
-
         const auth = JSON.parse(localStorage.getItem('auth'))
-        const token = auth.userId
-
+        let token = auth.userId
+        
         if (!token) {
             console.log('User token not found.');
             window.localStorage.href = '../login';
         }
+        // somehow when ever someone clicks on an account 
+        // thats not theirs, that accounts ID gets passed in so this code
+        // can check that, TBA
+
+        if (this._data && this._data.id != token) {
+            console.log("I am not viewing my own profile")
+            token = this._data.id;
+        }
+        
+        // Retrieving the person currently logged in
 
         // Retrieving the data of the desired profile
 
         let userData = {};
+
+        console.log(token)
 
         try {
             const response = await fetch(`/api/user/${token}`);
@@ -245,6 +246,13 @@ class Profile extends HTMLElement {
 
     archivedViewOption(){
         console.log(this.eventComponent)
+    }
+
+    /**
+     * @param {any} data
+     */
+    set viewerData(data) {
+        this._data = data;
     }
 
     

@@ -113,4 +113,4 @@ links.forEach(link => {
   nav.appendChild(li);
 });
 
-navbar.appendChild(nav);
+// navbar.appendChild(nav);

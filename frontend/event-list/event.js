@@ -213,20 +213,30 @@ export class eventListComponent extends HTMLElement {
         super();
         const shadow =  this.attachShadow({mode:"open"})
         shadow.append(template.content.cloneNode(true))
-        this.component = document.getElementById("event-list-component")
+        this.component = document.querySelector(".event-list-component")
     }
 
     async connectedCallback() {
         // check if this component is being opened in profile page
+        let event_list_component = null;
+
         if (this.attributes.location.value === "profile") {
             const parent = document.querySelector(".profile-component");
             const parentShadowRoot = parent.shadowRoot;
-            this.component = parentShadowRoot.getElementById("event-list-component");
+            this.component = parentShadowRoot.querySelector("event-list-component").shadowRoot;
         }
 
+        if (this.attributes.location.value === "home") {
+            const parent = document.querySelector("event-list-component");
+            const parentShadowRoot = parent.shadowRoot;
+            this.component = parentShadowRoot.getElementById("eventlist_wrapper");
+        }
+
+        event_list_component = this.component
+
         // Getting Dom Elements to Append to Dynamically
-        const shadowRoot = this.component.shadowRoot
-        const event_list_component = shadowRoot.getElementById('eventlist_wrapper')
+        // const shadowRoot = this.component.shadowRoot
+        // const event_list_component = shadowRoot.getElementById()
 
         // check if a user is logged in, if not reroute (TBA to nav later on)
         // solves issue of user staying logged in due to localstorage not syncing with DB

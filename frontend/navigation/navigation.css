@@ -1,0 +1,35 @@
+.navigation-bar {
+    background-color: palevioletred;
+    width: 8vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    position: relative;
+}
+
+.navigation-bar div {
+    background-color: wheat;
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navigation-bar div a {
+    text-decoration: none;
+    color: inherit;
+    font-size: .9rem;
+    text-align: center;
+}
+
+.navigation-bar div a:hover {
+    cursor: pointer;
+}
+
+.navigation-logo {
+    position: absolute;
+    top:0;
+}
+

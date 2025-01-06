@@ -41,11 +41,24 @@ document.addEventListener('DOMContentLoaded', async function() {
       document.getElementById('limit-option').textContent = data.eventLimit;
       document.getElementById('reservation-option').textContent = data.reservation ? "Yes" : "No";
       document.getElementById('category-option').textContent = data.eventCategory;
-      document.getElementById('event-creators').textContent = `Created by: ${creator.name}`  // Uncomment if needed
+      document.getElementById('event-creator').textContent = `Created by: ${creator.name}`  // Uncomment if needed
       document.getElementById('event-address').textContent = data.eventAddress;
       document.getElementById('event-description').textContent = data.eventDescription;
       document.getElementById('Attendee_num').textContent = 0; // PLACEHOLDER VAL
       document.getElementById('Attendee_not_num').textContent = 0; // PLACEHOLDER VAL
+
+      const profile = document.getElementById('event-creator');
+
+      profile.addEventListener("click", () => {
+        const b = document.querySelector("body")
+        b.innerHTML = ''
+        
+        const newComponent = document.createElement("profile-view");
+        newComponent.viewerData = {'id':creator.id}
+        newComponent.classList.add("profile-component");
+        b.appendChild(newComponent);
+      })
+
       if(data.eventImage){
         document.getElementById('event-image').src = data.eventImage;
       }

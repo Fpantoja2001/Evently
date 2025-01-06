@@ -5,14 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Event tbd</title>
     <link rel="stylesheet" href="./home.css">
-    <script src="../navigation/nav.js" defer></script>
-    <script src="./event-list/event.js" type="module"></script> <!-- Temp , will be moved to nav-->
+    <!-- <script src="../navigation/nav.js" defer></script> -->
+    <script src="./event-list/event.js" type="module"></script>
+    <script src="./navigation/navigation.js" type="module"></script>
+    <script src="./create-event/createEvent.js" type="module"></script>
+    <script src="./profile/profile.js" type="module"></script>
+   
   </head>
   <body>
-    <div>
+    <!-- <div>
       <nav id='navbar'>
       </nav>
-    </div>
+    </div> -->
     <!-- <section>
       <form id="form"> 
         <input type="search" id="query" name="q" placeholder="Search...">
@@ -20,7 +24,11 @@
       </form>
     </section> -->
 
-    <event-list-component location="home" id="event-list-component"></event-list-component>
+    <navigation-bar></navigation-bar>
+    <div class="component-container">
+      <event-list-component location="home" class="event-list-component"></event-list-component>
+    </div>
+    
   </body>
   <!-- <footer class="footer">
     <h1 class="heading" id="site-footer-heading">Find new events on Event TBD or make your own!</h1>

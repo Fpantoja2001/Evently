@@ -35,6 +35,25 @@ const seedDatabase = async () => {
                 following: null,
                 friends: null,
             },
+            {
+                name: 'Mayla Neri',
+                email: 'Mayla@umass.edu',
+                username: 'MaylaN',
+                password: 'Curlyquail4',
+                bio: 'Cinnamon Bun Lover',
+                phoneNumber: '555-1234',
+                age: 20,
+                gender: 'Female',
+                socialLinks: JSON.stringify({ twitter: '@alicej', linkedin: 'linkedin.com/in/fpantoja'}),
+                skills: JSON.stringify(['Networking', 'Event Planning']),
+                hobbies: JSON.stringify(['Hiking', 'Cooking']),
+                currentEvents: null,
+                pastEvents: null,
+                pronouns: null,
+                followers: null,
+                following: null,
+                friends: null,
+            },
         ]);
 
         console.log(`${users.length} users created.`);
@@ -65,7 +84,7 @@ const seedDatabase = async () => {
                 eventLimit: 20,
                 eventCategory: 'Cooking',
                 reservation: false,
-                eventCreator: users[0].id,
+                eventCreator: users[1].id,
                 eventAddress: '456 Culinary Lane, Food City, CA',
                 eventDescription: 'Hands-on cooking experience with a professional chef.',
                 //eventImage: 'https://example.com/cooking-workshop.jpg',
@@ -73,7 +92,8 @@ const seedDatabase = async () => {
             },
         ]);
 
-        users[0].currentEvents = [events[0].id, events[1].id]
+        users[0].currentEvents = [events[0].id]
+        users[1].currentEvents = [events[1].id]
 
         console.log(`${events.length} events created.`);
         console.log('Database seeding completed.');
