@@ -6,7 +6,7 @@ const router = express.Router();
 // Create a new user
 router.post('/user/create', async (req, res) => {
     try {
-        const { name, username, email, password, bio, phoneNumber, age, gender, socialLinks, skills, hobbies, pfpImage, currentEvents, pastEvents, pronouns } = req.body;
+        const { name, username, email, password, bio, phoneNumber, age, gender, socialLinks, skills, hobbies, pfpImage, currentEvents, pastEvents, pronouns, followers, following, friends } = req.body;
 
         const user = await User.create({
             name,
@@ -24,6 +24,9 @@ router.post('/user/create', async (req, res) => {
             currentEvents: JSON.stringify(currentEvents),
             pastEvents,
             pronouns,
+            followers: JSON.stringify(followers),
+            following:JSON.stringify(following),
+            friends:JSON.stringify(friends),
         });
 
         res.status(201).json(user);
@@ -42,6 +45,9 @@ router.get('/user/getAll', async (req, res) => {
             skills: user.skills ? JSON.parse(user.skills) : [],
             hobbies: user.hobbies ? JSON.parse(user.hobbies) : [],
             currentEvents: user.currentEvents ? JSON.parse(user.currentEvents) : [],
+            followers: user.followers ? JSON.parse(user.followers) : [],
+            following: user.following ? JSON.parse(user.following) : [],
+            friends: user.friends ? JSON.parse(user.friends) : [],
         }));
         res.json(parsedUsers);
     } catch (error) {
@@ -76,6 +82,9 @@ router.get('/user/:id', async (req, res) => {
             skills: user.skills ? JSON.parse(user.skills) : [],
             hobbies: user.hobbies ? JSON.parse(user.hobbies) : [],
             currentEvents: user.currentEvents ? JSON.parse(user.currentEvents) : [],
+            followers: user.followers ? JSON.parse(user.followers) : [],
+            following: user.following ? JSON.parse(user.following) : [],
+            friends: user.friends ? JSON.parse(user.friends) : [],
         };
 
         res.json(parsedUser);
@@ -108,12 +117,15 @@ router.put('/user/:id', async (req, res) => {
             'currentEvents',
             'pastEvents',
             'pronouns',
+            'followers',
+            'following',
+            'friends',
         ];
 
         // Update only provided fields
         for (const field of updatableFields) {
             if (req.body[field] !== undefined) {
-                if (field === 'skills' || field === 'hobbies' || field === "currentEvents") {
+                if (field === 'skills' || field === 'hobbies' || field === "currentEvents" || field === "socialLinks" || field === "followers" || field === "following" || field === "friends") {
                     // Convert to JSON string if it's an array/object
                     user[field] = req.body[field] ? JSON.stringify(req.body[field]) : null;
                 } else {
@@ -129,8 +141,11 @@ router.put('/user/:id', async (req, res) => {
             ...user.toJSON(),
             skills: user.skills ? JSON.parse(user.skills) : [],
             hobbies: user.hobbies ? JSON.parse(user.hobbies) : [],
-            socialLinks: user.socialLinks ? user.socialLinks : null, // need to parse it once you can add multiple links
+            socialLinks: user.socialLinks ? JSON.parse(user.socialLinks) : [], // need to parse it once you can add multiple links
             currentEvents: user.currentEvents ? JSON.parse(user.currentEvents) : [],
+            followers: user.followers ? JSON.parse(user.followers) : [],
+            following: user.following ? JSON.parse(user.following) : [],
+            friends: user.friends ? JSON.parse(user.friends) : [],
         };
 
         res.json(parsedUser);

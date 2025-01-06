@@ -17,38 +17,6 @@ const seedDatabase = async () => {
         // Seed users
         const users = await User.bulkCreate([
             {
-                name: 'Alice Johnson',
-                email: 'alice@umass.edu',
-                username: 'alicej',
-                password: 'password123',
-                bio: 'Event enthusiast and tech geek.',
-                phoneNumber: '555-1234',
-                age: 30,
-                gender: 'Female',
-                socialLinks: JSON.stringify({ twitter: '@alicej', linkedin: 'linkedin.com/in/alicej' }),
-                skills: JSON.stringify(['Networking', 'Event Planning']),
-                hobbies: JSON.stringify(['Hiking', 'Cooking']),
-                currentEvents: null,
-                pastEvents: null,
-                pronouns: null,
-            },
-            {
-                name: 'Bob Smith',
-                username: 'bsmith',
-                email: 'bob@example.com',
-                password: 'password123',
-                bio: 'Avid traveler and foodie.',
-                phoneNumber: '555-5678',
-                age: 25,
-                gender: 'Male',
-                socialLinks: JSON.stringify({ instagram: '@bobtravel' }),
-                skills: JSON.stringify(['Photography', 'Graphic Design']),
-                hobbies: JSON.stringify(['Traveling', 'Photography']),
-                currentEvents: null,
-                pastEvents: null,
-                pronouns: null,
-            },
-            {
                 name: 'Felix Pantoja',
                 email: 'fpantoja@umass.edu',
                 username: 'fpant',
@@ -56,13 +24,16 @@ const seedDatabase = async () => {
                 bio: 'Event enthusiast and tech geek.',
                 phoneNumber: '555-1234',
                 age: 23,
-                gender: 'Female',
-                socialLinks: 'h',// JSON.stringify({ twitter: '@alicej', linkedin: 'linkedin.com/in/alicej' })
+                gender: 'Male',
+                socialLinks: JSON.stringify({ twitter: '@alicej', linkedin: 'linkedin.com/in/fpantoja'}),
                 skills: JSON.stringify(['Networking', 'Event Planning']),
                 hobbies: JSON.stringify(['Hiking', 'Cooking']),
                 currentEvents: null,
                 pastEvents: null,
                 pronouns: null,
+                followers: null,
+                following: null,
+                friends: null,
             },
         ]);
 
@@ -94,13 +65,15 @@ const seedDatabase = async () => {
                 eventLimit: 20,
                 eventCategory: 'Cooking',
                 reservation: false,
-                eventCreator: users[1].id,
+                eventCreator: users[0].id,
                 eventAddress: '456 Culinary Lane, Food City, CA',
                 eventDescription: 'Hands-on cooking experience with a professional chef.',
                 //eventImage: 'https://example.com/cooking-workshop.jpg',
                 eventImage: 'https://www.allculinaryschools.com/wp-content/uploads/2016/12/culinary-arts-find-a-cooking-class.jpg',
             },
         ]);
+
+        users[0].currentEvents = [events[0].id, events[1].id]
 
         console.log(`${events.length} events created.`);
         console.log('Database seeding completed.');

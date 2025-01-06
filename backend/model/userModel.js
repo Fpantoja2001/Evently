@@ -71,7 +71,19 @@ const User = sequelize.define('User', {
     pronouns: {
         type: DataTypes.STRING,
         allowNull:true
-    }
+    }, 
+    followers: {
+        type: DataTypes.STRING,
+        allowNull:true
+    },
+    following: {
+        type: DataTypes.STRING,
+        allowNull:true
+    },
+    friends: {
+        type: DataTypes.STRING,
+        allowNull:true
+    },
 }, {
     timestamps: true, // Adds createdAt and updatedAt
     tableName: 'users', // Explicitly define table name

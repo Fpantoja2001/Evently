@@ -318,8 +318,9 @@ class EditProfile extends HTMLElement {
         }
 
         // Only submitting new fields
-        if (this.editProfileLinksInput.value.trim() != "" && this.editProfileLinksInput.value.trim() != userData.socialLinks){
-            updatedUserData['socialLinks'] = this.editProfileLinksInput.value.trim();
+        if (this.editProfileLinksInput.value.trim() != "" && userData.socialLinks.includes(this.editProfileLinksInput.value.trim())){
+            userData.socialLinks.push(this.editProfileLinksInput.value.trim())
+            updatedUserData['socialLinks'] = userData.socialLinks
         }
 
         if (this.editProfileBioInput.value.trim() != userData.bio){
@@ -416,6 +417,8 @@ class EditProfile extends HTMLElement {
         this.editProfileUsernameInput.value = userData.username;
         this.editProfileNameInput.value = userData.name;
         this.editProfilePronounInput.value = userData.pronouns;
+
+        // need to add dynamic link adding / editing
     }
 
 
