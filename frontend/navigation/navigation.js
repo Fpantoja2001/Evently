@@ -12,6 +12,9 @@ const componentTemplate = [
         <div class="navigation-home-tab>
             <a href="" id="a" location="home">Home</a>
         </div>
+        <div class="navigation-notification-tab>
+            <a href="" id="a" location="notification">Notification</a>
+        </div>
         <div class="navigation-search-tab>
             <a href="" id="a" location="search">Search</a>
         </div>
@@ -68,7 +71,19 @@ class Navigation extends HTMLElement {
                     case "Profile":
                         path = el.getAttribute("location")
                         break;
-        
+
+                    case "Notification":
+                        path = el.getAttribute("location")
+                        break;
+                    
+                    case "Messages":
+                        path = el.getAttribute("location")
+                        break;
+
+                    case "Search":
+                        path = el.getAttribute("location")
+                        break;
+
                     default:
                         console.log("Unknown link clicked:", text);
                         break;
@@ -108,6 +123,30 @@ class Navigation extends HTMLElement {
             const newComponent = document.createElement("event-list-component");
             newComponent.classList.add("event-list-component");
             newComponent.setAttribute("location", "home")
+            this.component.appendChild(newComponent);
+        }
+
+        if(path === "notification"){
+            this.component.innerHTML = "";
+
+            const newComponent = document.createElement("notification-component");
+            // newComponent.classList.add("eventComponent");
+            this.component.appendChild(newComponent);
+        }
+
+        if(path === "messages"){
+            this.component.innerHTML = "";
+
+            const newComponent = document.createElement("messages-component");
+            // newComponent.classList.add("eventComponent");
+            this.component.appendChild(newComponent);
+        }
+
+        if(path === "search"){
+            this.component.innerHTML = "";
+
+            const newComponent = document.createElement("search-component");
+            // newComponent.classList.add("eventComponent");
             this.component.appendChild(newComponent);
         }
     }

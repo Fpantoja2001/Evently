@@ -1,0 +1,13 @@
+.messages-component {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.messages-list {
+    background-color: aquamarine;
+    height: 50%;
+    width: 50%;
+}
