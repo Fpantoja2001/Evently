@@ -177,6 +177,7 @@ export class Profile extends HTMLElement {
 
         if (this._data && this._data.id != token) {
             console.log("I am not viewing my own profile")
+            this.viewProfile(token, this._data.id)
             token = this._data.id;
         }
         
@@ -184,9 +185,12 @@ export class Profile extends HTMLElement {
 
         // Retrieving the data of the desired profile
 
+        let userData = await this.loadProfileData(token)
+        this.displayProfileData(userData)
+    }
+    
+    async loadProfileData(token){
         let userData = {};
-
-        console.log(token)
 
         try {
             const response = await fetch(`/api/user/${token}`);
@@ -200,17 +204,19 @@ export class Profile extends HTMLElement {
             // profileWrapper.textContent = 'Error loading profile. Please try again later.';
         }
 
-        // Filling in Profile Details
+        return userData
+    }
 
-        console.log(userData)
-
+    displayProfileData(userData) {
         this.profileUsername.textContent = userData.username;
         this.profileName.textContent = userData.name;
         this.profileBio.textContent = userData.bio === null ? "": userData.bio;
         this.profileImg.src = userData.pfpImage === null ? '../profile/defaultpfp.jpg' : `data:image/jpeg;base64,${userData.pfpImage}`; 
         this.profilePronouns.textContent = userData.pronouns === null ? null : userData.pronouns;
         this.profileEventNumber.textContent = `${userData.currentEvents.length} events`
-    }   
+        this.profileFollowerNumber.textContent = `${userData.followers.length} followers`
+        this.profileFollowingNumber.textContent = `${userData.following.length} following`
+    }
 
     editProfile(){
         // Parent component in dom
@@ -255,7 +261,104 @@ export class Profile extends HTMLElement {
         this._data = data;
     }
 
-    
+    async viewProfile(viewerId, profileId){
+        this.profileEditBtn.remove()
+        this.profileSignoutBtn.remove()
+        this.profileSettingsBtn.remove()
+
+        // Creating Follow Button Option
+        const followerBtn = document.createElement('button')
+        followerBtn.classList.add("profile-follow-btn")
+
+        // Check if user is following
+
+        this.viewerFollowingList = await this.loadProfileData(viewerId)
+        this.profileFollowerList = await this.loadProfileData(profileId)
+
+        if (this.viewerFollowingList.following.includes(profileId)) {
+            followerBtn.textContent = "Unfollow"
+        } else {
+            followerBtn.textContent = "Follow"
+        }
+        
+
+        followerBtn.addEventListener("click", async () => {
+
+            if(followerBtn.textContent === "Follow") {
+
+                const newFollowing = [...this.viewerFollowingList.following, profileId];
+                const newFollower = [...this.profileFollowerList.followers, viewerId];
+
+                // Add new profile to viewer following
+
+                const updateViewerFollowing = await fetch(`/api/user/${viewerId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({following: newFollowing}),
+                }); 
+
+                // Add new follower to profile followers
+
+                const updateProfileFollowers = await fetch(`/api/user/${profileId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({followers: newFollower}),
+                }); 
+
+                if(updateProfileFollowers.ok && updateViewerFollowing) {
+                    followerBtn.textContent = "Unfollow"  
+
+                    this.viewerFollowingList = await updateViewerFollowing.json()
+                    this.profileFollowerList = await updateProfileFollowers.json()
+                }
+
+                this.displayProfileData(this.profileFollowerList)
+                
+            }else {
+
+                // Remove from Following Profile
+
+                const newFollowing = this.viewerFollowingList.following.filter((el) => el != profileId);
+                const newFollower = this.profileFollowerList.followers.filter((el) => el != viewerId);
+
+                // Add new profile to viewer following
+
+                const updateViewerFollowing = await fetch(`/api/user/${viewerId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({following: newFollowing}),
+                }); 
+
+                // Add new follower to profile followers
+
+                const updateProfileFollowers = await fetch(`/api/user/${profileId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({followers: newFollower}),
+                }); 
+
+                if(updateProfileFollowers.ok && updateViewerFollowing) {
+                     followerBtn.textContent = "Follow"  
+
+                    this.viewerFollowingList = await updateViewerFollowing.json()
+                    this.profileFollowerList = await updateProfileFollowers.json()
+                }
+
+                this.displayProfileData(this.profileFollowerList)
+            }
+
+        })
+
+        this.profileOptions.appendChild(followerBtn)
+    }
 }
 
 class EditProfile extends HTMLElement {

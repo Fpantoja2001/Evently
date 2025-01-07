@@ -302,3 +302,11 @@ a{
     color: black;
     font-family: 'Courier New', Courier, monospace;
 }
+
+.profile-component {
+    height: 100%;
+}
+
+html, body {
+    height: 100%;
+}

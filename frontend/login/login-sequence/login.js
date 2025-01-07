@@ -66,7 +66,7 @@ export class emailInputComponent extends HTMLElement {
         // Validates Input
         this.continueBtn.addEventListener("click", async (e) => {
             e.preventDefault()
-            const email = this.inputComponent.value.trim();
+            const email = (this.inputComponent.value.trim()).toLowerCase();
 
             // will return false if the email address doesn't contain any text or a umass.edu after the @
             if(!email.includes("@umass.edu")){

@@ -173,7 +173,7 @@ router.delete('/user/:id', async (req, res) => {
 router.post('/user/login', async (req, res) => {
     try {
         if("email" in req.body && !("password" in req.body)) {
-            const user = await User.findOne({where: {"email": req.body.email}});
+            const user = await User.findOne({where: {"email": (req.body.email).toLowerCase()}});
             
             if (user){
                 res.json({
@@ -185,7 +185,7 @@ router.post('/user/login', async (req, res) => {
         }
         
         if("password" in req.body) {
-            const user = await User.findOne({where: {"email": req.body.email}});
+            const user = await User.findOne({where: {"email": (req.body.email).toLowerCase()}});
 
             if(user.password === req.body.password) {
                 req.session.authenticated = true; 

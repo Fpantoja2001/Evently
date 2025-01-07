@@ -22,8 +22,7 @@ body {
 .component-wrapper {
     background-color: #333;
     width: 100%;
-    height: calc(100% - 61px);
-    margin-top:1rem;
+    height: calc(100%);
     border-radius: 10px;
     overflow: auto;
 }

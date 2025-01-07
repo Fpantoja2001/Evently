@@ -8,7 +8,7 @@ const sequelize = new Sequelize({
     storage: '../database.sqlite', // Adjust path if necessary
 });
 
-const seedDatabase = async () => {
+async function seedDatabase() {
     try {
         // Sync models with the database
         await sequelize.sync({ force: true });
@@ -37,7 +37,7 @@ const seedDatabase = async () => {
             },
             {
                 name: 'Mayla Neri',
-                email: 'Mayla@umass.edu',
+                email: 'mayla@umass.edu',
                 username: 'MaylaN',
                 password: 'Curlyquail4',
                 bio: 'Cinnamon Bun Lover',
@@ -92,9 +92,6 @@ const seedDatabase = async () => {
             },
         ]);
 
-        users[0].currentEvents = [events[0].id]
-        users[1].currentEvents = [events[1].id]
-
         console.log(`${events.length} events created.`);
         console.log('Database seeding completed.');
     } catch (error) {
@@ -105,4 +102,4 @@ const seedDatabase = async () => {
     }
 };
 
-seedDatabase();
+module.exports = seedDatabase

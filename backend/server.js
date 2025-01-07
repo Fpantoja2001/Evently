@@ -6,6 +6,7 @@ const ReviewRoutes = require('./routes/reviewRoutes.js'); // Review routes
 const session = require('express-session')
 const store = new session.MemoryStore();
 const path = require('path');
+const seedDatabase = require('../seed.js');
 
 class Server {
     constructor() {
@@ -13,6 +14,7 @@ class Server {
         this.configureMiddleware();
         this.setupRoutes();
         this.syncDatabase();
+        this.runSeed();
         this.setUpSession();
     }
 
@@ -59,6 +61,10 @@ class Server {
         this.app.listen(port, () => {
             console.log(`Server started on http://localhost:${port}`);
         });
+    }
+
+    runSeed(){
+        seedDatabase()
     }
 }
 
