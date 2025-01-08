@@ -159,12 +159,10 @@ export class Profile extends HTMLElement {
 
         // Event Component 
         this.eventComponent = shadow.getElementById("event-list-component");
-        
     }
 
     async connectedCallback() {
-        const socket = window.socket;
-        socket.emit("hello")
+        this.socket = window.socket;
         // check if user is checking their own profile
         const auth = JSON.parse(localStorage.getItem('auth'))
         let token = auth.userId
@@ -182,13 +180,25 @@ export class Profile extends HTMLElement {
             this.viewProfile(token, this._data.id)
             token = this._data.id;
         }
-        
-        // Retrieving the person currently logged in
 
         // Retrieving the data of the desired profile
-
         let userData = await this.loadProfileData(token)
-        this.displayProfileData(userData)
+
+        // Creating room for the socket
+        // 
+        this.socket.on('visualUpdate', (updatedData) => {
+            this.displayProfileData(updatedData)
+        })
+
+        this.socket.on('joinedRoom', (roomId) => {
+            console.log(`joined user profile ${userData.name} room with roomId: ${roomId}`)
+            this.displayProfileData(userData)
+            this.roomId = roomId;
+        })
+
+        
+        
+        this.socket.emit('joinProfileRoom', token)
     }
     
     async loadProfileData(token){
@@ -318,8 +328,7 @@ export class Profile extends HTMLElement {
                     this.profileFollowerList = await updateProfileFollowers.json()
                 }
 
-                this.displayProfileData(this.profileFollowerList)
-                
+                this.socket.emit("profileUpdate", {"roomId":this.roomId, updatedData: this.profileFollowerList})
             }else {
 
                 // Remove from Following Profile
@@ -354,7 +363,7 @@ export class Profile extends HTMLElement {
                     this.profileFollowerList = await updateProfileFollowers.json()
                 }
 
-                this.displayProfileData(this.profileFollowerList)
+                this.socket.emit("profileUpdate", {"roomId": this.roomId, updatedData: this.profileFollowerList})
             }
 
         })

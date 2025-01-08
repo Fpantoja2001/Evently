@@ -90,7 +90,20 @@ class LocalServer {
             socket.on("hello", () => {
                 console.log("hello")
             })
+
+            socket.on("joinProfileRoom", (profileId) => {
+                const room = `profile_${profileId}`
+                socket.join(room)
+                console.log(`User joined room: ${room}`)
+
+                this.io.to(room).emit("joinedRoom", room)
+            })
+
+            socket.on("profileUpdate", (data) => {
+                this.io.to(data.roomId).emit("visualUpdate", data.updatedData)
+            })
         });
+
     }
 
     // Start the server
