@@ -20,6 +20,8 @@ class Messages extends HTMLElement {
 
     connectedCallback(){
         console.log("Hello")
+
+        
     }
 }
 

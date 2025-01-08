@@ -7,6 +7,7 @@ template.innerHTML =
     <div class="notification-component">
         <div class="notification-list">
             Notification List
+            <button class="send"></div>
         </div>
     </div>
 `
@@ -16,10 +17,12 @@ class Notification extends HTMLElement {
         super();
         const shadow =  this.attachShadow({mode:"open"})
         shadow.append(template.content.cloneNode(true))
+
+        this.sendNotif = shadow.querySelector(".send")
     }
 
     connectedCallback(){
-        console.log("Hello")
+        console.log(this.sendNotif)
     }
 }
 

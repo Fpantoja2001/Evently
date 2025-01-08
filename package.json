@@ -2,10 +2,14 @@
   "name": "event-tbd",
   "version": "1.0.0",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
     "inflection": "^3.0.0",
+    "nodemon": "^3.1.9",
     "sequelize": "^6.37.5",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
     "sqlite3": "^5.1.7"
   },
   "scripts": {

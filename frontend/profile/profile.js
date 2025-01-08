@@ -163,6 +163,8 @@ export class Profile extends HTMLElement {
     }
 
     async connectedCallback() {
+        const socket = window.socket;
+        socket.emit("hello")
         // check if user is checking their own profile
         const auth = JSON.parse(localStorage.getItem('auth'))
         let token = auth.userId

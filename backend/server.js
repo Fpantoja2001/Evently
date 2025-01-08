@@ -7,15 +7,28 @@ const session = require('express-session')
 const store = new session.MemoryStore();
 const path = require('path');
 const seedDatabase = require('../seed.js');
+const cors = require('cors');
+const http = require('http'); // Required for wrapping Express app
+const { Server } = require('socket.io'); // Import Socket.IO
 
-class Server {
+class LocalServer {
     constructor() {
         this.app = express();
+        this.server = http.createServer(this.app); // Create an HTTP server
+        this.io = new Server(this.server, {
+            cors: {
+                origin: 'http://localhost:3000', // Allow requests from frontend
+                methods: ['GET', 'POST', 'PUT'],
+                credentials: true
+            }
+        });
+
         this.configureMiddleware();
         this.setupRoutes();
         this.syncDatabase();
         this.runSeed();
         this.setUpSession();
+        this.setupSocket();
     }
 
     // Configure middleware
@@ -56,11 +69,41 @@ class Server {
         }))
     }
 
+    // Set up socket
+    setupSocket() {
+        this.io.on('connection', (socket) => {
+            console.log('A user connected:', socket.id);
+
+            // Handle custom events from the client
+            socket.on('message', (data) => {
+                console.log('Message received:', data);
+
+                // Broadcast the message to all connected clients
+                this.io.emit('message', data);
+            });
+
+            // Handle disconnection
+            socket.on('disconnect', () => {
+                console.log('A user disconnected:', socket.id);
+            });
+
+            socket.on("hello", () => {
+                console.log("hello")
+            })
+        });
+    }
+
     // Start the server
     start(port = 3000) {
-        this.app.listen(port, () => {
+        this.server.listen(port, () => {
             console.log(`Server started on http://localhost:${port}`);
         });
+
+        this.app.use(cors({
+            origin: 'http://localhost:3000',
+            methods: ['GET', 'POST', 'PUT'],
+            credentials: true
+        }));
     }
 
     runSeed(){
@@ -70,5 +113,5 @@ class Server {
 
 // Initialize and start the server
 console.log('Starting server...');
-const server = new Server();
+const server = new LocalServer();
 server.start();
