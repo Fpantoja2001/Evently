@@ -94,13 +94,14 @@ class LocalServer {
             socket.on("joinProfileRoom", (profileId) => {
                 const room = `profile_${profileId}`
                 socket.join(room)
-                console.log(`User joined room: ${room}`)
-
                 this.io.to(room).emit("joinedRoom", room)
             })
 
             socket.on("profileUpdate", (data) => {
-                this.io.to(data.roomId).emit("visualUpdate", data.updatedData)
+                this.io.to(data.profileId).emit("visualUpdate", data.profileUpdatedData)
+
+                
+                this.io.to(data.viewerId).emit("visualUpdate", data.viewerUpdatedData)
             })
         });
 

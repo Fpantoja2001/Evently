@@ -165,9 +165,10 @@ export class Profile extends HTMLElement {
         this.socket = window.socket;
         // check if user is checking their own profile
         const auth = JSON.parse(localStorage.getItem('auth'))
-        let token = auth.userId
+        let viewerId = auth.userId
+        let userData = {};
         
-        if (!token) {
+        if (!viewerId) {
             console.log('User token not found.');
             window.localStorage.href = '../login';
         }
@@ -175,14 +176,14 @@ export class Profile extends HTMLElement {
         // thats not theirs, that accounts ID gets passed in so this code
         // can check that, TBA
 
-        if (this._data && this._data.id != token) {
-            console.log("I am not viewing my own profile")
-            this.viewProfile(token, this._data.id)
-            token = this._data.id;
-        }
-
         // Retrieving the data of the desired profile
-        let userData = await this.loadProfileData(token)
+        if (this._data && this._data.id != viewerId) {
+            console.log("I am not viewing my own profile")
+            this.viewProfile(viewerId, this._data.id)
+            userData = await this.loadProfileData(this._data.id)
+        } else {
+            userData = await this.loadProfileData(viewerId)
+        }
 
         // Creating room for the socket
         // 
@@ -196,9 +197,7 @@ export class Profile extends HTMLElement {
             this.roomId = roomId;
         })
 
-        
-        
-        this.socket.emit('joinProfileRoom', token)
+        this.socket.emit('joinProfileRoom', (userData.id))
     }
     
     async loadProfileData(token){
@@ -328,7 +327,13 @@ export class Profile extends HTMLElement {
                     this.profileFollowerList = await updateProfileFollowers.json()
                 }
 
-                this.socket.emit("profileUpdate", {"roomId":this.roomId, updatedData: this.profileFollowerList})
+                this.socket.emit("profileUpdate", {
+                    "viewerId": `profile_${this.viewerFollowingList.id}`,
+                    "profileId": this.roomId, 
+                    "profileUpdatedData": this.profileFollowerList,
+                    "viewerUpdatedData": this.viewerFollowingList,
+                })
+
             }else {
 
                 // Remove from Following Profile
@@ -363,7 +368,12 @@ export class Profile extends HTMLElement {
                     this.profileFollowerList = await updateProfileFollowers.json()
                 }
 
-                this.socket.emit("profileUpdate", {"roomId": this.roomId, updatedData: this.profileFollowerList})
+                this.socket.emit("profileUpdate", {
+                    "viewerId": `profile_${this.viewerFollowingList.id}`,
+                    "profileId": this.roomId, 
+                    "profileUpdatedData": this.profileFollowerList,
+                    "viewerUpdatedData": this.viewerFollowingList,
+                })
             }
 
         })
