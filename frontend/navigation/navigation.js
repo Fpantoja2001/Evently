@@ -138,7 +138,7 @@ class Navigation extends HTMLElement {
             this.component.innerHTML = "";
 
             const newComponent = document.createElement("messages-component");
-            // newComponent.classList.add("eventComponent");
+            newComponent.classList.add("messages-component");
             this.component.appendChild(newComponent);
         }
 
