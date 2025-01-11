@@ -3,6 +3,8 @@ const sequelize = require('./db.js'); // Sequelize instance
 const EventRoutes = require('./routes/eventRoutes.js'); // Event routes
 const UserRoutes = require('./routes/userRoutes.js'); // User routes
 const ReviewRoutes = require('./routes/reviewRoutes.js'); // Review routes
+const ConversationRoutes = require('./routes/conversationRoutes.js'); //  Conversation routes
+const MessageRoutes = require('./routes/messageRoutes.js'); // Message routes
 const session = require('express-session')
 const store = new session.MemoryStore();
 const path = require('path');
@@ -43,6 +45,8 @@ class LocalServer {
         this.app.use('/api/', EventRoutes); // Routes for event management
         this.app.use('/api/', UserRoutes); // Routes for user management
         this.app.use('/api/', ReviewRoutes); // Routes for review management
+        this.app.use('/api/', ConversationRoutes); // Routes for conversation management
+        this.app.use('/api/', MessageRoutes); // Routes for message management
     }
 
     // Synchronize database models

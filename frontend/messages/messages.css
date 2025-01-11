@@ -58,8 +58,8 @@
 }
 
 .messages-list-search-btn {
-    height: 20%;
-    width: 40%;
+    height: calc(fit-content + .5rem);
+    width: fit-content;
 }
 
 .message-view-component {
@@ -199,4 +199,65 @@ select:focus {
   transition: none;
   transform: none;
   resize: none;
+}
+
+/* Text Message Component Styles */
+
+.text-message {
+    width: 100%;
+    height: fit-content;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+}
+
+.text-message-sender-profile-img {
+    border-radius: 100%;
+    height: 30px;
+    width: fit-content;
+}
+
+.text-message.sender {
+    padding-left: 1rem;
+    box-sizing: border-box;
+    justify-content: left;
+    background-color: aquamarine;
+}
+
+.text-message.user {
+   justify-content: right;
+   background-color: pink;
+}
+
+.text-message.user img{
+    display: none;
+}
+
+.text-message.user div{
+    width: 100%;
+    height:100%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    padding-right: 1rem;
+    box-sizing: border-box;
+}
+
+.text-message.sender div{
+    width: calc(100% - 1.25rem);
+    flex-grow: 1;
+    height: auto;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding-left: .25rem;
+    box-sizing: border-box;
+}
+
+.text-message-content.sender {
+    margin-left: 1rem;
+}
+
+.text-message-content.user {
+    margin-right: 1rem;
 }

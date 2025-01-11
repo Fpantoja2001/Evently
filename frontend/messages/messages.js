@@ -10,7 +10,7 @@ const componentTemplates = [
             <div class="messages-list-user-options">
                 <div class="messages-list-user"></div>
                 <div class="messages-list-search">
-                    <button class="messages-list-search-btn"></button>
+                    <button class="messages-list-search-btn">Search</button>
                 </div>
             </div>
             <div class="messages-list-title">Messages</div>
@@ -44,7 +44,15 @@ const componentTemplates = [
             <input class="message-expanded-input" placeholder="Message..."></input>
         </div>
     </div>
-    ` 
+    ` ,
+    `
+    <link rel="stylesheet" href="../messages/messages.css">
+
+    <div class="text-message">
+        <img class="text-message-sender-profile-img"></img>
+        <div class="text-message-content"></div>
+    </div>
+    `
 ];
 
 class Messages extends HTMLElement {
@@ -66,15 +74,27 @@ class Messages extends HTMLElement {
     }
 
     async connectedCallback(){
-        const arr = [];
-        this.loadMessageInbox(arr)
+        this.loadMessageInbox()
     }
 
-    async loadMessageInbox(arr){
+    async loadMessageInbox(){
         // Load current users details
         const currentUserId = JSON.parse(localStorage.getItem("auth")).userId
         const currentUserData = await this.loadUserData(currentUserId)
         this.messageListUser.textContent = currentUserData.username
+
+        // Load current users conversations
+
+        const getConversations = async () => {
+            try {
+                const response  = await fetch(`/api/conversations/${currentUserId}`);
+                return await response.json();
+            } catch (error) {
+                console.error('Failed to fetch user conversations:', error);
+            }
+        }
+
+        const arr = await getConversations()
 
         // If there are no messages condition handling
         if (arr.length === 0) {
@@ -82,13 +102,12 @@ class Messages extends HTMLElement {
         }
 
         // Set up their info 
-        this.messageListUser.textContent = currentUserData.username;
 
         // Load Messengers details
-        for(let i = 0; i< arr.length; i++){
+        for(let i = 0; i< arr.length-1; i++){
             const messenger = document.createElement('messenger-component');
             messenger.classList.add("message");
-            messenger.messengerData = await this.loadUserData(arr[i]);
+            messenger.messengerData = {senderData: await this.loadUserData(arr[i].members[1]), conversationData: arr[i]}
             this.messageList.appendChild(messenger)
         }
 
@@ -147,7 +166,7 @@ class Messenger extends HTMLElement {
      */
     set messengerData(data){
         this._data = data
-        this.loadMessengerData(data)
+        this.loadMessengerData(data.senderData)
     }
 }
 
@@ -160,6 +179,11 @@ class MessagesExpanded extends HTMLElement {
 
         this.messengerExpandedProfileImg = shadow.querySelector(".messenger-expanded-profile-img");
         this.messengerExpandedName = shadow.querySelector(".messenger-expanded-name");
+        this.messengerExpandedView = shadow.querySelector(".messages-expanded-view");
+    }
+
+    connectedCallback(){
+        this.loadMessages()
     }
 
     loadMessengerData(userData){
@@ -167,12 +191,64 @@ class MessagesExpanded extends HTMLElement {
         this.messengerExpandedName.textContent = userData.name;
     }
 
+    async loadMessages() {
+        const response = await fetch(`/api/message/${this._data.conversationData.conversationId}`);
+        
+        (await response.json()).forEach(async element => {
+            const newText = document.createElement("text-message-component");
+            const currentUser = JSON.parse(localStorage.getItem("auth")).userId;
+            if (element.senderId != currentUser){  
+                newText.textMessageData = {
+                    pfpImg: '../profile/defaultpfp.jpg',
+                    text: element.text,
+                    user: false
+                }
+            } else {
+                newText.textMessageData = {
+                    pfpImg: null,
+                    text: element.text,
+                    user: true
+                }
+            }
+            this.messengerExpandedView.appendChild(newText)
+        });
+
+    }
+
     /**
      * @param {any} data
      */
     set expandedMessengerData(data){
         this._data = data
-        this.loadMessengerData(data)
+        this.loadMessengerData(this._data.senderData)
+    }
+}
+
+class textMessage extends HTMLElement{
+    constructor(){
+        super();
+        const shadow =  this.attachShadow({mode:"open"})
+        template.innerHTML = componentTemplates[3];
+        shadow.append(template.content.cloneNode(true));
+
+        this.textMessage = shadow.querySelector(".text-message");
+        this.textMessageSenderImg = shadow.querySelector(".text-message-sender-profile-img");
+        this.textMessageContent = shadow.querySelector(".text-message-content");
+    }
+
+    setTextData(data){
+        this.textMessageSenderImg.src = '../profile/defaultpfp.jpg'// gotta get sender pfp image
+        this.textMessageContent.textContent = data.text;
+
+        data.user ?  this.textMessage.classList.add("user"): this.textMessage.classList.add("sender");
+    }
+
+    /**
+     * @param {any} data
+     */
+    set textMessageData(data){
+        this._data = data;
+        this.setTextData(this._data);
     }
 }
 
@@ -180,3 +256,4 @@ class MessagesExpanded extends HTMLElement {
 customElements.define("messages-component", Messages)
 customElements.define("messenger-component", Messenger)
 customElements.define("messages-expanded-component", MessagesExpanded)
+customElements.define("text-message-component", textMessage)
