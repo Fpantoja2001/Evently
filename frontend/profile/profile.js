@@ -46,7 +46,7 @@ const componentTemplates = [
         </div>
     `,
     `
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="../profile/main.css">
 
     <div class="edit-component-wrapper">
         <div class="edit-profile-title">Edit Profile</div>
@@ -231,16 +231,15 @@ export class Profile extends HTMLElement {
 
     editProfile(){
         // Parent component in dom
-        this.component = document.querySelector(".profile-component");
-        this.componentParent = document.querySelector(".components")
+        this.component = document.querySelector(".component-container");
 
         // Creating new component to mount
         const editProfileComponent = document.createElement("edit-profile-view");
         editProfileComponent.classList.add(".random-class");
 
         // Removing old and adding new component
-        this.component.remove()
-        this.componentParent.appendChild(editProfileComponent);
+        this.component.innerHTML = " ";
+        this.component.appendChild(editProfileComponent);
         console.log("edit profile button clicked");
     }
 

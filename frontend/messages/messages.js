@@ -63,13 +63,12 @@ class Messages extends HTMLElement {
         this.messageListSearchBtn.addEventListener("click", () => {
             console.log("Hello search was clicked")
         })
+
+        
     }
 
     async connectedCallback(){
-        const arr = [
-            `5861ab26-fcec-4030-a2bb-9d06321ea500`,
-            `52cf9424-4ce6-4691-b278-11ca2361c238`
-        ];
+        const arr = [];
         this.loadMessageInbox(arr)
     }
 
@@ -77,6 +76,11 @@ class Messages extends HTMLElement {
         // Load current users details
         const currentUserId = JSON.parse(localStorage.getItem("auth")).userId
         const currentUserData = await this.loadUserData(currentUserId)
+
+        // If there are no messages condition handling
+        if (arr.length === 0) {
+            return;
+        }
 
         // Set up their info 
         this.messageListUser.textContent = currentUserData.username;
