@@ -63,8 +63,6 @@ class Messages extends HTMLElement {
         this.messageListSearchBtn.addEventListener("click", () => {
             console.log("Hello search was clicked")
         })
-
-        
     }
 
     async connectedCallback(){
@@ -76,6 +74,7 @@ class Messages extends HTMLElement {
         // Load current users details
         const currentUserId = JSON.parse(localStorage.getItem("auth")).userId
         const currentUserData = await this.loadUserData(currentUserId)
+        this.messageListUser.textContent = currentUserData.username
 
         // If there are no messages condition handling
         if (arr.length === 0) {
