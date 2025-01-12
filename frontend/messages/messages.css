@@ -209,6 +209,7 @@ select:focus {
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
+    margin-top: 1rem;
 }
 
 .text-message-sender-profile-img {

@@ -22,4 +22,15 @@ router.get('/message/:conversationId', async (req,res) => {
     }
 }); 
 
+router.get('/message/m/:messageId', async (req,res) => {
+    try {
+        const messages = await Message.findOne({
+            where: {"messageId": req.params.messageId},
+        })
+        res.status(200).json(messages);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}); 
+
 module.exports = router;

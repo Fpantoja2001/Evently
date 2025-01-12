@@ -103,9 +103,13 @@ class LocalServer {
 
             socket.on("profileUpdate", (data) => {
                 this.io.to(data.profileId).emit("visualUpdate", data.profileUpdatedData)
-
-                
                 this.io.to(data.viewerId).emit("visualUpdate", data.viewerUpdatedData)
+            })
+
+            socket.on("newMessage", (data) => {
+                const room = `conversation_${data.conversationId}`
+                socket.join(room);
+                this.io.to(room).emit("loadNewMessages", data.messageId);
             })
         });
 

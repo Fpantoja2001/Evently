@@ -84,7 +84,6 @@ class Messages extends HTMLElement {
         this.messageListUser.textContent = currentUserData.username
 
         // Load current users conversations
-
         const getConversations = async () => {
             try {
                 const response  = await fetch(`/api/conversations/${currentUserId}`);
@@ -93,7 +92,6 @@ class Messages extends HTMLElement {
                 console.error('Failed to fetch user conversations:', error);
             }
         }
-
         const arr = await getConversations()
 
         // If there are no messages condition handling
@@ -101,16 +99,17 @@ class Messages extends HTMLElement {
             return;
         }
 
-        // Set up their info 
-
         // Load Messengers details
-        for(let i = 0; i< arr.length-1; i++){
+        for(let i = 0; i< arr.length; i++){
+            // Finding who the receiver is dynamically 
+            const receiver = arr[i].members.filter(id => id != currentUserId)
+
+            // Making and mounting new component
             const messenger = document.createElement('messenger-component');
             messenger.classList.add("message");
-            messenger.messengerData = {senderData: await this.loadUserData(arr[i].members[1]), conversationData: arr[i]}
-            this.messageList.appendChild(messenger)
+            messenger.messengerData = {senderData: await this.loadUserData(receiver[0]), conversationData: arr[i]}
+            this.messageList.appendChild(messenger);
         }
-
     }
 
     async loadUserData(userId){
@@ -133,7 +132,6 @@ class Messenger extends HTMLElement {
         template.innerHTML = componentTemplates[1];
         shadow.append(template.content.cloneNode(true))
         
-
         // Variables
         this.messengerProfileImg = shadow.querySelector(".messenger-profile-img")
         this.messengerName = shadow.querySelector(".messenger-name")
@@ -167,6 +165,7 @@ class Messenger extends HTMLElement {
     set messengerData(data){
         this._data = data
         this.loadMessengerData(data.senderData)
+        console.log(data)
     }
 }
 
@@ -180,10 +179,58 @@ class MessagesExpanded extends HTMLElement {
         this.messengerExpandedProfileImg = shadow.querySelector(".messenger-expanded-profile-img");
         this.messengerExpandedName = shadow.querySelector(".messenger-expanded-name");
         this.messengerExpandedView = shadow.querySelector(".messages-expanded-view");
+        this.messengerExpandedInput = shadow.querySelector(".message-expanded-input");
     }
 
     connectedCallback(){
+        // Get window socket
+        this.socket = window.socket;
+
+        // Reload Messages
+        this.socket.on("loadNewMessages", async (messageId) => {
+            const message = await fetch(`/api/message/m/${messageId}`);
+            const newText = document.createElement("text-message-component");
+
+            const newTextContent = await message.json()
+            console.log(newTextContent)
+
+            newText.textMessageData = {
+                pfpImg: null,
+                text: newTextContent.textMessage,
+                user: true
+            }
+
+            this.messengerExpandedView.appendChild(newText)
+        })
+4
+        // Load messages
         this.loadMessages()
+
+        // Submit message
+        this.messengerExpandedInput.addEventListener("keydown", async (event) => {
+            if (event.key === "Enter") {
+                try {
+                    const response = await fetch(`/api/message`, {
+                        method: "POST",
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            conversationId: this._data.conversationData.conversationId,
+                            senderId: JSON.parse(localStorage.getItem("auth")).userId,
+                            textMessage: this.messengerExpandedInput.value,
+                        })
+                    });
+
+                    if (!response.ok) {console.log("error")} else {
+                        this.messengerExpandedInput.value = " ";
+                        this.socket.emit("newMessage", {conversationId: this._data.conversationData.conversationId, messageId: (await response.json()).messageId})
+                    }
+                } catch (error) {
+                    console.log("error sending message", error);
+                }
+                
+                
+            }
+        });
     }
 
     loadMessengerData(userData){
@@ -195,24 +242,24 @@ class MessagesExpanded extends HTMLElement {
         const response = await fetch(`/api/message/${this._data.conversationData.conversationId}`);
         
         (await response.json()).forEach(async element => {
+            console.log(element)
             const newText = document.createElement("text-message-component");
             const currentUser = JSON.parse(localStorage.getItem("auth")).userId;
             if (element.senderId != currentUser){  
                 newText.textMessageData = {
                     pfpImg: '../profile/defaultpfp.jpg',
-                    text: element.text,
+                    text: element.textMessage,
                     user: false
                 }
             } else {
                 newText.textMessageData = {
                     pfpImg: null,
-                    text: element.text,
+                    text: element.textMessage,
                     user: true
                 }
             }
             this.messengerExpandedView.appendChild(newText)
         });
-
     }
 
     /**
@@ -240,6 +287,7 @@ class textMessage extends HTMLElement{
         this.textMessageSenderImg.src = '../profile/defaultpfp.jpg'// gotta get sender pfp image
         this.textMessageContent.textContent = data.text;
 
+        // Add styling on whether message is from current user or not
         data.user ?  this.textMessage.classList.add("user"): this.textMessage.classList.add("sender");
     }
 
