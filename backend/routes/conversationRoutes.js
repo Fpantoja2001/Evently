@@ -35,4 +35,18 @@ router.get('/conversations/:userId', async (req,res) => {
     }
 })
 
+router.get('/conversations/c/:conversationId', async (req,res) => {
+
+    try {
+        const conversation = await Conversation.findByPk(req.params.conversationId);
+        const parsedConversation = {
+            ...conversation.toJSON(),
+            members: JSON.parse(conversation.members)
+        }
+        res.status(200).json(parsedConversation)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+
 module.exports = router;

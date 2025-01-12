@@ -63,7 +63,6 @@
 }
 
 .message-view-component {
-    background-color: antiquewhite;
     height: 100%;
     flex-grow: 1;
     width: auto;
@@ -108,6 +107,13 @@
     
 }
 
+.message-text-preview-container {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+}
+
 .messenger-name {
     font-size: 1rem;
     display: flex;
@@ -123,6 +129,17 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.message-preview-time-elapsed {
+    font-size: .8rem;
+    display: flex;
+    width: fit-content;
+    justify-content: right;
+    align-items: center;
+    box-sizing: border-box;
+    padding-right: 1rem;
+    padding-left: .5rem;
 }
 
 /* MessagesExpanded Styles */
@@ -162,11 +179,15 @@
     height: auto;
     width: 100%;
     flex-grow: 1;
-    background-color:cadetblue
+    background-color: white;
+    position: relative;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding-bottom: 1rem;
 }
 
 .messages-expanded-send {
-    height: 50px;
+    height: 60px;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -176,10 +197,9 @@
 }
 
 .message-expanded-input {
-    height: 100%;
     width: 100%;
     border-radius: 50px;
-    padding-left: .5rem;
+    padding: 10px;
 }
 
 input {
@@ -222,12 +242,11 @@ select:focus {
     padding-left: 1rem;
     box-sizing: border-box;
     justify-content: left;
-    background-color: aquamarine;
 }
 
 .text-message.user {
    justify-content: right;
-   background-color: pink;
+   margin-right: 1rem;
 }
 
 .text-message.user img{
@@ -235,24 +254,28 @@ select:focus {
 }
 
 .text-message.user div{
-    width: 100%;
     height:100%;
     display: flex;
     justify-content: right;
     align-items: center;
-    padding-right: 1rem;
+    padding: .25rem 1rem .25rem 1rem;
+    margin-right: 1rem;
     box-sizing: border-box;
+    background-color: #ccc;
+    border-radius: 20px;
 }
 
 .text-message.sender div{
-    width: calc(100% - 1.25rem);
-    flex-grow: 1;
+    width: fit-content;
     height: auto;
     display: flex;
     justify-content: left;
     align-items: center;
-    padding-left: .25rem;
+    padding: .25rem 1rem .25rem 1rem;
+    margin-left: .5rem;
     box-sizing: border-box;
+    background-color: pink;
+    border-radius: 20px;
 }
 
 .text-message-content.sender {

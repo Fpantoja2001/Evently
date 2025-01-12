@@ -108,8 +108,14 @@ class LocalServer {
 
             socket.on("newMessage", (data) => {
                 const room = `conversation_${data.conversationId}`
-                socket.join(room);
                 this.io.to(room).emit("loadNewMessages", data.messageId);
+                this.io.emit("loadNewInboxes", data)
+            })
+
+            socket.on("conversationRoom", (data) => {
+                const room = `conversation_${data}`
+                socket.join(room)
+                this.io.to(room).emit("joinedRoom", room)
             })
         });
 

@@ -27,7 +27,10 @@ const componentTemplates = [
         </div>
         <div class="messenger-preview-container">
             <div class="messenger-name"></div>
-            <div class="message-preview"></div>
+            <div class="message-text-preview-container">
+                <div class="message-preview"></div>
+                <div class="message-preview-time-elapsed"></div>
+            </div>
         </div>
     </div>
     `,
@@ -136,6 +139,7 @@ class Messenger extends HTMLElement {
         this.messengerProfileImg = shadow.querySelector(".messenger-profile-img")
         this.messengerName = shadow.querySelector(".messenger-name")
         this.messengerLatest = shadow.querySelector(".message-preview")
+        this.messengerElapsed = shadow.querySelector(".message-preview-time-elapsed")
 
         this.addEventListener("click", () => {
             // Creating Expanded Element
@@ -151,12 +155,66 @@ class Messenger extends HTMLElement {
             expandedMessagesContainer.innerHTML = ""
             expandedMessagesContainer.appendChild(expandedMessages)
         })
+
+        this.socket = window.socket;
+        this.currentUser = JSON.parse(localStorage.getItem("auth")).userId
     }
 
-    loadMessengerData(userData){
+    connectedCallback() {
+        this.socket.on("loadNewInboxes", async (data) => {
+            console.log("hello")
+            // Get conversation
+
+            const response = await fetch(`/api/conversations/c/${data.conversationId}`, {method: 'GET'})
+            const members = (await response.json()).members
+
+            if (members.includes(this.currentUser)){
+                this.loadMessengerData(this._data.senderData)
+            }
+
+            setInterval(async () => {
+                if (members.includes(this.currentUser)){
+                    this.loadMessengerData(this._data.senderData)
+                }
+            }, 60000)
+        })
+    }
+
+    async loadMessengerData(userData){
         this.messengerProfileImg.src = userData.pfpImage === null ? '../profile/defaultpfp.jpg' : `data:image/jpeg;base64,${userData.pfpImage}`; 
         this.messengerName.textContent = userData.name;
-        this.messengerLatest.textContent = `I guess it depends on the person tbh yes hello`
+        // Get latest data
+        this.messengerLatest.textContent = (await this.getLatestMessage()).text;
+        this.messengerElapsed.textContent = `• ${(await this.getLatestMessage()).time}`;
+    }
+
+    async getLatestMessage(){
+        // Get Current User
+        const currentUser = JSON.parse(localStorage.getItem("auth")).userId
+
+        // Get latest message in conversation 
+        const response = await fetch(`/api/message/${this._data.conversationData.conversationId}`)
+
+        // Take latest message
+        const messages = await response.json()
+        const lastMessage = messages[messages.length - 1];
+
+        const createdTime = new Date(lastMessage.createdAt).getTime()
+        const elapsedTime = Date.now() - createdTime;
+
+        if (elapsedTime / 1000 < 60) {
+            // Less than a minute
+            return { text: lastMessage.textMessage, time: '1m' };
+        } else if (elapsedTime / (1000 * 60) < 60) {
+            // Less than an hour
+            return { text: lastMessage.textMessage, time: `${Math.floor(elapsedTime / (1000 * 60))}m` };
+        } else if (elapsedTime / (1000 * 60 * 60) < 24) {
+            // Less than 24 hours
+            return { text: lastMessage.textMessage, time: `${Math.floor(elapsedTime / (1000 * 60 * 60))}h` };
+        } else {
+            // More than 24 hours
+            return { text: lastMessage.textMessage, time: `${Math.floor(elapsedTime / (1000 * 60 * 60 * 24))}d` };
+        }
     }
 
     /**
@@ -165,7 +223,6 @@ class Messenger extends HTMLElement {
     set messengerData(data){
         this._data = data
         this.loadMessengerData(data.senderData)
-        console.log(data)
     }
 }
 
@@ -185,27 +242,48 @@ class MessagesExpanded extends HTMLElement {
     connectedCallback(){
         // Get window socket
         this.socket = window.socket;
+        this.room = null;
+
+        // Connect to conversation room
+        this.socket.on("joinedRoom", (room) => {
+            console.log(`connected you to room: ${room}`)
+            this.room = room;
+        })
 
         // Reload Messages
         this.socket.on("loadNewMessages", async (messageId) => {
+            // Load Current User
+            const currentUser = JSON.parse(localStorage.getItem("auth")).userId
+
+            // Fetch the message sent
             const message = await fetch(`/api/message/m/${messageId}`);
             const newText = document.createElement("text-message-component");
-
             const newTextContent = await message.json()
-            console.log(newTextContent)
 
-            newText.textMessageData = {
-                pfpImg: null,
-                text: newTextContent.textMessage,
-                user: true
+            if (currentUser != newTextContent.senderId) {
+                newText.textMessageData = {
+                    pfpImg: null,
+                    text: newTextContent.textMessage,
+                    user: false
+                }
+            } else {
+                newText.textMessageData = {
+                    pfpImg: null,
+                    text: newTextContent.textMessage,
+                    user: true,
+                }
             }
-
             this.messengerExpandedView.appendChild(newText)
+            this.messengerExpandedView.scrollTo({
+                top: this.messengerExpandedView.scrollHeight,
+                behavior: 'smooth',
+            });
         })
-4
+
+        // Create new room for conversation
+        this.socket.emit("conversationRoom", this._data.conversationData.conversationId);
         // Load messages
         this.loadMessages()
-
         // Submit message
         this.messengerExpandedInput.addEventListener("keydown", async (event) => {
             if (event.key === "Enter") {
@@ -227,10 +305,16 @@ class MessagesExpanded extends HTMLElement {
                 } catch (error) {
                     console.log("error sending message", error);
                 }
-                
-                
             }
         });
+
+        // scroll to bottom on window resize
+        window.addEventListener("resize", () => {
+            this.messengerExpandedView.scrollTo({
+                top: this.messengerExpandedView.scrollHeight,
+                behavior: 'smooth',
+            });
+        })
     }
 
     loadMessengerData(userData){
@@ -242,7 +326,6 @@ class MessagesExpanded extends HTMLElement {
         const response = await fetch(`/api/message/${this._data.conversationData.conversationId}`);
         
         (await response.json()).forEach(async element => {
-            console.log(element)
             const newText = document.createElement("text-message-component");
             const currentUser = JSON.parse(localStorage.getItem("auth")).userId;
             if (element.senderId != currentUser){  
@@ -260,6 +343,8 @@ class MessagesExpanded extends HTMLElement {
             }
             this.messengerExpandedView.appendChild(newText)
         });
+
+        this.messengerExpandedView.scrollTop = this.messengerExpandedView.scrollHeight
     }
 
     /**
