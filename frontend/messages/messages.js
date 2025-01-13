@@ -32,6 +32,7 @@ const componentTemplates = [
                 <div class="message-preview-time-elapsed"></div>
             </div>
         </div>
+        <div class="message-preview-status"></div>
     </div>
     `,
     `
@@ -139,6 +140,7 @@ class Messenger extends HTMLElement {
         this.messengerProfileImg = shadow.querySelector(".messenger-profile-img")
         this.messengerName = shadow.querySelector(".messenger-name")
         this.messengerLatest = shadow.querySelector(".message-preview")
+        this.messengerLatestStatus = shadow.querySelector(".message-preview-status")
         this.messengerElapsed = shadow.querySelector(".message-preview-time-elapsed")
 
         this.addEventListener("click", () => {
@@ -162,9 +164,7 @@ class Messenger extends HTMLElement {
 
     connectedCallback() {
         this.socket.on("loadNewInboxes", async (data) => {
-            console.log("hello")
             // Get conversation
-
             const response = await fetch(`/api/conversations/c/${data.conversationId}`, {method: 'GET'})
             const members = (await response.json()).members
 
@@ -199,8 +199,18 @@ class Messenger extends HTMLElement {
         const messages = await response.json()
         const lastMessage = messages[messages.length - 1];
 
+        // can eventually add a unread messages counter by traversing messages
+        // backwards and checking status field
+
         const createdTime = new Date(lastMessage.createdAt).getTime()
         const elapsedTime = Date.now() - createdTime;
+
+        // check the seen field then edit the box to show it
+        if (lastMessage.status != "seen") {
+            this.messengerLatestStatus.textContent = "•"
+        } else {
+            this.messengerLatestStatus.textContent = " "
+        }
 
         if (elapsedTime / 1000 < 60) {
             // Less than a minute
@@ -214,7 +224,7 @@ class Messenger extends HTMLElement {
         } else {
             // More than 24 hours
             return { text: lastMessage.textMessage, time: `${Math.floor(elapsedTime / (1000 * 60 * 60 * 24))}d` };
-        }
+        } 
     }
 
     /**
@@ -251,33 +261,47 @@ class MessagesExpanded extends HTMLElement {
         })
 
         // Reload Messages
-        this.socket.on("loadNewMessages", async (messageId) => {
+        this.socket.on("loadNewMessages", async (data) => {
             // Load Current User
             const currentUser = JSON.parse(localStorage.getItem("auth")).userId
 
             // Fetch the message sent
-            const message = await fetch(`/api/message/m/${messageId}`);
-            const newText = document.createElement("text-message-component");
-            const newTextContent = await message.json()
+            if (data.conversationId === this._data.conversationData.conversationId) {
+                const message = await fetch(`/api/message/m/${data.messageId}`);
+                const newText = document.createElement("text-message-component");
+                const newTextContent = await message.json()
 
-            if (currentUser != newTextContent.senderId) {
-                newText.textMessageData = {
-                    pfpImg: null,
-                    text: newTextContent.textMessage,
-                    user: false
+                if (currentUser != newTextContent.senderId) {
+                    newText.textMessageData = {
+                        pfpImg: null,
+                        text: newTextContent.textMessage,
+                        user: false
+                    }
+                } else {
+                    newText.textMessageData = {
+                        pfpImg: null,
+                        text: newTextContent.textMessage,
+                        user: true,
+                    }
                 }
-            } else {
-                newText.textMessageData = {
-                    pfpImg: null,
-                    text: newTextContent.textMessage,
-                    user: true,
+                this.messengerExpandedView.appendChild(newText)
+                this.messengerExpandedView.scrollTo({
+                    top: this.messengerExpandedView.scrollHeight,
+                    behavior: 'smooth',
+                });
+
+                if (newTextContent.status != "seen") {
+                    const response = await fetch(`/api/message/u/${data.messageId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({status: "seen"})
+                    });
+
+                    if (!response.ok) {
+                        console.log("error updating delivered status")
+                    }
                 }
             }
-            this.messengerExpandedView.appendChild(newText)
-            this.messengerExpandedView.scrollTo({
-                top: this.messengerExpandedView.scrollHeight,
-                behavior: 'smooth',
-            });
         })
 
         // Create new room for conversation
@@ -295,6 +319,7 @@ class MessagesExpanded extends HTMLElement {
                             conversationId: this._data.conversationData.conversationId,
                             senderId: JSON.parse(localStorage.getItem("auth")).userId,
                             textMessage: this.messengerExpandedInput.value,
+                            status: "delivered"
                         })
                     });
 
@@ -326,22 +351,39 @@ class MessagesExpanded extends HTMLElement {
         const response = await fetch(`/api/message/${this._data.conversationData.conversationId}`);
         
         (await response.json()).forEach(async element => {
-            const newText = document.createElement("text-message-component");
-            const currentUser = JSON.parse(localStorage.getItem("auth")).userId;
-            if (element.senderId != currentUser){  
-                newText.textMessageData = {
-                    pfpImg: '../profile/defaultpfp.jpg',
-                    text: element.textMessage,
-                    user: false
+            if (element.textMessage != null) {
+                const newText = document.createElement("text-message-component");
+                const currentUser = JSON.parse(localStorage.getItem("auth")).userId;
+                if (element.senderId != currentUser){  
+                    newText.textMessageData = {
+                        pfpImg: '../profile/defaultpfp.jpg',
+                        text: element.textMessage,
+                        user: false
+                    }
+                } else {
+                    newText.textMessageData = {
+                        pfpImg: null,
+                        text: element.textMessage,
+                        user: true
+                    }
+                } 
+
+                if (element.status != "seen") {
+                    const response = await fetch(`/api/message/u/${element.messageId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({status: "seen"})
+                    })
+
+                    if (!response.ok) {
+                        console.log("error updating delivered status")
+                    }
+
+                    // send an update to socket
                 }
-            } else {
-                newText.textMessageData = {
-                    pfpImg: null,
-                    text: element.textMessage,
-                    user: true
-                }
-            }
-            this.messengerExpandedView.appendChild(newText)
+                // If element has delivered status, change it to seen
+                this.messengerExpandedView.appendChild(newText)
+            } 
         });
 
         this.messengerExpandedView.scrollTop = this.messengerExpandedView.scrollHeight

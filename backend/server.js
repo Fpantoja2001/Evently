@@ -108,7 +108,7 @@ class LocalServer {
 
             socket.on("newMessage", (data) => {
                 const room = `conversation_${data.conversationId}`
-                this.io.to(room).emit("loadNewMessages", data.messageId);
+                this.io.to(room).emit("loadNewMessages", data);
                 this.io.emit("loadNewInboxes", data)
             })
 

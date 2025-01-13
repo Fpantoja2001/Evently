@@ -20,6 +20,10 @@ const Message = sequelize.define('Messages', {
         type: DataTypes.STRING,
         allowNull: true
     },
+    status: {
+        type: DataTypes.STRING,
+        allowNull: true
+    }
 
 }, {
     timestamps: true, // Adds createdAt and updatedAt

@@ -54,6 +54,25 @@ async function seedDatabase() {
                 following: null,
                 friends: null,
             },
+            {
+                name: 'Maja Linden',
+                email: 'maja@umass.edu',
+                username: 'MajaL',
+                password: 'Curlyquail4',
+                bio: 'I like silly',
+                phoneNumber: '555-1235',
+                age: 20,
+                gender: 'Female',
+                socialLinks: JSON.stringify({ twitter: '@alicej', linkedin: 'linkedin.com/in/fpantoja'}),
+                skills: JSON.stringify(['Networking', 'Event Planning']),
+                hobbies: JSON.stringify(['Hiking', 'Cooking']),
+                currentEvents: null,
+                pastEvents: null,
+                pronouns: null,
+                followers: null,
+                following: null,
+                friends: null,
+            },
         ]);
 
         console.log(`${users.length} users created.`);
