@@ -178,6 +178,8 @@ class Messenger extends HTMLElement {
                 }
             }, 60000)
         })
+
+        this.messengerLatestStatus.id = this._data.conversationData.conversationId
     }
 
     async loadMessengerData(userData, roomData){
@@ -203,17 +205,20 @@ class Messenger extends HTMLElement {
         const createdTime = new Date(lastMessage.createdAt).getTime()
         const elapsedTime = Date.now() - createdTime;
 
+        const elementToUpdate = this.shadowRoot.getElementById(`${this._data.conversationData.conversationId}`)
+        console.log(elementToUpdate)
+
         if (roomData) {
-            if (lastMessage.status != "seen" && !roomData.includes(this.currentUser)) {
-                this.messengerLatestStatus.textContent = "•"
+            if (lastMessage.status != "seen" && !roomData.includes(this.currentUser) && this._data.conversationData.members.includes(this.currentUser)) {
+                elementToUpdate.textContent = "•"
             } else {
-                this.messengerLatestStatus.textContent = " "
+                elementToUpdate.textContent = " "
             }
         } else {
-           if (lastMessage.status != "seen" ) {
-                this.messengerLatestStatus.textContent = "•"
+           if (lastMessage.status != "seen" && this._data.conversationData.members.includes(this.currentUser)) {
+                elementToUpdate.textContent = "•"
             } else {
-                this.messengerLatestStatus.textContent = " "
+                elementToUpdate.textContent = " "
             } 
         }
 
@@ -295,7 +300,10 @@ class MessagesExpanded extends HTMLElement {
                     behavior: 'smooth',
                 });
 
-                if (this.currentUser != data.messageData.senderId && data.messageData.status != "seen" ) {
+                // BUG: this is for some reason sending updates to all conversations that the user is apart of may
+                // need some new conversation logic... 
+
+                if (this.currentUser != data.messageData.senderId && data.messageData.status != "seen") {
                     const response = await fetch(`/api/message/u/${data.messageData.messageId}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
