@@ -165,33 +165,31 @@ class Messenger extends HTMLElement {
     connectedCallback() {
         this.socket.on("loadNewInboxes", async (data) => {
             // Get conversation
-            const response = await fetch(`/api/conversations/c/${data.conversationId}`, {method: 'GET'})
+            const response = await fetch(`/api/conversations/c/${data.data.conversationId}`, {method: 'GET'})
             const members = (await response.json()).members
 
             if (members.includes(this.currentUser)){
-                this.loadMessengerData(this._data.senderData)
+                this.loadMessengerData(this._data.senderData, data.inRoom);
             }
 
             setInterval(async () => {
                 if (members.includes(this.currentUser)){
-                    this.loadMessengerData(this._data.senderData)
+                    this.loadMessengerData(this._data.senderData, data.inRoom);
                 }
             }, 60000)
         })
     }
 
-    async loadMessengerData(userData){
+    async loadMessengerData(userData, roomData){
         this.messengerProfileImg.src = userData.pfpImage === null ? '../profile/defaultpfp.jpg' : `data:image/jpeg;base64,${userData.pfpImage}`; 
         this.messengerName.textContent = userData.name;
         // Get latest data
-        this.messengerLatest.textContent = (await this.getLatestMessage()).text;
-        this.messengerElapsed.textContent = `• ${(await this.getLatestMessage()).time}`;
+        const messageContent = await this.getLatestMessage(roomData);
+        this.messengerLatest.textContent = messageContent.text;
+        this.messengerElapsed.textContent = `• ${messageContent.time}`;
     }
 
-    async getLatestMessage(){
-        // Get Current User
-        const currentUser = JSON.parse(localStorage.getItem("auth")).userId
-
+    async getLatestMessage(roomData){
         // Get latest message in conversation 
         const response = await fetch(`/api/message/${this._data.conversationData.conversationId}`)
 
@@ -205,13 +203,23 @@ class Messenger extends HTMLElement {
         const createdTime = new Date(lastMessage.createdAt).getTime()
         const elapsedTime = Date.now() - createdTime;
 
-        // check the seen field then edit the box to show it
-        if (lastMessage.status != "seen") {
-            this.messengerLatestStatus.textContent = "•"
+        if (roomData) {
+            if (lastMessage.status != "seen" && !roomData.includes(this.currentUser)) {
+                this.messengerLatestStatus.textContent = "•"
+            } else {
+                this.messengerLatestStatus.textContent = " "
+            }
         } else {
-            this.messengerLatestStatus.textContent = " "
+           if (lastMessage.status != "seen" ) {
+                this.messengerLatestStatus.textContent = "•"
+            } else {
+                this.messengerLatestStatus.textContent = " "
+            } 
         }
 
+        
+
+        // check the seen field then edit the box to show it
         if (elapsedTime / 1000 < 60) {
             // Less than a minute
             return { text: lastMessage.textMessage, time: '1m' };
@@ -247,6 +255,8 @@ class MessagesExpanded extends HTMLElement {
         this.messengerExpandedName = shadow.querySelector(".messenger-expanded-name");
         this.messengerExpandedView = shadow.querySelector(".messages-expanded-view");
         this.messengerExpandedInput = shadow.querySelector(".message-expanded-input");
+
+        this.currentUser = JSON.parse(localStorage.getItem("auth")).userId
     }
 
     connectedCallback(){
@@ -262,25 +272,20 @@ class MessagesExpanded extends HTMLElement {
 
         // Reload Messages
         this.socket.on("loadNewMessages", async (data) => {
-            // Load Current User
-            const currentUser = JSON.parse(localStorage.getItem("auth")).userId
-
             // Fetch the message sent
             if (data.conversationId === this._data.conversationData.conversationId) {
-                const message = await fetch(`/api/message/m/${data.messageId}`);
                 const newText = document.createElement("text-message-component");
-                const newTextContent = await message.json()
 
-                if (currentUser != newTextContent.senderId) {
+                if (this.currentUser != data.messageData.senderId) {
                     newText.textMessageData = {
                         pfpImg: null,
-                        text: newTextContent.textMessage,
+                        text: data.messageData.textMessage,
                         user: false
                     }
                 } else {
                     newText.textMessageData = {
                         pfpImg: null,
-                        text: newTextContent.textMessage,
+                        text: data.messageData.textMessage,
                         user: true,
                     }
                 }
@@ -290,8 +295,8 @@ class MessagesExpanded extends HTMLElement {
                     behavior: 'smooth',
                 });
 
-                if (newTextContent.status != "seen") {
-                    const response = await fetch(`/api/message/u/${data.messageId}`, {
+                if (this.currentUser != data.messageData.senderId && data.messageData.status != "seen" ) {
+                    const response = await fetch(`/api/message/u/${data.messageData.messageId}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({status: "seen"})
@@ -325,7 +330,7 @@ class MessagesExpanded extends HTMLElement {
 
                     if (!response.ok) {console.log("error")} else {
                         this.messengerExpandedInput.value = " ";
-                        this.socket.emit("newMessage", {conversationId: this._data.conversationData.conversationId, messageId: (await response.json()).messageId})
+                        this.socket.emit("newMessage", {conversationId: this._data.conversationData.conversationId, messageData: (await response.json())})
                     }
                 } catch (error) {
                     console.log("error sending message", error);
@@ -376,12 +381,15 @@ class MessagesExpanded extends HTMLElement {
                     })
 
                     if (!response.ok) {
-                        console.log("error updating delivered status")
+                        console.log("error updating delivered status");
                     }
 
-                    // send an update to socket
+                    this.socket.emit("newMessage", {conversationId: this._data.conversationData.conversationId, messageData: (await response.json())});
                 }
                 // If element has delivered status, change it to seen
+
+                // Can mark the last message of the chat to add time and status features to it 
+                // would need to change for each to some other for loop
                 this.messengerExpandedView.appendChild(newText)
             } 
         });

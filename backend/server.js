@@ -75,8 +75,17 @@ class LocalServer {
 
     // Set up socket
     setupSocket() {
+        // Keeps track of current users
+        const userMap = {}
+
         this.io.on('connection', (socket) => {
-            console.log('A user connected:', socket.id);
+            socket.on("register", (userId) => {
+                userMap[socket.id] = userId;
+            });
+
+            socket.on('disconnect', () => {
+                delete userMap[socket.id];
+            });
 
             // Handle custom events from the client
             socket.on('message', (data) => {
@@ -84,11 +93,6 @@ class LocalServer {
 
                 // Broadcast the message to all connected clients
                 this.io.emit('message', data);
-            });
-
-            // Handle disconnection
-            socket.on('disconnect', () => {
-                console.log('A user disconnected:', socket.id);
             });
 
             socket.on("hello", () => {
@@ -108,8 +112,16 @@ class LocalServer {
 
             socket.on("newMessage", (data) => {
                 const room = `conversation_${data.conversationId}`
-                this.io.to(room).emit("loadNewMessages", data);
-                this.io.emit("loadNewInboxes", data)
+                this.io.to(room).emit("loadNewMessages", data); 
+
+                // check the people in rooms
+                const membersInRoom = Array.from(this.io.sockets.adapter.rooms.get(room) || [])
+                const current = []
+                membersInRoom.forEach((socketIds) => {
+                    current.push(userMap[socketIds])
+                });
+                
+                this.io.emit("loadNewInboxes", {"data": data, inRoom: current})
             })
 
             socket.on("conversationRoom", (data) => {
