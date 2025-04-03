@@ -231,21 +231,38 @@ export class createAccount extends HTMLElement {
 
 
                     if (!response.ok) {
-                        throw new Error('Error');
-                    } else {
-                        console.log("response ok")
-                    }
+                        const error = await response.json()
 
-                    const result = await response.json();
-                    localStorage.setItem("auth", JSON.stringify({userId: result.id}))
+                        if (error.error === "username and email unavailable") {
+                            formErrorOne.innerText = "username unavailable";
+                            userNameInput.classList.add("incorrectInput");
 
-                    if (result) {
-                        this.currentStep ++;
-                        this.shadow.innerHTML = componentTemplates[this.currentStep];
-                        const continueBtn = this.shadow.querySelector('.continueBtn')
-                        continueBtn.addEventListener("click", () => this.handleCreateAccount())
+                            formErrorTwo.innerText = "email unavailable";
+                            emailInput.classList.add("incorrectInput");
+                        } else if (error.error === "username unavailable") {
+                            formErrorOne.innerText = error.error;
+                            userNameInput.classList.add("incorrectInput");
+                        } else if (error.error === "email unavailable") {
+                            formErrorTwo.innerText = "email unavailable";
+                            emailInput.classList.add("incorrectInput");
+                        }
                     } else {
-                        console.error('Failed to create account: ' + (result.message || 'Unknown error'));
+                        formErrorOne.innerText = "";
+                        formErrorTwo.innerText = "";
+                        userNameInput.classList.remove("incorrectInput");
+                        emailInput.classList.remove("incorrectInput");
+
+                        const result = await response.json();
+                        localStorage.setItem("auth", JSON.stringify({userId: result.id}))
+
+                        if (result) {
+                            this.currentStep ++;
+                            this.shadow.innerHTML = componentTemplates[this.currentStep];
+                            const continueBtn = this.shadow.querySelector('.continueBtn')
+                            continueBtn.addEventListener("click", () => this.handleCreateAccount())
+                        } else {
+                            console.error('Failed to create account: ' + (result.message || 'Unknown error'));
+                        }
                     }
                 } catch (error) {
                     console.error('Error during account creation:', error);  

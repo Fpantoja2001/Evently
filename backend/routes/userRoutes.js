@@ -8,6 +8,25 @@ router.post('/user/create', async (req, res) => {
     try {
         const { name, username, email, password, bio, phoneNumber, age, gender, socialLinks, skills, hobbies, pfpImage, currentEvents, pastEvents, pronouns, followers, following, friends } = req.body;
 
+        // Check if Username and Email are unique
+
+        const usernameCheck = await User.findOne({where: {"username": req.body.username}});
+        const emailCheck = await User.findOne({where: {"email": req.body.email}});
+
+        if(usernameCheck && emailCheck){
+            return res.status(401).json({
+                "error": "username and email unavailable"
+            })
+        } else if (usernameCheck) {
+            return res.status(401).json({
+                "error": "username unavailable"
+            })
+        } else if (emailCheck){
+            return res.status(401).json({
+                "error": "email unavailable"
+            })
+        }
+
         const user = await User.create({
             name,
             username,
@@ -24,14 +43,14 @@ router.post('/user/create', async (req, res) => {
             currentEvents: JSON.stringify(currentEvents),
             pastEvents,
             pronouns,
-            followers: JSON.stringify(followers),
+            followers:JSON.stringify(followers),
             following:JSON.stringify(following),
             friends:JSON.stringify(friends),
         });
 
-        res.status(201).json(user);
+        return res.status(201).json(user);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({"error":error.message})
     }
 });
 
