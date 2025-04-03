@@ -19,6 +19,10 @@ const componentTemplates = [
         <label for="passwordInput" class="component-placeholder-three">Password</label>
         <span class="component-form-error-three"></span>
 
+        <input type="password" class="component-input-four" id="confirmPasswordInput" placeholder=" ">
+        <label for="passwordInput" class="component-placeholder-four">Confirm Password</label>
+        <span class="component-form-error-four"></span>
+
         <button class="continueBtn">Sign Up</button>
         </div>
 `,
@@ -81,10 +85,12 @@ export class createAccount extends HTMLElement {
             const userNameInput = this.shadow.querySelector("#userNameInput");
             const emailInput = this.shadow.querySelector("#emailInput");
             const passwordInput = this.shadow.querySelector("#passwordInput");
+            const confirmPasswordInput = this.shadow.querySelector("#confirmPasswordInput");
 
             const formErrorOne = this.shadow.querySelector(".component-form-error-one");
             const formErrorTwo = this.shadow.querySelector(".component-form-error-two");
             const formErrorThree = this.shadow.querySelector(".component-form-error-three");
+            const formErrorFour = this.shadow.querySelector(".component-form-error-four");
 
             //user
             if (userNameInput?.value.trim() === "") {
@@ -112,6 +118,15 @@ export class createAccount extends HTMLElement {
             } else {
                 formErrorThree.innerText = "";
                 passwordInput.classList.remove("incorrectInput");
+            }
+            //confirm password 
+            if(confirmPasswordInput.value != passwordInput.value){
+                formErrorFour.innerText = "Passwords must be the same";
+                confirmPasswordInput.classList.add("incorrectInput");
+                isValid = false;
+            } else {
+                formErrorFour.innerText = "";
+                confirmPasswordInput.classList.remove("incorrectInput");
             }
 
             // console.log({

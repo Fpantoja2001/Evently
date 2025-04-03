@@ -4,7 +4,7 @@
 .logo {
     width: 50px;
     height: 50px;
-    background-color: #ff8800;
+    background-color: #0077b6;
     margin-bottom: 7vh;
     display: flex;
     justify-content: center;
@@ -46,7 +46,7 @@ input:-webkit-autofill {
 .continueBtn {
     width: 30vw;
     height: 4vh;
-    background-color: #ff8800;
+    background-color: #0077b6;
     margin-top: 2vh;
     border-radius: 5px;
     color: white;
@@ -61,7 +61,7 @@ input:-webkit-autofill {
 }
 
 .signInRoute {
-    color: #ff8800;
+    color: #0077b6;
     cursor: pointer;
     margin-left: 5px;
 }
@@ -101,7 +101,7 @@ input:-webkit-autofill {
 
 .component-input-one:focus {
     outline: none !important;
-    border: solid #ff8800 2px;
+    border: solid #0077b6 2px;
     background-color: white;
 }
 
@@ -110,7 +110,7 @@ input:-webkit-autofill {
     color: red;
     height: 0px;
     position: absolute;
-    left: 10%;
+    left:calc(((100% - 30vw))/2);
     top: calc(4vh + .8rem*.3);
 }
 
@@ -147,7 +147,7 @@ input:-webkit-autofill {
 
 .component-input-two:focus {
     outline: none !important;
-    border: solid #ff8800 2px;
+    border: solid #0077b6 2px;
     background-color: white;
 }
 
@@ -156,7 +156,7 @@ input:-webkit-autofill {
     color: red;
     height: 0px;
     position: absolute;
-    left: 10%;
+    left:calc(((100% - 30vw))/2);
     top: calc(10vh + .8rem*.3);
 }
 
@@ -193,7 +193,7 @@ input:-webkit-autofill {
 
 .component-input-three:focus {
     outline: none !important;
-    border: solid #ff8800 2px;
+    border: solid #0077b6 2px;
     background-color: white;
 }
 
@@ -203,8 +203,54 @@ input:-webkit-autofill {
     color: red;
     height: 0px;
     position: absolute;
-    left: 10%;
     top: calc(16vh + .8rem*.3);
+    left:calc(((100% - 30vw))/2);
 }
 
 
+/* Component Input Four */
+
+.component-input-four { 
+    margin-top: 2vh;
+    border-radius: 5px;
+    padding-left: 10px;
+    border: solid grey 2px;
+    width: 30vw;
+    height: 4vh;
+}
+
+.component-placeholder-four {
+    position: absolute;
+    left:calc(((100% - 30vw) + 15px)/2);
+    top: calc(18vh + ((4vh - 1rem)/3));
+    font-size: 1rem;
+    pointer-events: none;
+    background-color:white;
+    transition: all .3s ease-in;
+    border-radius: 5px;
+}
+
+.component-input-four:focus ~ .component-placeholder-four,
+.component-input-four:not(:placeholder-shown) + .component-placeholder-four {
+    top: calc(18vh - .8rem*.75);
+    left:calc(((100% - 30vw) + 15px)/2);
+    font-size: .8rem;
+    color: #03045e;
+    padding: 0 4px;
+}
+
+.component-input-four:focus {
+    outline: none !important;
+    border: solid #0077b6 2px;
+    background-color: white;
+}
+
+.component-form-error-four {
+    font-size: .8rem;
+    margin-bottom: 1vh;
+    color: red;
+    height: 0px;
+    position: absolute;
+    top: calc(22vh + .8rem*.3);
+    left:calc(((100% - 30vw))/2);
+}
