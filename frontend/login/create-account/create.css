@@ -162,13 +162,20 @@ input:-webkit-autofill {
 
 /* Component Input Three */
 
+.component-input-three-wrapper { 
+    display: flex;
+}
+
 .component-input-three { 
     margin-top: 2vh;
     border-radius: 5px;
     padding-left: 10px;
     border: solid grey 2px;
-    width: 30vw;
     height: 4vh;
+    width: 25vw !important;
+    border-right: none;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
 
 .component-placeholder-three {
@@ -210,13 +217,20 @@ input:-webkit-autofill {
 
 /* Component Input Four */
 
+.component-input-four-wrapper { 
+    display: flex;
+}
+
 .component-input-four { 
     margin-top: 2vh;
     border-radius: 5px;
     padding-left: 10px;
     border: solid grey 2px;
-    width: 30vw;
     height: 4vh;
+    width: 25vw !important;
+    border-right: none;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
 
 .component-placeholder-four {
@@ -253,4 +267,92 @@ input:-webkit-autofill {
     position: absolute;
     top: calc(22vh + .8rem*.3);
     left:calc(((100% - 30vw))/2);
+}
+
+/* Show Password Button */
+
+.showPasswordBtn {
+    color: #0077b6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 4vh;
+    margin-top: 2vh;
+    width: 5vw;
+    border-top: solid grey 2px;
+    border-bottom:solid grey 2px;
+    border-right: solid grey 2px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    position: relative;
+}
+
+.show-password-img{
+    color: #0077b6;
+    width: 1.8vw;
+}
+
+.showPasswordBtn:hover {
+    background-color: #0076b625;
+}
+
+.component-input-three:focus ~ .showPasswordBtn,
+.component-input-three:not(:placeholder-shown) + .showPasswordBtn {
+    border-color: #0077b6 !important;
+}
+
+.show-password-hover-text{
+    position: absolute;
+    font-size: .8rem;
+    left: 5.5vw;
+    pointer-events: none;
+    background-color: #0077b6;
+    color: white;
+    padding: 0.5em;
+    white-space: nowrap;
+    border-radius: 5px;
+}
+
+/* Show Confirm Password Button */
+
+.showConfPasswordBtn {
+    color: #0077b6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 4vh;
+    margin-top: 2vh;
+    width: 5vw;
+    border-top: solid grey 2px;
+    border-bottom:solid grey 2px;
+    border-right: solid grey 2px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    position: relative;
+}
+
+.show-conf-password-img{
+    color: #0077b6;
+    width: 1.8vw;
+}
+
+.showConfPasswordBtn:hover {
+    background-color: #0076b625;
+}
+
+.component-input-four:focus ~ .showConfPasswordBtn,
+.component-input-four:not(:placeholder-shown) + .showConfPasswordBtn {
+    border-color: #0077b6 !important;
+}
+
+.show-conf-password-hover-text{
+    position: absolute;
+    font-size: .8rem;
+    left: 5.5vw;
+    pointer-events: none;
+    background-color: #0077b6;
+    color: white;
+    padding: 0.5em;
+    white-space: nowrap;
+    border-radius: 5px;
 }

@@ -15,12 +15,24 @@ const componentTemplates = [
         <label for="emailInput" class="component-placeholder-two">Email Address</label>
         <span class="component-form-error-two"></span>
 
-        <input type="password" class="component-input-three" id="passwordInput" placeholder=" ">
-        <label for="passwordInput" class="component-placeholder-three">Password</label>
+        <div class="component-input-three-wrapper">
+            <input type="password" class="component-input-three" id="passwordInput" placeholder=" ">
+            <label for="passwordInput" class="component-placeholder-three">Password</label>
+            <div class="showPasswordBtn" active="false">
+                <img src="./icons/show-password.svg" alt="show-password" class ="show-password-img"></img>
+                <div class="show-password-hover-text" hidden="true">Show password</div>
+             </div>
+        </div>
         <span class="component-form-error-three"></span>
 
-        <input type="password" class="component-input-four" id="confirmPasswordInput" placeholder=" ">
-        <label for="passwordInput" class="component-placeholder-four">Confirm Password</label>
+        <div class="component-input-four-wrapper">
+            <input type="password" class="component-input-four" id="confirmPasswordInput" placeholder=" ">
+            <label for="passwordInput" class="component-placeholder-four">Confirm Password</label>
+            <div class="showConfPasswordBtn" active="false">
+                <img src="./icons/show-password.svg" alt="show-password" class ="show-conf-password-img"></img>
+                <div class="show-conf-password-hover-text" hidden="true">Show password</div>
+            </div>
+        </div>
         <span class="component-form-error-four"></span>
 
         <button class="continueBtn">Sign Up</button>
@@ -59,6 +71,19 @@ export class createAccount extends HTMLElement {
         this.shadow.append(template.content.cloneNode(true));
         this.continueBtn = this.shadow.querySelector(".continueBtn");
         this.page = document.querySelector(".login-container");
+
+        //
+        this.showPasswordBtn = this.shadow.querySelector(".showPasswordBtn")
+        this.showPasswordHoverText = this.shadow.querySelector(".show-password-hover-text")
+        this.showPasswordImg = this.shadow.querySelector(".show-password-img")
+        //
+        this.showConfPasswordBtn = this.shadow.querySelector(".showConfPasswordBtn")
+        this.showConfPasswordHoverText = this.shadow.querySelector(".show-conf-password-hover-text")
+        this.showConfPasswordImg = this.shadow.querySelector(".show-conf-password-img")
+
+        this.passwordInput = this.shadow.querySelector("#passwordInput");
+        this.confirmPasswordInput = this.shadow.querySelector("#confirmPasswordInput");
+        
         console.log("Shadow DOM initialized.");
         this.currentStep = 0;
     }
@@ -76,6 +101,58 @@ export class createAccount extends HTMLElement {
         });
 
         console.log("Event listener connected.");
+
+        // Password View Functionality
+        this.showPasswordBtn.addEventListener("click", () => {
+            const currentActive = this.showPasswordBtn.getAttribute("active")
+
+            if(currentActive === "true"){
+                this.showPasswordBtn.setAttribute("active", "false")
+                this.showPasswordImg.setAttribute("src","./icons/show-password.svg")
+                this.showPasswordHoverText.innerText = "Show password"
+                this.passwordInput.setAttribute("type", "password")
+            } else {
+                this.showPasswordBtn.setAttribute("active", "true")
+                this.showPasswordImg.setAttribute("src","./icons/hide-password.svg")
+                this.showPasswordHoverText.innerText = "Hide password"
+                this.passwordInput.setAttribute("type", "text")
+            }
+        })
+
+        this.showPasswordBtn.addEventListener("mouseover", () => {
+            this.showPasswordHoverText.removeAttribute("hidden")
+            
+        })
+
+        this.showPasswordBtn.addEventListener("mouseleave", () => {
+            this.showPasswordHoverText.setAttribute("hidden", true);
+        });
+
+        // Confirm Password View Functionality
+        this.showConfPasswordBtn.addEventListener("click", () => {
+            const currentActive = this.showConfPasswordBtn.getAttribute("active")
+
+            if(currentActive === "true"){
+                this.showConfPasswordBtn.setAttribute("active", "false")
+                this.showConfPasswordImg.setAttribute("src","./icons/show-password.svg")
+                this.showConfPasswordHoverText.innerText = "Show password"
+                this.confirmPasswordInput.setAttribute("type", "password")
+            } else {
+                this.showConfPasswordBtn.setAttribute("active", "true")
+                this.showConfPasswordImg.setAttribute("src","./icons/hide-password.svg")
+                this.showConfPasswordHoverText.innerText = "Hide password"
+                this.confirmPasswordInput.setAttribute("type", "text")
+            }
+        })
+
+        this.showConfPasswordBtn.addEventListener("mouseover", () => {
+            this.showConfPasswordHoverText.removeAttribute("hidden")
+            
+        })
+
+        this.showConfPasswordBtn.addEventListener("mouseleave", () => {
+            this.showConfPasswordHoverText.setAttribute("hidden", true);
+        });
     }
 
     async handleCreateAccount() {
