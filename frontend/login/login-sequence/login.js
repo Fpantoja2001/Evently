@@ -90,10 +90,10 @@ export class emailInputComponent extends HTMLElement {
                     this.loginContainer.innerHTML = "";
                     this.loginContainer.appendChild(passwordInputComponent);
                 }else{
-                    this.errorComponent.innerText="No account found w/ this email";
-                    this.errorComponent.style.color="red";
+                    this.errorComponent.innerText = auth.error;
+                    this.errorComponent.style.color = "red";
                 }
-            }catch(error){
+            } catch(error){
                 console.error("cant fetch data",error);
                 this.errorComponent.innerText="Error connecting to server";
             }
@@ -153,14 +153,13 @@ class passwordInputComponent extends HTMLElement {
 
                 if(auth.isAuth){
                     // Saves Session Data
-                    this.errorComponent.innerText="Login successful";
                     localStorage.setItem("auth", JSON.stringify(auth))
                     
                     // Redirects User to home
                     console.log("redirecting to home...");
                     window.location.href = 'http://localhost:3000';
                 } else {
-                    console.log("cannot validate password")
+                    this.errorComponent.innerText= auth.error
                 }
                 
             }catch(error){

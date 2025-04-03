@@ -176,33 +176,39 @@ router.post('/user/login', async (req, res) => {
             const user = await User.findOne({where: {"email": (req.body.email).toLowerCase()}});
             
             if (user){
-                res.json({
+                res.status(200).json({
                     "validEmail": true,
                 })
             } else {
-                throw new Error("cannot validate email")
+                res.status(401).json({
+                    "validEmail": false,
+                    "error": "Email does not exist within database"
+                })
             } 
         }
-        
+
         if("password" in req.body) {
             const user = await User.findOne({where: {"email": (req.body.email).toLowerCase()}});
 
             if(user.password === req.body.password) {
                 req.session.authenticated = true; 
                 req.session.user = req.body;
-                res.json({
+                res.status(200).json({
                     id: req.sessionID,
                     isAuth: req.session.authenticated,
                     userData: req.session.user,
                     userId: user.id,
                 });
             } else {
-                res.json({isAuth: false})
+                res.status(401).json({
+                    isAuth: false,
+                    "error": "Invalid password"
+                })
             }
         }
         
     } catch (error) {
-        res.status(500).json({
+        res.status(401).json({
             error: error.message,
         })
     }
