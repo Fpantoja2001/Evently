@@ -35,6 +35,12 @@ const componentTemplates = [
         </div>
         <span class="component-form-error-four"></span>
 
+        <div class="fieldReqBox">
+            <div>&bull; Email must end with @umass.edu.</div>
+            <div>&bull; Password must be at least 8 characters long.</div>
+            <div>&bull; Password must include at least;  <br>&emsp;- one special character, <br>&emsp;- one number, <br>&emsp;- one uppercase letter.</div>
+        </div>
+
         <button class="continueBtn">Sign Up</button>
         </div>
 `,
@@ -236,7 +242,7 @@ export class createAccount extends HTMLElement {
                         if (error.error === "username and email unavailable") {
                             formErrorOne.innerText = "username unavailable";
                             userNameInput.classList.add("incorrectInput");
-                            
+
                             formErrorTwo.innerText = "email unavailable";
                             emailInput.classList.add("incorrectInput");
                         } else if (error.error === "username unavailable") {
