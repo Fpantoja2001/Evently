@@ -356,3 +356,12 @@ input:-webkit-autofill {
     white-space: nowrap;
     border-radius: 5px;
 }
+
+/* Birthday Entry Box */
+
+#birthdayInput {
+    width: 30vw !important;
+    border-right: solid 2px grey;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}

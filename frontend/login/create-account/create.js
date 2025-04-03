@@ -236,7 +236,7 @@ export class createAccount extends HTMLElement {
                         if (error.error === "username and email unavailable") {
                             formErrorOne.innerText = "username unavailable";
                             userNameInput.classList.add("incorrectInput");
-
+                            
                             formErrorTwo.innerText = "email unavailable";
                             emailInput.classList.add("incorrectInput");
                         } else if (error.error === "username unavailable") {
