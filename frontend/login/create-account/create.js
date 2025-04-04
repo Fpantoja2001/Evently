@@ -36,9 +36,12 @@ const componentTemplates = [
         <span class="component-form-error-four"></span>
 
         <div class="fieldReqBox">
-            <div>&bull; Email must end with @umass.edu.</div>
-            <div>&bull; Password must be at least 8 characters long.</div>
-            <div>&bull; Password must include at least;  <br>&emsp;- one special character, <br>&emsp;- one number, <br>&emsp;- one uppercase letter.</div>
+            <div>&bull; Email must end with @umass.edu.<span id="emailReqLine"></span></div>
+            <div>&bull; Password must be at least 8 characters long.<span id="charReqLine"></span></div>
+            <div>&bull; Password must include at least;<span id="passReqLine"></span></div>
+            <div>&emsp;- one special character,<span id="specialReqLine"></span></div>
+            <div>&emsp;- one number,<span id="numReqLine"></span></div>
+            <div>&emsp;- one uppercase letter.<span id="upperReqLine"></span></div>
         </div>
 
         <button class="continueBtn">Sign Up</button>
@@ -68,6 +71,12 @@ const componentTemplates = [
     `
 ];
 
+/*
+<div>&emsp;- one special character,<span id="specialReqLine">e</span></div>
+<div>&emsp;- one number,<span id="numReqLine">e</span></div>
+<div>&emsp;- one uppercase letter.<span id="upperReqLine">e</span></div>
+*/ 
+
 template.innerHTML = componentTemplates[0];
 
 export class createAccount extends HTMLElement {
@@ -77,18 +86,26 @@ export class createAccount extends HTMLElement {
         this.shadow.append(template.content.cloneNode(true));
         this.continueBtn = this.shadow.querySelector(".continueBtn");
         this.page = document.querySelector(".login-container");
-
-        //
+        // Show Pass Vars
         this.showPasswordBtn = this.shadow.querySelector(".showPasswordBtn")
         this.showPasswordHoverText = this.shadow.querySelector(".show-password-hover-text")
         this.showPasswordImg = this.shadow.querySelector(".show-password-img")
-        //
+        //Conf Pass Vars
         this.showConfPasswordBtn = this.shadow.querySelector(".showConfPasswordBtn")
         this.showConfPasswordHoverText = this.shadow.querySelector(".show-conf-password-hover-text")
         this.showConfPasswordImg = this.shadow.querySelector(".show-conf-password-img")
-
+        //Other Field Vars
         this.passwordInput = this.shadow.querySelector("#passwordInput");
         this.confirmPasswordInput = this.shadow.querySelector("#confirmPasswordInput");
+        this.emailInput = this.shadow.querySelector("#emailInput");
+        this.userNameInput = this.shadow.querySelector("#userNameInput");
+        //Req Field Vars 
+        this.emailReqLine = this.shadow.querySelector('#emailReqLine')
+        this.charReqLine = this.shadow.querySelector('#charReqLine')
+        this.passReqLine = this.shadow.querySelector('#passReqLine')
+        this.specialReqLine = this.shadow.querySelector('#specialReqLine')
+        this.numReqLine = this.shadow.querySelector('#numReqLine')
+        this.upperReqLine = this.shadow.querySelector('#upperReqLine')
         
         console.log("Shadow DOM initialized.");
         this.currentStep = 0;
@@ -100,11 +117,6 @@ export class createAccount extends HTMLElement {
         if (!this.continueBtn) {
             console.error("Button not found in the shadow DOM.");
         }
-
-        this.continueBtn.addEventListener("click", async (e) => {
-            e.preventDefault();
-            await this.handleCreateAccount();
-        });
 
         console.log("Event listener connected.");
 
@@ -159,16 +171,50 @@ export class createAccount extends HTMLElement {
         this.showConfPasswordBtn.addEventListener("mouseleave", () => {
             this.showConfPasswordHoverText.setAttribute("hidden", true);
         });
+
+        // Live Req Updates
+
+        this.emailInput.addEventListener("input", () => {this.validateFields()})
+        this.passwordInput.addEventListener("input", () => {this.validateFields()})
+    }
+
+    validateFields() {
+        const email = this.emailInput.value.split("@")
+        const emailValid = email.length == 2 && email[1] == "umass.edu" && email[0] != "";
+        const passwordLenValid = this.passwordInput.value.length >= 8
+        const passwordReqValid = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/.test(this.passwordInput.value)
+        const passEqual = this.passwordInput.value === this.confirmPasswordInput.value
+
+        if(emailValid){
+            this.emailReqLine.classList.add("reqSatisfied")
+        } else {
+            this.emailReqLine.classList.remove("reqSatisfied")
+        }
+
+        if(passwordLenValid){
+            this.charReqLine.classList.add("reqSatisfied")
+        } else {
+            this.charReqLine.classList.remove("reqSatisfied")
+        }
+
+        if(passwordReqValid){
+            this.passReqLine.classList.add("reqSatisfied")
+        } else {
+            this.passReqLine.classList.remove("reqSatisfied")
+        }
+
+        if(emailValid && passwordLenValid && passwordReqValid && passEqual){
+
+            this.continueBtn.addEventListener("click", async (e) => {
+                e.preventDefault();
+                await this.handleCreateAccount();
+            });
+        }
     }
 
     async handleCreateAccount() {
         if(this.currentStep === 0) {
             let isValid = true;
-
-            const userNameInput = this.shadow.querySelector("#userNameInput");
-            const emailInput = this.shadow.querySelector("#emailInput");
-            const passwordInput = this.shadow.querySelector("#passwordInput");
-            const confirmPasswordInput = this.shadow.querySelector("#confirmPasswordInput");
 
             const formErrorOne = this.shadow.querySelector(".component-form-error-one");
             const formErrorTwo = this.shadow.querySelector(".component-form-error-two");
@@ -176,54 +222,54 @@ export class createAccount extends HTMLElement {
             const formErrorFour = this.shadow.querySelector(".component-form-error-four");
 
             //user
-            if (userNameInput?.value.trim() === "") {
+            if (this.userNameInput?.value.trim() === "") {
                 formErrorOne.innerText = "Please enter a valid username.";
-                userNameInput.classList.add("incorrectInput");
+                this.userNameInput.classList.add("incorrectInput");
                 isValid = false;
             } else {
                 formErrorOne.innerText = "";
-                userNameInput.classList.remove("incorrectInput");
+                this.userNameInput.classList.remove("incorrectInput");
             }
             //email
-            if (!emailInput?.value.includes("@umass.edu")) {
+            if (!this.emailInput?.value.includes("@umass.edu")) {
                 formErrorTwo.innerText = "Please enter a valid umass.edu email.";
-                emailInput.classList.add("incorrectInput");
+                this.emailInput.classList.add("incorrectInput");
                 isValid = false;
             } else {
                 formErrorTwo.innerText = "";
-                emailInput.classList.remove("incorrectInput");
+                this.emailInput.classList.remove("incorrectInput");
             }
             //password
-            if (passwordInput?.value.length < 6) {
-                formErrorThree.innerText = "Password must be at least 6 characters.";
-                passwordInput.classList.add("incorrectInput");
+            if (this.passwordInput?.value.length <= 8) {
+                formErrorThree.innerText = "Password must be at least 8 characters.";
+                this.passwordInput.classList.add("incorrectInput");
                 isValid = false;
             } else {
                 formErrorThree.innerText = "";
-                passwordInput.classList.remove("incorrectInput");
+                this.passwordInput.classList.remove("incorrectInput");
             }
             //confirm password 
-            if(confirmPasswordInput.value != passwordInput.value){
+            if(this.confirmPasswordInput.value != this.passwordInput.value){
                 formErrorFour.innerText = "Passwords must be the same";
-                confirmPasswordInput.classList.add("incorrectInput");
+                this.confirmPasswordInput.classList.add("incorrectInput");
                 isValid = false;
             } else {
                 formErrorFour.innerText = "";
-                confirmPasswordInput.classList.remove("incorrectInput");
+                this.confirmPasswordInput.classList.remove("incorrectInput");
             }
 
             // console.log({
-            //     name: userNameInput.value.trim(),
-            //     email: emailInput.value.trim(),
+            //     name: this.userNameInput.value.trim(),
+            //     email: this.emailInput.value.trim(),
             //     password: passwordInput.value.trim()
             // })
 
             if (isValid) {
                 console.log("Form passed validation. Attempting user creation...");
                 const userData = {
-                    username: userNameInput.value.trim(),
-                    email: (emailInput.value.trim()).toLowerCase(),
-                    password: passwordInput.value.trim(),
+                    username: this.userNameInput.value.trim(),
+                    email: (this.emailInput.value.trim()).toLowerCase(),
+                    password: this.passwordInput.value.trim(),
                 };
 
                 try {
@@ -241,22 +287,22 @@ export class createAccount extends HTMLElement {
 
                         if (error.error === "username and email unavailable") {
                             formErrorOne.innerText = "username unavailable";
-                            userNameInput.classList.add("incorrectInput");
+                            this.userNameInput.classList.add("incorrectInput");
 
                             formErrorTwo.innerText = "email unavailable";
-                            emailInput.classList.add("incorrectInput");
+                            this.emailInput.classList.add("incorrectInput");
                         } else if (error.error === "username unavailable") {
                             formErrorOne.innerText = error.error;
-                            userNameInput.classList.add("incorrectInput");
+                            this.userNameInput.classList.add("incorrectInput");
                         } else if (error.error === "email unavailable") {
                             formErrorTwo.innerText = "email unavailable";
-                            emailInput.classList.add("incorrectInput");
+                            this.emailInput.classList.add("incorrectInput");
                         }
                     } else {
                         formErrorOne.innerText = "";
                         formErrorTwo.innerText = "";
-                        userNameInput.classList.remove("incorrectInput");
-                        emailInput.classList.remove("incorrectInput");
+                        this.userNameInput.classList.remove("incorrectInput");
+                        this.emailInput.classList.remove("incorrectInput");
 
                         const result = await response.json();
                         localStorage.setItem("auth", JSON.stringify({userId: result.id}))

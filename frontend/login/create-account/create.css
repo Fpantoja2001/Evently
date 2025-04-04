@@ -202,6 +202,7 @@ input:-webkit-autofill {
     outline: none !important;
     border: solid #0077b6 2px;
     background-color: white;
+    border-right: none;
 }
 
 .component-form-error-three {
@@ -257,6 +258,7 @@ input:-webkit-autofill {
     outline: none !important;
     border: solid #0077b6 2px;
     background-color: white;
+    border-right: none;
 }
 
 .component-form-error-four {
@@ -379,4 +381,21 @@ input:-webkit-autofill {
     background-color: #0076b625;
     color: black;
     flex-direction: column;
+}
+
+.fieldReqBox div {
+    position: relative;
+}
+
+.fieldReqBox div span {
+    position: absolute;
+    right: 0;
+    top: calc((100% - 1em)/2);
+}
+
+.reqSatisfied {
+    background-color: green !important;
+    height: 1em;
+    width: 1em;
+    border-radius: 100%;
 }
