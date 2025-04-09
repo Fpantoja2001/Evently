@@ -31,12 +31,17 @@
 }
 
 .incorrectInput {
-    border: solid red 2px;
-    color: red;
+    border: solid #d62828 2px !important;
+    color: black;
 }
 
 .incorrectInput:focus {
-    border: solid red 2px !important;
+    border: solid #d62828 2px !important;
+    color: black;
+}
+
+.incorrectInputLabel {
+    color: #d62828 !important;
 }
 
 input:-webkit-autofill {
@@ -292,6 +297,8 @@ input:-webkit-autofill {
 .show-password-img{
     color: #0077b6;
     width: 1.8vw;
+    pointer-events: none;
+    user-select: none;
 }
 
 .showPasswordBtn:hover {
@@ -398,4 +405,31 @@ input:-webkit-autofill {
     height: 1em;
     width: 1em;
     border-radius: 100%;
+}
+
+/* field Error Box */
+
+.component-form-error {
+    width: 30vw;
+    display: flex;
+    background-color: #d6282825;
+    border-radius: 5px;
+    margin-top: 2vh;
+    font-size: .9rem !important;
+    color: black;
+    flex-direction: column;
+    height: fit-content;
+    opacity: 0;
+    border: #d62828 solid 2px;
+    padding: 10px;
+    display: none !important;
+}
+
+.visible {
+    opacity: 1;
+    display: block !important;
+}
+
+.hidden {
+    display: none !important;
 }
