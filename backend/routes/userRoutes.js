@@ -8,25 +8,6 @@ router.post('/user/create', async (req, res) => {
     try {
         const { name, username, email, password, bio, phoneNumber, age, gender, socialLinks, skills, hobbies, pfpImage, currentEvents, pastEvents, pronouns, followers, following, friends } = req.body;
 
-        // Check if Username and Email are unique
-
-        const usernameCheck = await User.findOne({where: {"username": req.body.username}});
-        const emailCheck = await User.findOne({where: {"email": req.body.email}});
-
-        if(usernameCheck && emailCheck){
-            return res.status(401).json({
-                "error": "username and email unavailable"
-            })
-        } else if (usernameCheck) {
-            return res.status(401).json({
-                "error": "username unavailable"
-            })
-        } else if (emailCheck){
-            return res.status(401).json({
-                "error": "email unavailable"
-            })
-        }
-
         const user = await User.create({
             name,
             username,
@@ -54,6 +35,7 @@ router.post('/user/create', async (req, res) => {
     }
 });
 
+
 // Get all users
 router.get('/user/getAll', async (req, res) => {
     try {
@@ -74,19 +56,26 @@ router.get('/user/getAll', async (req, res) => {
     }
 });
 
-// Check Username availability
+// Check Username and Email availability
 router.post('/user/check', async (req, res) => {
-    try {
-        const user = await User.findOne({where: {"username": req.body.username}});
+    const usernameCheck = await User.findOne({where: {"username": req.body.username}});
+    const emailCheck = await User.findOne({where: {"email": req.body.email}});
 
-        if (user){
-            res.status(200).json({exists: true});
-        } else {
-            res.status(200).json({exists: false});
-        }
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+    if(usernameCheck && emailCheck){
+        return res.status(401).json({
+            "error": "username and email unavailable"
+        })
+    } else if (usernameCheck) {
+        return res.status(401).json({
+            "error": "username unavailable"
+        })
+    } else if (emailCheck){
+        return res.status(401).json({
+            "error": "email unavailable"
+        })
     }
+
+    return res.status(200).json({"message": "both username and email available"})
 });
 
 // Get a user by ID

@@ -448,3 +448,20 @@ input:-webkit-autofill {
     cursor: pointer;
     margin-left:5px;
 }
+
+.navBack {
+    width: 30vw;
+    position: relative;
+    display: flex;
+    margin-bottom: 6vh;
+    height: 4vh;
+    display: flex;
+    align-items: center;
+}
+.navBack-img {
+    width: 1.5vw;
+    fill: #0077b6;
+    position: absolute;
+    left: 0;
+    cursor: pointer;
+}

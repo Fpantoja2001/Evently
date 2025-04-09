@@ -51,7 +51,11 @@ const componentTemplates = [
 `,
 `
         <link rel="stylesheet" href="../login/create-account/create.css">
+        <div class="navBack">
+            <img src="./icons/arrow-left.svg" alt="arrow-left" class ="navBack-img"></img>
+        </div>
         <div class="logo">logo</div>
+        
         <slot class="component-title">Enter your personal info</slot>
 
         <div class="component-container">
@@ -108,9 +112,13 @@ export class createAccount extends HTMLElement {
         this.passEqualReqLine = this.shadow.querySelector('#passEqualReqLine')
         // Login Route
         this.loginRoute = this.shadow.querySelector(".loginRoute")
-        
+        // Form Error
+        this.formError = this.shadow.querySelector(".component-form-error");
+
         console.log("Shadow DOM initialized.");
         this.currentStep = 0;
+        this.userdata = {}
+        this.addEvent = true;
     }
 
     async connectedCallback() {
@@ -236,10 +244,13 @@ export class createAccount extends HTMLElement {
         if(emailValid && passwordLenValid && passwordReqValid && passEqual && usernameValid){
             this.formReq.classList.add("hidden")
 
-            this.continueBtn.addEventListener("click", async (e) => {
-                e.preventDefault();
-                await this.handleCreateAccount();
-            });
+            if(this.addEvent) {
+                this.continueBtn.addEventListener("click", async (e) => {
+                    e.preventDefault();
+                    await this.handleCreateAccount();
+                });
+                this.addEvent =  false;
+            } 
         } else {
             this.formReq.classList.remove("hidden")
         }
@@ -247,31 +258,41 @@ export class createAccount extends HTMLElement {
 
     async handleCreateAccount() {
         if(this.currentStep === 0) {
-            const formError = this.shadow.querySelector(".component-form-error");
+            // Refills data incase of page switch
+            if (this.userData) {
+                this.userNameInput.value = this.userData.username
+                this.emailInput.value = this.userData.email
+                this.passwordInput.value = this.userData.password
+            }
+
+            this.formError.innerHTML = ""
             const usernameLabel = this.shadow.querySelector(".component-placeholder-one")
             const emailLabel = this.shadow.querySelector(".component-placeholder-two")
 
-            console.log("Form passed validation. Attempting user creation...");
-            const userData = {
+            this.userData = {
                 username: this.userNameInput.value.trim(),
                 email: (this.emailInput.value.trim()).toLowerCase(),
                 password: this.passwordInput.value.trim(),
             };
 
             try {
-                console.log(JSON.stringify(userData))
-
-                const response = await fetch('http://localhost:3000/api/user/create', {
+                const response = await fetch('http://localhost:3000/api/user/check', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(userData)
+                    body: JSON.stringify(this.userData)
                 });
 
+                console.log(response)
+
+                this.userNameInput.classList.remove("incorrectInput");
+                this.emailInput.classList.remove("incorrectInput");
+                usernameLabel.classList.remove("incorrectInputLabel");
+                emailLabel.classList.remove("incorrectInputLabel");
 
                 if (!response.ok) {
                     const error = await response.json()
                     const errorMessage = document.createElement("div")
-                    formError.classList.add("visible")
+                    this.formError.classList.add("visible")
 
                     if (error.error === "username and email unavailable") {
                         errorMessage.innerText = "username & email unavailable";
@@ -288,26 +309,19 @@ export class createAccount extends HTMLElement {
                         this.emailInput.classList.add("incorrectInput");
                         emailLabel.classList.add("incorrectInputLabel");
                     }
-                    formError.appendChild(errorMessage)
+                    this.formError.appendChild(errorMessage)
+                    this.userData = {}
                 } else {
-                    formError.innerHTML = '';
-                    formError.classList.remove("visible")
+                    this.formError.innerHTML = '';
+                    this.formError.classList.remove("visible")
                     this.userNameInput.classList.remove("incorrectInput");
                     this.emailInput.classList.remove("incorrectInput");
                     usernameLabel.classList.remove("incorrectInputLabel");
                     emailLabel.classList.remove("incorrectInputLabel");
-
-                    const result = await response.json();
-                    localStorage.setItem("auth", JSON.stringify({userId: result.id}))
-
-                    if (result) {
-                        this.currentStep ++;
-                        this.shadow.innerHTML = componentTemplates[this.currentStep];
-                        const continueBtn = this.shadow.querySelector('.continueBtn')
-                        continueBtn.addEventListener("click", () => this.handleCreateAccount())
-                    } else {
-                        console.error('Failed to create account: ' + (result.message || 'Unknown error'));
-                    }
+                    this.currentStep ++;
+                    this.shadow.innerHTML = componentTemplates[this.currentStep];
+                    const continueBtn = this.shadow.querySelector('.continueBtn')
+                    continueBtn.addEventListener("click", () => this.handleCreateAccount())
                 }
             } catch (error) {
                 console.error('Error during account creation:', error);  
@@ -315,7 +329,6 @@ export class createAccount extends HTMLElement {
             
         } else if (this.currentStep === 1){
             // Turning Fields into Variables
-
             const firstNameInput = this.shadow.getElementById("firstNameInput")
             const lastNameInput = this.shadow.getElementById("lastNameInput")
             const BirthdayInput = this.shadow.getElementById("birthdayInput")
@@ -380,15 +393,11 @@ export class createAccount extends HTMLElement {
             
             if (isValid) {
                 console.log("Form validation passed, updating account details")
+                // Adding new Data Fields
+                userData.name = firstNameInput.value.trim() + " " + lastNameInput.value.trim();
+                userData.age = userAge;
 
-                const userData = {
-                    name: firstNameInput.value.trim() + " " + lastNameInput.value.trim(),
-                    age: userAge,  
-                }
-
-                const userId = JSON.parse(localStorage.getItem("auth")).userId
-
-                const response = await fetch(`/api/user/${userId}`, {
+                const response = await fetch(`/api/user/create`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -398,8 +407,10 @@ export class createAccount extends HTMLElement {
 
                 if (response.ok) {
                     const result = await response.json(); 
-                    console.log("User's name and age added successfully", result)
+                    localStorage.setItem("auth", JSON.stringify({userId: result.id}))
+                    console.log("User created successfully", result)
                     this.navigateToNextStep()
+                    
                 } else {
                     // error handling TBA
                 }   
