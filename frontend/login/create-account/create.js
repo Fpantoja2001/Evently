@@ -44,7 +44,10 @@ const componentTemplates = [
         <div class="component-form-error" hidden="true"></div>
 
         <button class="continueBtn">Sign Up</button>
+        <span class="loginText">Already have an account?<span class="loginRoute"> Login </span></span>
         </div>
+
+        
 `,
 `
         <link rel="stylesheet" href="../login/create-account/create.css">
@@ -103,6 +106,8 @@ export class createAccount extends HTMLElement {
         this.numReqLine = this.shadow.querySelector('#numReqLine')
         this.upperReqLine = this.shadow.querySelector('#upperReqLine')
         this.passEqualReqLine = this.shadow.querySelector('#passEqualReqLine')
+        // Login Route
+        this.loginRoute = this.shadow.querySelector(".loginRoute")
         
         console.log("Shadow DOM initialized.");
         this.currentStep = 0;
@@ -131,6 +136,15 @@ export class createAccount extends HTMLElement {
         this.emailInput.addEventListener("input", () => {this.validateFields()})
         this.passwordInput.addEventListener("input", () => {this.validateFields()})
         this.confirmPasswordInput.addEventListener("input", () => {this.validateFields()})
+        
+        // Login Route
+        this.loginRoute.addEventListener("click", (e) => {
+            e.preventDefault()
+            const newC = document.createElement("email-input-component")
+            newC.classList.add("login-component")
+            this.page.innerHTML = ""
+            this.page.appendChild(newC)
+        })
     }
 
     setHidden() {

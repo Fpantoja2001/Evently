@@ -433,3 +433,18 @@ input:-webkit-autofill {
 .hidden {
     display: none !important;
 }
+
+.loginText {
+    margin-top: 2vh;
+    color: black;
+    font-size: 1rem;
+    width: 150%;
+    display: flex;
+    justify-content: center;
+}
+
+.loginRoute {
+    color: #0077b6;
+    cursor: pointer;
+    margin-left:5px;
+}

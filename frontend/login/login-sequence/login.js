@@ -101,7 +101,7 @@ export class emailInputComponent extends HTMLElement {
         this.signUpRoute.addEventListener("click", (e) => {
             e.preventDefault();
             const signUpComponent = document.createElement("create-account-component");
-            signUpComponent.classList.add(".sign-up-component");
+            signUpComponent.classList.add("sign-up-component");
             this.loginComponent.remove()
             this.loginContainer.appendChild(signUpComponent);
         });
