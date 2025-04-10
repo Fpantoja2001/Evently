@@ -195,11 +195,11 @@ export class createAccount extends HTMLElement {
         }
     
         if (this.navBack && this.currentStep === 1) {
-          this.navBack.addEventListener("click", this.handleNavBack);
+            this.navBack.addEventListener("click", this.handleNavBack);
         }
     
         if (this.continueBtn && !this.addEvent) {
-          this.continueBtn.addEventListener("click", this.handleCreateAccount);
+            this.continueBtn.addEventListener("click", this.handleCreateAccount);
         }
     }
     
@@ -211,6 +211,7 @@ export class createAccount extends HTMLElement {
         }
         this.currentStep--;
         this.shadow.innerHTML = componentTemplates[this.currentStep];
+        this.addEvent = true;
         
         setTimeout(() => {
             this.setupDOMReferences();
@@ -318,6 +319,12 @@ export class createAccount extends HTMLElement {
             this.formReq.classList.add("hidden")
 
             if(this.addEvent) {
+                this.userData = {
+                    username: this.userNameInput.value.trim(),
+                    email: (this.emailInput.value.trim()).toLowerCase(),
+                    password: this.passwordInput.value.trim(),
+                };
+
                 this.continueBtn.addEventListener("click", async (e) => {
                     e.preventDefault();
                     await this.handleCreateAccount();
@@ -341,12 +348,6 @@ export class createAccount extends HTMLElement {
             this.formError.innerHTML = "";
             const usernameLabel = this.shadow.querySelector(".component-placeholder-one");
             const emailLabel = this.shadow.querySelector(".component-placeholder-two");
-
-            this.userData = {
-                username: this.userNameInput.value.trim(),
-                email: (this.emailInput.value.trim()).toLowerCase(),
-                password: this.passwordInput.value.trim(),
-            };
     
             // Verifying Username and Email are both Available
             try {
@@ -393,6 +394,13 @@ export class createAccount extends HTMLElement {
                     emailLabel.classList.remove("incorrectInputLabel");
     
                     // Loading Second Step Fields
+                    
+                    this.userData = {
+                        username: this.userNameInput.value.trim(),
+                        email: (this.emailInput.value.trim()).toLowerCase(),
+                        password: this.passwordInput.value.trim(),
+                    }; 
+
                     this.currentStep++;
                     this.shadow.innerHTML = componentTemplates[this.currentStep];
                     
@@ -405,7 +413,11 @@ export class createAccount extends HTMLElement {
                         if (this.continueBtn) {
                             this.continueBtn.addEventListener("click", this.handleCreateAccount);
                         }
+
+                        console.log(this.userData)
+
                         
+
                         // Set up back navigation
                         if (this.navBack) {
                             this.navBack.addEventListener("click", this.handleNavBack);
