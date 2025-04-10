@@ -17,7 +17,7 @@ const componentTemplates = [
     `
         <link rel="stylesheet" href="../login/login-sequence/login.css"">
         <div class="logo">logo</div>
-        <slot class="component-title"></slot>
+        <slot class="component-title">Enter your password</slot>
 
         <div class="component-container">
             <form class="component-password-form">

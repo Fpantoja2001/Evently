@@ -52,7 +52,7 @@ const componentTemplates = [
 `
         <link rel="stylesheet" href="../login/create-account/create.css">
         <div class="navBack">
-            <img src="./icons/arrow-left.svg" alt="arrow-left" class ="navBack-img"></img>
+            <img src="./icons/arrow-left.svg" alt="arrow-left" id="navBack" class ="navBack-img"></img>
         </div>
         <div class="logo">logo</div>
         
@@ -61,15 +61,14 @@ const componentTemplates = [
         <div class="component-container">
             <input type="text" class="component-input-one" id="firstNameInput" placeholder=" ">
             <label for="firstName" class="component-placeholder-one">First Name</label>
-            <span class="component-form-error-one"></span>
 
             <input type="text" class="component-input-two" id="lastNameInput" placeholder=" ">
             <label for="lastName" class="component-placeholder-two">Last Name</label>
-            <span class="component-form-error-two"></span>
 
             <input type="text" class="component-input-three" id="birthdayInput" placeholder=" ">
             <label for="lastName" class="component-placeholder-three">Birthday (MMDDYYYY)</label>
-            <span class="component-form-error-three"></span>
+
+            <div class="component-form-error" hidden="true"></div>
 
             <button class="continueBtn">Continue</button>
             <span class="signInT ext">Already have an account?<span class="signInRoute"> Sign in </span></span>
@@ -90,72 +89,143 @@ export class createAccount extends HTMLElement {
         super();
         this.shadow = this.attachShadow({ mode: "open" });
         this.shadow.append(template.content.cloneNode(true));
-        this.continueBtn = this.shadow.querySelector(".continueBtn");
-        this.page = document.querySelector(".login-container");
-        // Show Pass Vars
-        this.showPasswordBtn = this.shadow.querySelector(".showPasswordBtn")
-        //Conf Pass Vars
-        this.showConfPasswordBtn = this.shadow.querySelector(".showConfPasswordBtn")
-        //Other Field Vars
-        this.passwordInput = this.shadow.querySelector("#passwordInput");
-        this.confirmPasswordInput = this.shadow.querySelector("#confirmPasswordInput");
-        this.emailInput = this.shadow.querySelector("#emailInput");
-        this.userNameInput = this.shadow.querySelector("#userNameInput");
-        //Req Field Vars 
-        this.formReq = this.shadow.querySelector('.fieldReqBox')
-        this.emailReqLine = this.shadow.querySelector('#emailReqLine')
-        this.charReqLine = this.shadow.querySelector('#charReqLine')
-        this.passReqLine = this.shadow.querySelector('#passReqLine')
-        this.specialReqLine = this.shadow.querySelector('#specialReqLine')
-        this.numReqLine = this.shadow.querySelector('#numReqLine')
-        this.upperReqLine = this.shadow.querySelector('#upperReqLine')
-        this.passEqualReqLine = this.shadow.querySelector('#passEqualReqLine')
-        // Login Route
-        this.loginRoute = this.shadow.querySelector(".loginRoute")
-        // Form Error
-        this.formError = this.shadow.querySelector(".component-form-error");
+        this.page = document.querySelector(".login-container")
 
-        console.log("Shadow DOM initialized.");
+        // Bind all methods that will be used as event listeners
+        // this.viewField = this.viewField.bind(this);
+        // this.removeHidden = this.removeHidden.bind(this);
+        // this.setHidden = this.setHidden.bind(this);
+        this.validateFields = this.validateFields.bind(this);
+        this.handleCreateAccount = this.handleCreateAccount.bind(this);
+
+        // Initialize refs to null
+        this.continueBtn = null;
+        this.showPasswordBtn = null;
+        this.showConfPasswordBtn = null;
+        this.emailInput = null;
+        this.passwordInput = null;
+        this.confirmPasswordInput = null;
+        this.userNameInput = null;
+        this.loginRoute = null;
+        this.navBack = null;
+        this.formReq = null;
+        this.emailReqLine = null;
+        this.charReqLine = null;
+        this.passReqLine = null;
+        this.specialReqLine = null;
+        this.numReqLine = null;
+        this.upperReqLine = null;
+        this.passEqualReqLine = null;
+        this.formError = null;
+        this.firstNameInput = null;
+        this.lastNameInput = null;
+        this.birthdayInput = null;
+
         this.currentStep = 0;
-        this.userdata = {}
+        this.userData = null;
+        this.personalData = null;
         this.addEvent = true;
     }
 
     async connectedCallback() {
-        console.log("create account component connected");
-
-        if (!this.continueBtn) {
-            console.error("Button not found in the shadow DOM.");
-        }
-
-        console.log("Event listener connected.");
-
-        // Password View Functionality
-        this.showPasswordBtn.addEventListener("click", this.viewField)
-        this.showPasswordBtn.addEventListener("mouseover", this.removeHidden)
-        this.showPasswordBtn.addEventListener("mouseleave", this.setHidden);
-
-        // Confirm Password View Functionality
-        this.showConfPasswordBtn.addEventListener("click", this.viewField)
-        this.showConfPasswordBtn.addEventListener("mouseover", this.removeHidden)
-        this.showConfPasswordBtn.addEventListener("mouseleave", this.setHidden);
-
-        // Live Req Updates
-        this.emailInput.addEventListener("input", () => {this.validateFields()})
-        this.passwordInput.addEventListener("input", () => {this.validateFields()})
-        this.confirmPasswordInput.addEventListener("input", () => {this.validateFields()})
-        
-        // Login Route
-        this.loginRoute.addEventListener("click", (e) => {
-            e.preventDefault()
-            const newC = document.createElement("email-input-component")
-            newC.classList.add("login-component")
-            this.page.innerHTML = ""
-            this.page.appendChild(newC)
-        })
+        this.setupDOMReferences();
+        this.attachListeners();
     }
 
+    setupDOMReferences() {
+        this.continueBtn = this.shadow.querySelector(".continueBtn");
+        this.showPasswordBtn = this.shadow.querySelector(".showPasswordBtn");
+        this.showConfPasswordBtn = this.shadow.querySelector(".showConfPasswordBtn");
+        this.emailInput = this.shadow.querySelector("#emailInput");
+        this.passwordInput = this.shadow.querySelector("#passwordInput");
+        this.confirmPasswordInput = this.shadow.querySelector("#confirmPasswordInput");
+        this.userNameInput = this.shadow.querySelector("#userNameInput");
+        this.loginRoute = this.shadow.querySelector(".loginRoute");
+        this.navBack = this.shadow.getElementById("navBack");
+        this.formReq = this.shadow.querySelector('.fieldReqBox');
+        this.emailReqLine = this.shadow.querySelector('#emailReqLine');
+        this.charReqLine = this.shadow.querySelector('#charReqLine');
+        this.passReqLine = this.shadow.querySelector('#passReqLine');
+        this.specialReqLine = this.shadow.querySelector('#specialReqLine');
+        this.numReqLine = this.shadow.querySelector('#numReqLine');
+        this.upperReqLine = this.shadow.querySelector('#upperReqLine');
+        this.passEqualReqLine = this.shadow.querySelector('#passEqualReqLine');
+        this.formError = this.shadow.querySelector(".component-form-error");
+
+        if(this.currentStep === 1) {
+            this.firstNameInput = this.shadow.getElementById("firstNameInput");
+            this.lastNameInput = this.shadow.getElementById("lastNameInput");
+            this.birthdayInput = this.shadow.getElementById("birthdayInput");
+        }
+    }
+
+    attachListeners() {
+        if (this.showPasswordBtn && this.currentStep === 0) {
+          this.showPasswordBtn.addEventListener("click", this.viewField);
+          this.showPasswordBtn.addEventListener("mouseover", this.removeHidden);
+          this.showPasswordBtn.addEventListener("mouseleave", this.setHidden);
+        }
+    
+        if (this.showConfPasswordBtn && this.currentStep === 0) {
+          this.showConfPasswordBtn.addEventListener("click", this.viewField);
+          this.showConfPasswordBtn.addEventListener("mouseover", this.removeHidden);
+          this.showConfPasswordBtn.addEventListener("mouseleave", this.setHidden);
+        }
+    
+        if (this.emailInput && this.currentStep === 0) {
+          this.emailInput.addEventListener("input", this.validateFields);
+        }
+    
+        if (this.passwordInput && this.currentStep === 0) {
+          this.passwordInput.addEventListener("input", this.validateFields);
+        }
+    
+        if (this.confirmPasswordInput && this.currentStep === 0) {
+          this.confirmPasswordInput.addEventListener("input", this.validateFields);
+        }
+    
+        if (this.loginRoute) {
+          this.loginRoute.addEventListener("click", (e) => {
+            e.preventDefault();
+            const newC = document.createElement("email-input-component");
+            newC.classList.add("login-component");
+            this.page.innerHTML = "";
+            this.page.appendChild(newC);
+          });
+        }
+    
+        if (this.navBack && this.currentStep === 1) {
+          this.navBack.addEventListener("click", this.handleNavBack);
+        }
+    
+        if (this.continueBtn && !this.addEvent) {
+          this.continueBtn.addEventListener("click", this.handleCreateAccount);
+        }
+    }
+    
+    handleNavBack = () => {
+        this.personalData = {
+            firstName: this.firstNameInput.value.trim(),
+            lastName: this.lastNameInput.value.trim(),
+            birthday: this.birthdayInput.value.trim()
+        }
+        this.currentStep--;
+        this.shadow.innerHTML = componentTemplates[this.currentStep];
+        
+        setTimeout(() => {
+            this.setupDOMReferences();
+            this.attachListeners();
+            if (this.userData) {
+                this.userNameInput.value = this.userData.username;
+                this.emailInput.value = this.userData.email;
+                this.passwordInput.value = this.userData.password; 
+            }
+            this.validateFields();
+        }, 0);
+    };
+
     setHidden() {
+        // Sets hover texts hidden
         const component = document.querySelector(".sign-up-component");
         const shadow = component.shadowRoot;
         const element = this.className.includes("Conf") ? "conf" : "pass";
@@ -164,6 +234,7 @@ export class createAccount extends HTMLElement {
     }
 
     removeHidden() {
+        // Sets hover text visible
         const component = document.querySelector(".sign-up-component");
         const shadow = component.shadowRoot;
         const element = this.className.includes("Conf") ? "conf" : "pass";
@@ -172,6 +243,7 @@ export class createAccount extends HTMLElement {
     }
 
     viewField() { 
+        // Enabling the view field functionality for conf and pass
         const currentActive = this.getAttribute("active")
         const component = document.querySelector(".sign-up-component");
         const shadow = component.shadowRoot;
@@ -196,6 +268,7 @@ export class createAccount extends HTMLElement {
     }
 
     validateFields() {
+        // Validating all first page fields are correct
         const email = this.emailInput.value.split("@")
         const emailValid = email.length == 2 && email[1] == "umass.edu" && email[0] != "";
         const passwordLenValid = this.passwordInput.value.length >= 8
@@ -257,122 +330,138 @@ export class createAccount extends HTMLElement {
     }
 
     async handleCreateAccount() {
-        if(this.currentStep === 0) {
-            // Refills data incase of page switch
+        if (this.currentStep === 0) {
+            // Refills data in case of page switch
             if (this.userData) {
-                this.userNameInput.value = this.userData.username
-                this.emailInput.value = this.userData.email
-                this.passwordInput.value = this.userData.password
+                this.userNameInput.value = this.userData.username;
+                this.emailInput.value = this.userData.email;
+                this.passwordInput.value = this.userData.password;
             }
-
-            this.formError.innerHTML = ""
-            const usernameLabel = this.shadow.querySelector(".component-placeholder-one")
-            const emailLabel = this.shadow.querySelector(".component-placeholder-two")
+    
+            this.formError.innerHTML = "";
+            const usernameLabel = this.shadow.querySelector(".component-placeholder-one");
+            const emailLabel = this.shadow.querySelector(".component-placeholder-two");
 
             this.userData = {
                 username: this.userNameInput.value.trim(),
                 email: (this.emailInput.value.trim()).toLowerCase(),
                 password: this.passwordInput.value.trim(),
             };
-
+    
+            // Verifying Username and Email are both Available
             try {
                 const response = await fetch('http://localhost:3000/api/user/check', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(this.userData)
                 });
-
-                console.log(response)
-
+    
                 this.userNameInput.classList.remove("incorrectInput");
                 this.emailInput.classList.remove("incorrectInput");
                 usernameLabel.classList.remove("incorrectInputLabel");
                 emailLabel.classList.remove("incorrectInputLabel");
-
+    
                 if (!response.ok) {
-                    const error = await response.json()
-                    const errorMessage = document.createElement("div")
-                    this.formError.classList.add("visible")
-
+                    const error = await response.json();
+                    const errorMessage = document.createElement("div");
+                    this.formError.classList.add("visible");
+    
                     if (error.error === "username and email unavailable") {
-                        errorMessage.innerText = "username & email unavailable";
+                        errorMessage.innerText = "• username & email unavailable";
                         this.userNameInput.classList.add("incorrectInput");
                         this.emailInput.classList.add("incorrectInput");
                         usernameLabel.classList.add("incorrectInputLabel");
                         emailLabel.classList.add("incorrectInputLabel");
                     } else if (error.error === "username unavailable") {
-                        errorMessage.innerText = error.error;
+                        errorMessage.innerText = "• " + error.error;
                         this.userNameInput.classList.add("incorrectInput");
                         usernameLabel.classList.add("incorrectInputLabel");
                     } else if (error.error === "email unavailable") {
-                        errorMessage.innerText = "email unavailable";
+                        errorMessage.innerHTML = "• email unavailable";
                         this.emailInput.classList.add("incorrectInput");
                         emailLabel.classList.add("incorrectInputLabel");
                     }
-                    this.formError.appendChild(errorMessage)
-                    this.userData = {}
+                    this.formError.appendChild(errorMessage);
+                    this.userData = null;
                 } else {
+                    // Clearing current Field changes
                     this.formError.innerHTML = '';
-                    this.formError.classList.remove("visible")
+                    this.formError.classList.remove("visible");
                     this.userNameInput.classList.remove("incorrectInput");
                     this.emailInput.classList.remove("incorrectInput");
                     usernameLabel.classList.remove("incorrectInputLabel");
                     emailLabel.classList.remove("incorrectInputLabel");
-                    this.currentStep ++;
+    
+                    // Loading Second Step Fields
+                    this.currentStep++;
                     this.shadow.innerHTML = componentTemplates[this.currentStep];
-                    const continueBtn = this.shadow.querySelector('.continueBtn')
-                    continueBtn.addEventListener("click", () => this.handleCreateAccount())
+                    
+                    // Use setTimeout to ensure DOM is ready before setting up
+                    setTimeout(() => {
+                        this.setupDOMReferences();
+                        this.attachListeners();
+
+                        // Set up continue button for step 1
+                        if (this.continueBtn) {
+                            this.continueBtn.addEventListener("click", this.handleCreateAccount);
+                        }
+                        
+                        // Set up back navigation
+                        if (this.navBack) {
+                            this.navBack.addEventListener("click", this.handleNavBack);
+                        }
+
+                        if(this.personalData){
+                            this.firstNameInput.value = this.personalData.firstName;
+                            this.lastNameInput.value = this.personalData.lastName;
+                            this.birthdayInput.value = this.personalData.birthday;
+                        }
+                    }, 0);
                 }
             } catch (error) {
                 console.error('Error during account creation:', error);  
             }
-            
-        } else if (this.currentStep === 1){
-            // Turning Fields into Variables
-            const firstNameInput = this.shadow.getElementById("firstNameInput")
-            const lastNameInput = this.shadow.getElementById("lastNameInput")
-            const BirthdayInput = this.shadow.getElementById("birthdayInput")
-
-            const formErrorOne = this.shadow.querySelector(".component-form-error-one");
-            const formErrorTwo = this.shadow.querySelector(".component-form-error-two");
-            const formErrorThree = this.shadow.querySelector(".component-form-error-three");
+        } else if (this.currentStep === 1) {
+            // Getting Basic Personal Info
+            this.formError.innerHTML = ""
             let userAge = 0;
             let isValid = true; 
 
-            if (firstNameInput.value.trim() === "" || /\d/.test(firstNameInput.value.trim())) {
-                formErrorOne.innerText = "Please enter a valid Name.";
-                firstNameInput.classList.add("incorrectInput");
+            const firstNameErrorMessage = document.createElement("div")
+            if (this.firstNameInput.value.trim() === "" || /\d/.test(this.firstNameInput.value.trim())) {
+                firstNameErrorMessage.innerText = "• invalid first name";
+                this.formError.appendChild(firstNameErrorMessage)
+                this.firstNameInput.classList.add("incorrectInput");
                 isValid = false;
             } else {
-                formErrorOne.innerText = "";
-                firstNameInput.classList.remove("incorrectInput");
+                this.firstNameInput.classList.remove("incorrectInput");
                 isValid = true;
             }
 
-            if (lastNameInput.value.trim() === "" || /\d/.test(lastNameInput.value.trim())) {
-                formErrorTwo.innerText = "Please enter a valid Last Name.";
-                lastNameInput.classList.add("incorrectInput");
+            const lastNameErrorMessage = document.createElement("div")
+            if (this.lastNameInput.value.trim() === "" || /\d/.test(this.lastNameInput.value.trim())) {
+                lastNameErrorMessage.innerText = "• invalid last name";
+                this.formError.appendChild(lastNameErrorMessage)
+                this.lastNameInput.classList.add("incorrectInput");
                 isValid = false;
             } else {
-                formErrorTwo.innerText = "";
-                lastNameInput.classList.remove("incorrectInput");
+                this.lastNameInput.classList.remove("incorrectInput");
                 isValid = true;
             }
 
-            if (BirthdayInput.value.trim() === "" || /[A-Za-z]/.test(BirthdayInput.value.trim()) || BirthdayInput.value.trim().length < 8 || BirthdayInput.value.trim().length > 8) {
-                formErrorThree.innerText = "Please enter a valid Birthdate.";
-                BirthdayInput.classList.add("incorrectInput");
+            const birthdayErrorMessage = document.createElement("div")
+            if (this.birthdayInput.value.trim() === "" || /[A-Za-z]/.test(this.birthdayInput.value.trim()) || this.birthdayInput.value.trim().length < 8 || this.birthdayInput.value.trim().length > 8) {
+                birthdayErrorMessage.innerText = "• invalid birthday format"
+                this.formError.appendChild(birthdayErrorMessage)
+                this.birthdayInput.classList.add("incorrectInput");
                 isValid = false;
             } else {
-                formErrorThree.innerText = "";
-                BirthdayInput.classList.remove("incorrectInput");
+                this.birthdayInput.classList.remove("incorrectInput");
                 isValid = true
-
                 // Valid Birthday Check
-                const month = BirthdayInput.value.trim().slice(0,2)
-                const day = BirthdayInput.value.trim().slice(2,4)
-                const year =  BirthdayInput.value.trim().slice(4,8)
-                
+                const month = this.birthdayInput.value.trim().slice(0,2)
+                const day = this.birthdayInput.value.trim().slice(2,4)
+                const year =  this.birthdayInput.value.trim().slice(4,8)
                 const today = new Date()
 
                 userAge = today.getFullYear() - year;
@@ -385,39 +474,41 @@ export class createAccount extends HTMLElement {
                 }
 
                 if (userAge <= 0) { // age limit 13 idk? 
-                    formErrorThree.innerText = "Please enter a valid Birthdate.";
-                    BirthdayInput.classList.add("incorrectInput");
+                    birthdayErrorMessage.innerText = "• invalid birthday"
+                    this.formError.appendChild(birthdayErrorMessage)
+                    this.birthdayInput.classList.add("incorrectInput");
                     isValid = false;
                 }
             }
-            
-            if (isValid) {
-                console.log("Form validation passed, updating account details")
-                // Adding new Data Fields
-                userData.name = firstNameInput.value.trim() + " " + lastNameInput.value.trim();
-                userData.age = userAge;
 
+            if(this.formError.innerHTML != ""){
+                this.formError.classList.add("visible");
+            }
+
+            if (isValid) {
+                console.log("Form validation passed, updating account details");
+                // Adding new Data Fields
+                this.userData.name = this.firstNameInput.value.trim() + " " + this.lastNameInput.value.trim();
+                this.userData.age = userAge; // Need to add birthday field
+    
                 const response = await fetch(`/api/user/create`, {
-                    method: 'PUT',
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(userData),
+                    body: JSON.stringify(this.userData), // Fixed: use this.userData
                 });
-
+    
                 if (response.ok) {
                     const result = await response.json(); 
-                    localStorage.setItem("auth", JSON.stringify({userId: result.id}))
-                    console.log("User created successfully", result)
-                    this.navigateToNextStep()
-                    
+                    localStorage.setItem("auth", JSON.stringify({userId: result.id}));
+                    console.log("User created successfully", result);
+                    this.navigateToNextStep();
                 } else {
-                    // error handling TBA
+                    console.log("Unknown Error")
                 }   
             }
-            
         }
-        
     }
 
     navigateToNextStep() {
@@ -436,9 +527,46 @@ export class createAccount extends HTMLElement {
         this.page.appendChild(newC); 
     }
 
+    
     disconnectedCallback() {
-        console.log("Cleaned up from DOM.");
+        // Clean up all event listeners
+        if (this.showPasswordBtn) {
+            this.showPasswordBtn.removeEventListener("click", this.viewField);
+            this.showPasswordBtn.removeEventListener("mouseover", this.removeHidden);
+            this.showPasswordBtn.removeEventListener("mouseleave", this.setHidden);
+        }
+    
+        if (this.showConfPasswordBtn) {
+            this.showConfPasswordBtn.removeEventListener("click", this.viewField);
+            this.showConfPasswordBtn.removeEventListener("mouseover", this.removeHidden);
+            this.showConfPasswordBtn.removeEventListener("mouseleave", this.setHidden);
+        }
+    
+        if (this.emailInput) {
+            this.emailInput.removeEventListener("input", this.validateFields);
+        }
+    
+        if (this.passwordInput) {
+            this.passwordInput.removeEventListener("input", this.validateFields);
+        }
+    
+        if (this.confirmPasswordInput) {
+            this.confirmPasswordInput.removeEventListener("input", this.validateFields);
+        }
+    
+        if (this.loginRoute) {
+            this.loginRoute.removeEventListener("click", this.handleLoginRoute);
+        }
+    
+        if (this.navBack) {
+            this.navBack.removeEventListener("click", this.handleNavBack);
+        }
+    
+        if (this.continueBtn) {
+            this.continueBtn.removeEventListener("click", this.handleCreateAccount);
+        }
     }
+    
 }
 
 customElements.define("create-account-component", createAccount);
