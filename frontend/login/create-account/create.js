@@ -319,14 +319,17 @@ export class createAccount extends HTMLElement {
             this.formReq.classList.add("hidden")
 
             if(this.addEvent) {
-                this.userData = {
-                    username: this.userNameInput.value.trim(),
-                    email: (this.emailInput.value.trim()).toLowerCase(),
-                    password: this.passwordInput.value.trim(),
-                };
+                
 
                 this.continueBtn.addEventListener("click", async (e) => {
                     e.preventDefault();
+                    
+                    this.userData = {
+                        username: this.userNameInput.value.trim(),
+                        email: (this.emailInput.value.trim()).toLowerCase(),
+                        password: this.passwordInput.value.trim(),
+                    };
+
                     await this.handleCreateAccount();
                 });
                 this.addEvent =  false;
@@ -344,7 +347,7 @@ export class createAccount extends HTMLElement {
                 this.emailInput.value = this.userData.email;
                 this.passwordInput.value = this.userData.password;
             }
-    
+
             this.formError.innerHTML = "";
             const usernameLabel = this.shadow.querySelector(".component-placeholder-one");
             const emailLabel = this.shadow.querySelector(".component-placeholder-two");
@@ -383,7 +386,6 @@ export class createAccount extends HTMLElement {
                         emailLabel.classList.add("incorrectInputLabel");
                     }
                     this.formError.appendChild(errorMessage);
-                    this.userData = null;
                 } else {
                     // Clearing current Field changes
                     this.formError.innerHTML = '';
@@ -413,10 +415,6 @@ export class createAccount extends HTMLElement {
                         if (this.continueBtn) {
                             this.continueBtn.addEventListener("click", this.handleCreateAccount);
                         }
-
-                        console.log(this.userData)
-
-                        
 
                         // Set up back navigation
                         if (this.navBack) {
