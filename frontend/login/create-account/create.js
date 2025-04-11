@@ -2,77 +2,79 @@ const template = document.createElement("template")
 
 const componentTemplates = [
     `
-        <link rel="stylesheet" href="../login/create-account/create.css">
-        <div class="logo">logo</div>
-        <slot class="component-title">Enter account details</slot>
+    <link rel="stylesheet" href="../login/create-account/create.css">
+    <div class="logo">logo</div>
+    <slot class="component-title">Enter account details</slot>
 
-        <div class="component-container">
-        <input type="text" class="component-input-one" id="userNameInput" placeholder=" ">
-        <label for="userNameInput" class="component-placeholder-one">Username</label>
+    <div class="component-container">
+    <input type="text" class="component-input-one" id="userNameInput" placeholder=" ">
+    <label for="userNameInput" class="component-placeholder-one">Username</label>
 
-        <input type="email" class="component-input-two" id="emailInput" placeholder=" ">
-        <label for="emailInput" class="component-placeholder-two">Email Address</label>
+    <input type="email" class="component-input-two" id="emailInput" placeholder=" ">
+    <label for="emailInput" class="component-placeholder-two">Email Address</label>
 
-        <div class="component-input-three-wrapper">
-            <input type="password" class="component-input-three" pass="1" id="passwordInput" placeholder=" ">
-            <label for="passwordInput" class="component-placeholder-three">Password</label>
-            <div class="showPasswordBtn" active="false">
-                <img src="./icons/show-password.svg" alt="show-password" pass="2" class ="show-password-img"></img>
-                <div class="show-password-hover-text" pass="3" hidden="true">Show password</div>
-             </div>
-        </div>
-
-        <div class="component-input-four-wrapper">
-            <input type="password" class="component-input-four" id="confirmPasswordInput" conf="1" placeholder=" ">
-            <label for="passwordInput" class="component-placeholder-four">Confirm Password</label>
-            <div class="showConfPasswordBtn" active="false">
-                <img src="./icons/show-password.svg" conf="2" alt="show-password" class ="show-conf-password-img"></img>
-                <div class="show-conf-password-hover-text" conf="3" hidden="true">Show password</div>
+    <div class="component-input-three-wrapper">
+        <input type="password" class="component-input-three" pass="1" id="passwordInput" placeholder=" ">
+        <label for="passwordInput" class="component-placeholder-three">Password</label>
+        <div class="showPasswordBtn" active="false">
+            <img src="./icons/show-password.svg" alt="show-password" pass="2" class ="show-password-img"></img>
+            <div class="show-password-hover-text" pass="3" hidden="true">Show password</div>
             </div>
-        </div>
+    </div>
 
-        <div class="fieldReqBox">
-            <div>&bull; Email must end with @umass.edu.<span id="emailReqLine"></span></div>
-            <div>&bull; Password must be at least 8 characters long.<span id="charReqLine"></span></div>
-            <div>&bull; Password must include at least;<span id="passReqLine"></span></div>
-            <div>&emsp;- one special character,<span id="specialReqLine"></span></div>
-            <div>&emsp;- one number,<span id="numReqLine"></span></div>
-            <div>&emsp;- one uppercase letter.<span id="upperReqLine"></span></div>
-            <div>&bull; Passwords must be equivalent.<span id="passEqualReqLine"></span></div>
+    <div class="component-input-four-wrapper">
+        <input type="password" class="component-input-four" id="confirmPasswordInput" conf="1" placeholder=" ">
+        <label for="passwordInput" class="component-placeholder-four">Confirm Password</label>
+        <div class="showConfPasswordBtn" active="false">
+            <img src="./icons/show-password.svg" conf="2" alt="show-password" class ="show-conf-password-img"></img>
+            <div class="show-conf-password-hover-text" conf="3" hidden="true">Show password</div>
         </div>
+    </div>
+
+    <div class="fieldReqBox">
+        <div>&bull; Email must end with @umass.edu.<span id="emailReqLine"></span></div>
+        <div>&bull; Password must be at least 8 characters long.<span id="charReqLine"></span></div>
+        <div>&bull; Password must include at least;<span id="passReqLine"></span></div>
+        <div>&emsp;- one special character,<span id="specialReqLine"></span></div>
+        <div>&emsp;- one number,<span id="numReqLine"></span></div>
+        <div>&emsp;- one uppercase letter.<span id="upperReqLine"></span></div>
+        <div>&bull; Passwords must be equivalent.<span id="passEqualReqLine"></span></div>
+    </div>
+
+    <div class="component-form-error" hidden="true"></div>
+
+    <button class="continueBtn">Sign Up</button>
+    <span class="loginText">Already have an account?<span class="loginRoute"> Login </span></span>
+    </div>
+`,
+`
+    <link rel="stylesheet" href="../login/create-account/create.css">
+    <div class="navBack">
+        <img src="./icons/arrow-left.svg" alt="arrow-left" id="navBack" class ="navBack-img"></img>
+    </div>
+    <div class="logo">logo</div>
+    
+    <slot class="component-title">Enter your personal info</slot>
+
+    <div class="component-container">
+        <input type="text" class="component-input-one" id="firstNameInput" placeholder=" ">
+        <label for="firstName" class="component-placeholder-one">First Name</label>
+
+        <input type="text" class="component-input-two" id="lastNameInput" placeholder=" ">
+        <label for="lastName" class="component-placeholder-two">Last Name</label>
+
+        <input type="text" class="component-input-three" id="birthdayInput" placeholder=" ">
+        <label for="lastName" class="component-placeholder-three">Birthday (MMDDYYYY)</label>
 
         <div class="component-form-error" hidden="true"></div>
 
-        <button class="continueBtn">Sign Up</button>
-        <span class="loginText">Already have an account?<span class="loginRoute"> Login </span></span>
-        </div>
-
-        
-`,
-`
-        <link rel="stylesheet" href="../login/create-account/create.css">
-        <div class="navBack">
-            <img src="./icons/arrow-left.svg" alt="arrow-left" id="navBack" class ="navBack-img"></img>
-        </div>
-        <div class="logo">logo</div>
-        
-        <slot class="component-title">Enter your personal info</slot>
-
-        <div class="component-container">
-            <input type="text" class="component-input-one" id="firstNameInput" placeholder=" ">
-            <label for="firstName" class="component-placeholder-one">First Name</label>
-
-            <input type="text" class="component-input-two" id="lastNameInput" placeholder=" ">
-            <label for="lastName" class="component-placeholder-two">Last Name</label>
-
-            <input type="text" class="component-input-three" id="birthdayInput" placeholder=" ">
-            <label for="lastName" class="component-placeholder-three">Birthday (MMDDYYYY)</label>
-
-            <div class="component-form-error" hidden="true"></div>
-
-            <button class="continueBtn">Continue</button>
-            <span class="signInT ext">Already have an account?<span class="signInRoute"> Sign in </span></span>
-        <div>
+        <button class="continueBtn">Continue</button>
+        <span class="signInT ext">Already have an account?<span class="signInRoute"> Sign in </span></span>
+    <div>
+    `,
+    `
+    <link rel="stylesheet" href="../login/create-account/create.css">
+    <slot class="component-title">Enter your personal info</slot>
     `
 ];
 
