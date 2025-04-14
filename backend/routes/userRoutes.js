@@ -206,7 +206,7 @@ router.post('/user/login', async (req, res) => {
                 res.status(200).json({
                     id: req.sessionID,
                     isAuth: req.session.authenticated,
-                    userData: req.session.user,
+                    userData: user,
                     userId: user.id,
                 });
             } else {
