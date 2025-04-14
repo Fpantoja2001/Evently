@@ -6,13 +6,14 @@ const router = express.Router();
 // Create a new user
 router.post('/user/create', async (req, res) => {
     try {
-        const { name, username, email, password, bio, phoneNumber, age, gender, socialLinks, skills, hobbies, pfpImage, currentEvents, pastEvents, pronouns, followers, following, friends } = req.body;
+        const { name, username, email, password, emailVerified, bio, phoneNumber, age, gender, socialLinks, skills, hobbies, pfpImage, currentEvents, pastEvents, pronouns, followers, following, friends } = req.body;
 
         const user = await User.create({
             name,
             username,
             email,
             password,
+            emailVerified,
             bio,
             phoneNumber,
             age,
@@ -113,6 +114,7 @@ router.put('/user/:id', async (req, res) => {
             'name', 
             'username',
             'email', 
+            'emailVerified',
             'password', 
             'bio', 
             'phoneNumber', 

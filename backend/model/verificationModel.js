@@ -1,8 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db.js');
 
-
-
 // Generate Verification Code
 function generateSixCharCode() {
     const characters =

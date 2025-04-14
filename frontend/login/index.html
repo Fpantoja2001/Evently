@@ -9,6 +9,16 @@
     <script type="module" src="./login-sequence/login.js"></script>
     <script type="module" src="./landing-page/landing.js"></script>
     <script type="module" src="./create-account/create.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+      (function(){
+          emailjs.init({
+            publicKey: "QrrJoGVWolccNmfYn",
+          });
+      })();
+</script>
   </head>
   <body>
     <div class="login-container">

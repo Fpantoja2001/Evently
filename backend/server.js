@@ -5,6 +5,7 @@ const UserRoutes = require('./routes/userRoutes.js'); // User routes
 const ReviewRoutes = require('./routes/reviewRoutes.js'); // Review routes
 const ConversationRoutes = require('./routes/conversationRoutes.js'); //  Conversation routes
 const MessageRoutes = require('./routes/messageRoutes.js'); // Message routes
+const VerificationRoutes = require('./routes/verificationRoutes.js') // Verification routes
 const session = require('express-session')
 const store = new session.MemoryStore();
 const path = require('path');
@@ -47,6 +48,7 @@ class LocalServer {
         this.app.use('/api/', ReviewRoutes); // Routes for review management
         this.app.use('/api/', ConversationRoutes); // Routes for conversation management
         this.app.use('/api/', MessageRoutes); // Routes for message management
+        this.app.use('/api/', VerificationRoutes); // Routes for Verification management
     }
 
     // Synchronize database models

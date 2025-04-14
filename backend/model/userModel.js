@@ -26,6 +26,10 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    emailVerified: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+    },
     bio: {
         type: DataTypes.STRING,
         allowNull: true,

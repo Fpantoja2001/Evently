@@ -465,3 +465,46 @@ input:-webkit-autofill {
     left: 0;
     cursor: pointer;
 }
+
+.requestNewCodeT {
+    margin-top: 2vh;
+    color: black;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.newCodeBtn {
+    color: #0077b6;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.verification-input-wrapper {
+    height: 100%;
+    width: 30vw;
+    display: flex;
+    flex-direction: row;
+}
+
+#verificationCodeInput { 
+    width: 20vw !important;
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    border-right: 0px !important;
+}
+
+.codeExpirationBox {
+    border: #d62828 solid 2px;
+    padding: 10px;
+    width: 10vw;
+    height: 4vh;
+    background-color: #d6282825;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-size: .9rem !important;
+    border-left: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
