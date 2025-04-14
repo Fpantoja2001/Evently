@@ -117,6 +117,7 @@ class passwordInputComponent extends HTMLElement {
         const shadow = this.attachShadow({mode: "open"})
         template.innerHTML = componentTemplates[1]
         shadow.append(template.content.cloneNode(true))
+        this.page = document.querySelector(".login-container")
 
         // Setting variables for ease of use
         this.inputComponent = shadow.querySelector(".component-input");
@@ -156,10 +157,28 @@ class passwordInputComponent extends HTMLElement {
                     localStorage.setItem("auth", JSON.stringify(auth))
                     
                     // Redirects User to home
-                    console.log("redirecting to home...");
-                    window.location.href = 'http://localhost:3000';
+
+                    // somewhere here verification is email not verified
+                    if (auth.userData.emailVerified) {
+                        console.log("redirecting to home...");
+                        window.location.href = 'http://localhost:3000'; 
+                    } else {
+                        const component = document.querySelector('password-input-component')
+
+                        // initializing new component to pass in
+                        const newC = document.createElement("verification-component");
+                        newC.classList.add("verification-component");
+
+                        // removing current component
+                        component.remove();
+
+                        // adding new component
+                        this.page.appendChild(newC); 
+                    }
+
+                    
                 } else {
-                    this.errorComponent.innerText= auth.error
+                    this.errorComponent.innerText = auth.error
                 }
                 
             }catch(error){
@@ -202,7 +221,6 @@ class passwordInputComponent extends HTMLElement {
     disconnectedCallback(){
         console.log("password component removed")
     }
-
 }
 
 customElements.define("email-input-component", emailInputComponent)

@@ -1,0 +1,140 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
+
+.logo {
+    width: 50px;
+    height: 50px;
+    background-color: #0077b6;
+    margin-bottom: 7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.component-title {
+    font-size: 1.8em;
+    position: absolute;
+    color: black;
+    font-weight: 800;
+}
+
+.component-container {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    margin-top: 2vh;
+}
+
+.continueBtn {
+    width: 30vw;
+    height: 4vh;
+    background-color: #0077b6;
+    margin-top: 2vh;
+    border-radius: 5px;
+    color: white;
+}
+
+.component-input-one{
+    width: 30vw;
+    height: 4vh;
+    border-radius: 5px;
+    padding-left: 10px;
+    border: solid grey 2px;
+}
+
+.component-placeholder-one {
+    position: absolute;
+    left:calc(((100% - 30vw) + 15px)/2);
+    top: calc((4vh - 1rem)/3);
+    font-size: 1rem;
+    pointer-events: none;
+    background-color:white;
+    transition: all .3s ease-in;
+    border-radius: 5px;
+}
+.component-input-one:focus ~ .component-placeholder-one,
+.component-input-one:not(:placeholder-shown) + .component-placeholder-one {
+    top: calc(0px - .8rem*.75);
+    left:calc(((100% - 30vw) + 15px)/2);
+    font-size: .8rem;
+    color: #03045e;
+    padding: 0 4px;
+}
+
+.component-input-one:focus {
+    outline: none !important;
+    border: solid #0077b6 2px;
+    background-color: white;
+}
+
+.requestNewCodeT {
+    margin-top: 2vh;
+    color: black;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.newCodeBtn {
+    color: #0077b6;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.verification-input-wrapper {
+    height: 100%;
+    width: 30vw;
+    display: flex;
+    flex-direction: row;
+}
+
+#verificationCodeInput { 
+    width: 20vw !important;
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    border-right: 0px !important;
+}
+
+.codeExpirationBox {
+    border: #d62828 solid 2px;
+    width: 10vw;
+    height: 4vh;
+    background-color: #d6282825;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-size: .9rem !important;
+    border-left: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.component-form-error {
+    width: 30vw;
+    display: flex;
+    background-color: #d6282825;
+    border-radius: 5px;
+    margin-top: 2vh;
+    font-size: .9rem !important;
+    color: black;
+    flex-direction: column;
+    height: fit-content;
+    opacity: 0;
+    border: #d62828 solid 2px;
+    padding: 10px;
+    display: none !important;
+}
+
+.visible {
+    opacity: 1;
+    display: block !important;
+}
+
+.hidden {
+    display: none !important;
+}
