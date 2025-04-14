@@ -112,8 +112,6 @@ export class emailInputComponent extends HTMLElement {
 class passwordInputComponent extends HTMLElement {
     constructor(){
         super();
-        // Initiating shadow dom
-
         const shadow = this.attachShadow({mode: "open"})
         template.innerHTML = componentTemplates[1]
         shadow.append(template.content.cloneNode(true))
@@ -155,10 +153,8 @@ class passwordInputComponent extends HTMLElement {
                 if(auth.isAuth){
                     // Saves Session Data
                     localStorage.setItem("auth", JSON.stringify(auth))
-                    
-                    // Redirects User to home
-
-                    // somewhere here verification is email not verified
+        
+                    // Sends user to home if email is verified, and to verification if not
                     if (auth.userData.emailVerified) {
                         console.log("redirecting to home...");
                         window.location.href = 'http://localhost:3000'; 
@@ -166,14 +162,14 @@ class passwordInputComponent extends HTMLElement {
                         const component = document.querySelector('password-input-component')
 
                         // initializing new component to pass in
-                        const newC = document.createElement("verification-component");
-                        newC.classList.add("verification-component");
+                        const verification = document.createElement("verification-component");
+                        verification.classList.add("verification-component");
 
                         // removing current component
                         component.remove();
 
                         // adding new component
-                        this.page.appendChild(newC); 
+                        this.page.appendChild(verification); 
                     }
 
                     

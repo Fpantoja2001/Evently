@@ -125,9 +125,9 @@ class VerificationPage extends HTMLElement {
 
                     if (response.ok){
                         console.log("Email Successfully Verified")
-                        
+
+                        // take user to login if not logged in already
                         if (user.isAuth) {
-                            // If .isAuth == true exists then user has Logged in 
                             console.log("redirecting to home...");
                             window.location.href = 'http://localhost:3000';
                         } else {
@@ -197,6 +197,7 @@ class VerificationPage extends HTMLElement {
     }
 
     disconnectedCallback() {
+        // Clear all events
         if (this.submitCodeBtn) {
             this.submitCodeBtn.removeEventListener("click", this.verifyCode)
         }

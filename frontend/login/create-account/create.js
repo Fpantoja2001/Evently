@@ -73,12 +73,6 @@ const componentTemplates = [
     `,
 ];
 
-/*
-<div>&emsp;- one special character,<span id="specialReqLine">e</span></div>
-<div>&emsp;- one number,<span id="numReqLine">e</span></div>
-<div>&emsp;- one uppercase letter.<span id="upperReqLine">e</span></div>
-*/ 
-
 template.innerHTML = componentTemplates[0];
 
 export class createAccount extends HTMLElement {
@@ -89,9 +83,6 @@ export class createAccount extends HTMLElement {
         this.shadow.append(template.content.cloneNode(true));
 
         // Bind all methods that will be used as event listeners
-        // this.viewField = this.viewField.bind(this);
-        // this.removeHidden = this.removeHidden.bind(this);
-        // this.setHidden = this.setHidden.bind(this);
         this.validateFields = this.validateFields.bind(this);
         this.handleCreateAccount = this.handleCreateAccount.bind(this);
 
@@ -118,10 +109,11 @@ export class createAccount extends HTMLElement {
         this.lastNameInput = null;
         this.birthdayInput = null;
 
-        this.currentStep = 0;
-        this.userData = null;
-        this.personalData = null;
-        this.addEvent = true;
+        // Component Variables
+        this.currentStep = 0; // Used for page switching 
+        this.userData = null; // Used for local userData storage
+        this.personalData = null; // Used for local userData storage as well
+        this.addEvent = true; // Used to disable continuos button clicks
     }
 
     async connectedCallback() {
@@ -130,6 +122,7 @@ export class createAccount extends HTMLElement {
     }
 
     setupDOMReferences() {
+        // Sets up all to be used dom variables
         this.continueBtn = this.shadow.querySelector(".continueBtn");
         this.showPasswordBtn = this.shadow.querySelector(".showPasswordBtn");
         this.showConfPasswordBtn = this.shadow.querySelector(".showConfPasswordBtn");
@@ -157,6 +150,7 @@ export class createAccount extends HTMLElement {
     }
 
     attachListeners() {
+        // Attaches event listeners to all buttons that will use them
         if (this.showPasswordBtn && this.currentStep === 0) {
           this.showPasswordBtn.addEventListener("click", this.viewField);
           this.showPasswordBtn.addEventListener("mouseover", this.removeHidden);
@@ -201,6 +195,7 @@ export class createAccount extends HTMLElement {
     }
 
     handleNavBack = () => {
+        // Saves filled in data for backwards navigation
         this.personalData = {
             firstName: this.firstNameInput.value.trim(),
             lastName: this.lastNameInput.value.trim(),
@@ -393,7 +388,6 @@ export class createAccount extends HTMLElement {
                     emailLabel.classList.remove("incorrectInputLabel");
     
                     // Loading Second Step Fields
-                    
                     this.userData = {
                         username: this.userNameInput.value.trim(),
                         email: (this.emailInput.value.trim()).toLowerCase(),
@@ -412,12 +406,11 @@ export class createAccount extends HTMLElement {
                         if (this.continueBtn) {
                             this.continueBtn.addEventListener("click", this.handleCreateAccount);
                         }
-
                         // Set up back navigation
                         if (this.navBack) {
                             this.navBack.addEventListener("click", this.handleNavBack);
                         }
-
+                        // Saving personal data to keep data permanence on page switching
                         if(this.personalData){
                             this.firstNameInput.value = this.personalData.firstName;
                             this.lastNameInput.value = this.personalData.lastName;
@@ -434,6 +427,7 @@ export class createAccount extends HTMLElement {
             let userAge = 0;
             let isValid = true; 
 
+            // Getting and Validating first name
             const firstNameErrorMessage = document.createElement("div")
             if (this.firstNameInput.value.trim() === "" || /\d/.test(this.firstNameInput.value.trim())) {
                 firstNameErrorMessage.innerText = "• invalid first name";
@@ -445,6 +439,7 @@ export class createAccount extends HTMLElement {
                 isValid = true;
             }
 
+            // Getting and Validating last name
             const lastNameErrorMessage = document.createElement("div")
             if (this.lastNameInput.value.trim() === "" || /\d/.test(this.lastNameInput.value.trim())) {
                 lastNameErrorMessage.innerText = "• invalid last name";
@@ -456,6 +451,7 @@ export class createAccount extends HTMLElement {
                 isValid = true;
             }
 
+            // Getting and Validating Birthday (for age calculation)
             const birthdayErrorMessage = document.createElement("div")
             if (this.birthdayInput.value.trim() === "" || /[A-Za-z]/.test(this.birthdayInput.value.trim()) || this.birthdayInput.value.trim().length < 8 || this.birthdayInput.value.trim().length > 8) {
                 birthdayErrorMessage.innerText = "• invalid birthday format"
@@ -465,7 +461,7 @@ export class createAccount extends HTMLElement {
             } else {
                 this.birthdayInput.classList.remove("incorrectInput");
                 isValid = true
-                // Valid Birthday Check
+                // Validating birthday date makes sense
                 const month = this.birthdayInput.value.trim().slice(0,2)
                 const day = this.birthdayInput.value.trim().slice(2,4)
                 const year =  this.birthdayInput.value.trim().slice(4,8)
@@ -496,8 +492,9 @@ export class createAccount extends HTMLElement {
                 console.log("Form validation passed, updating account details");
                 // Adding new Data Fields
                 this.userData.name = this.firstNameInput.value.trim() + " " + this.lastNameInput.value.trim();
-                this.userData.age = userAge; // Need to add birthday field
-    
+                this.userData.age = userAge;
+
+                // Creating new user
                 const response = await fetch(`/api/user/create`, {
                     method: 'POST',
                     headers: {
@@ -505,7 +502,7 @@ export class createAccount extends HTMLElement {
                     },
                     body: JSON.stringify(this.userData), // Fixed: use this.userData
                 });
-    
+                
                 if (response.ok) {
                     const result = await response.json(); 
                     localStorage.setItem("auth", JSON.stringify({userId: result.id}));
@@ -513,7 +510,7 @@ export class createAccount extends HTMLElement {
                     
                     // Use setTimeout to ensure DOM is ready before setting up
                     setTimeout(() => {
-                        this.navigateToNextStep()
+                        this.navigateToEmailVerification()
                     }, 0);
 
                 } else {
@@ -523,20 +520,18 @@ export class createAccount extends HTMLElement {
         }
     }
 
-    navigateToNextStep() {
-        console.log("Navigating to the next step...");
-
+    navigateToEmailVerification() {
         const component = document.querySelector('create-account-component')
 
         // initializing new component to pass in
-        const newC = document.createElement("verification-component");
-        newC.classList.add("verification-component");
+        const verification = document.createElement("verification-component");
+        verification.classList.add("verification-component");
 
         // removing current component
         component.remove();
 
         // adding new component
-        this.page.appendChild(newC); 
+        this.page.appendChild(verification); 
     }
 
     
